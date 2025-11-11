@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Lego Hyrule</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+</head>
+
+<body>
+<a href="https://threejs.org/">three.js</a> | <a href="https://ldraw.org/">LDraw.org</a>
+<script type="importmap">
+    {
+        "imports": {
+            "three":         "/three/v0.180.0/build/three.module.js",
+            "three/addons/": "/three/v0.180.0/examples/jsm/"
+        }
+    }
+</script>
+
+<script type="module">
+    "use strict";
+
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+    import { LDrawLoader } from 'three/addons/loaders/LDrawLoader.js';
+    import { LDrawConditionalLineMaterial } from 'three/addons/materials/LDrawConditionalLineMaterial.js';
+    import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+    import getPieces from "./hyrulePieces.js";
+
+    function viewWidth () {
+        return window.innerWidth - 20;
+    }
+
+    function viewHeight() {
+        return window.innerHeight - 40;
+    }
+
+    const renderer = new THREE.WebGLRenderer();
+    const camera = new THREE.PerspectiveCamera(45, viewWidth() / viewHeight(), 1, 10000);
+    const controls = new OrbitControls(camera, renderer.domElement);
+    const scene = new THREE.Scene();
+
+    camera.position.set(1, 3000, 1500);
+    renderer.setClearColor(0xdddddd);
+    renderer.setSize(viewWidth(), viewHeight());
+    renderer.setAnimationLoop(function() {
+        controls.update();
+        renderer.render(scene, camera);
+    });
+
+    document.body.appendChild(renderer.domElement);
+
+    window.addEventListener('resize', function() {
+        renderer.setSize(viewWidth(), viewHeight());
+        camera.aspect = viewWidth() / viewHeight();
+        camera.updateProjectionMatrix();
+    });
+
+    // Lights.
+
+    [
+        {x:  60, y:  150, z:  80, intensity: 3},
+        {x: -70, y: -120, z: -50, intensity: 3}
+    ].forEach(lightConfig => {
+        const light = new THREE.DirectionalLight(0xffffff, lightConfig["intensity"]);
+        light.position.set(lightConfig["x"], lightConfig["y"], lightConfig["z"]);
+        scene.add(light);
+    });
+
+    // LDraw.
+
+    const lDrawLoader = new LDrawLoader();
+    lDrawLoader.setConditionalLineMaterial(LDrawConditionalLineMaterial);
+    lDrawLoader.setPartsLibraryPath('/ldraw/');
+    await lDrawLoader.preloadMaterials('/ldraw/LDConfig.ldr' );
+
+    // Add pieces.
+
+    function addPieces() {
+
+        const showElevation = true;
+        const showSamples = false;
+        const drawLines = true;
+
+        const pieces = getPieces(showElevation, showSamples);
+        const loadPendingPartNumbers = new Set(Object.keys(pieces));
+        const meshMaterials = {};
+
+        // For each piece load the ldraw model and create an instanced mesh of all positions.
+        for (const [partNumber, piecesByOpacity] of Object.entries(pieces)) {
+            const partFile = `/ldraw/parts/${partNumber}.dat`;
+            lDrawLoader.load(
+                partFile,
+                function(model) {
+                    for (const [opacity, pieceInstances] of Object.entries(piecesByOpacity)) {
+                        meshMaterials[opacity] = meshMaterials[opacity] || new THREE.MeshStandardMaterial(
+                            "1" == opacity ? {} : {opacity: opacity, transparent: true}
+                        );
+
+                        const pieceInstancedMeshes = [];
+                        const pieceLineInstances = [];
+                        model.traverse(item => {
+                            if (item.isMesh) {
+                                pieceInstancedMeshes.push(new THREE.InstancedMesh(
+                                    item.geometry, meshMaterials[opacity], pieceInstances.length));
+                            } else if (drawLines && item.isLineSegments && ! item.isConditionalLine) {
+                                pieceLineInstances.push(
+                                    {geometry: item.geometry, material: item.material, instances: []});
+                            }
+                        });
+
+                        const object3d = new THREE.Object3D();
+                        for (const [pieceIndex, pieceInstance] of pieceInstances.entries()) {
+                            object3d.position.x = pieceInstance.positionX;
+                            object3d.position.y = pieceInstance.positionY;
+                            object3d.position.z = pieceInstance.positionZ;
+                            object3d.rotation.x = pieceInstance.rotationX;
+                            object3d.rotation.y = pieceInstance.rotationY;
+                            object3d.rotation.z = pieceInstance.rotationZ;
+                            object3d.scale.x    = pieceInstance.scaleX;
+                            object3d.scale.y    = pieceInstance.scaleY;
+                            object3d.scale.z    = pieceInstance.scaleZ;
+                            object3d.updateMatrix();
+
+                            pieceInstancedMeshes.forEach(pieceInstancedMesh => {
+                                pieceInstancedMesh.setMatrixAt(pieceIndex, object3d.matrix);
+                                pieceInstancedMesh.setColorAt(pieceIndex, new THREE.Color(pieceInstance.color));
+                            });
+                            pieceLineInstances.forEach(pieceLineInstance => {
+                                pieceLineInstance.instances.push(
+                                    pieceLineInstance.geometry.clone().applyMatrix4(object3d.matrix));
+                            });
+                        }
+
+                        pieceInstancedMeshes.forEach(pieceInstancedMesh => scene.add(pieceInstancedMesh));
+                        pieceLineInstances.forEach(pieceLineInstance => 
+                            scene.add(new THREE.LineSegments(
+                                mergeGeometries(pieceLineInstance.instances, false), pieceLineInstance.material))
+                        );
+                    }
+
+                    loadPendingPartNumbers.delete(partNumber);
+                    if (loadPendingPartNumbers.size == 0) {
+                        const totalPieces = Object
+                            .values(pieces)
+                            .flatMap(piecesEntry => Object
+                                .values(piecesEntry).map(piecesByOpacity => piecesByOpacity.length))
+                            .reduce((previous, current) => previous + current, 0);
+
+                        console.log(`Done loading ${totalPieces} pieces at: ${window.performance.now()}`);
+                    }
+                },
+                function(xhr) {/*progress*/},
+                function(error) {
+                    console.log(`Error loading file: ${partFile}`);
+                    console.error(error);
+                }
+            );
+        }
+    }
+    addPieces();
+
+</script>
+</body>
+</html>
