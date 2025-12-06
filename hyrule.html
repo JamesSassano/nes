@@ -25,6 +25,7 @@
     import { LDrawLoader } from 'three/addons/loaders/LDrawLoader.js';
     import { LDrawConditionalLineMaterial } from 'three/addons/materials/LDrawConditionalLineMaterial.js';
     import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+    import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
     import getPieces from "./hyrulePieces.js";
 
     function viewWidth () {
@@ -72,7 +73,7 @@
     const lDrawLoader = new LDrawLoader();
     lDrawLoader.setConditionalLineMaterial(LDrawConditionalLineMaterial);
     lDrawLoader.setPartsLibraryPath('/ldraw/');
-    await lDrawLoader.preloadMaterials('/ldraw/LDConfig.ldr' );
+    await lDrawLoader.preloadMaterials('/ldraw/LDConfig.ldr');
 
     // Add pieces.
 
@@ -133,7 +134,7 @@
                         }
 
                         pieceInstancedMeshes.forEach(pieceInstancedMesh => scene.add(pieceInstancedMesh));
-                        pieceLineInstances.forEach(pieceLineInstance => 
+                        pieceLineInstances.forEach(pieceLineInstance =>
                             scene.add(new THREE.LineSegments(
                                 mergeGeometries(pieceLineInstance.instances, false), pieceLineInstance.material))
                         );
@@ -159,6 +160,27 @@
         }
     }
     addPieces();
+
+    const showGui = false;
+    if (showGui) {
+        const gui = new GUI().close();
+        const guiCameraTarget = gui.addFolder('Camera Target');
+        guiCameraTarget.add(controls.target, 'x', -4000, 4000).listen();
+        guiCameraTarget.add(controls.target, 'y', -4000, 4000).listen();
+        guiCameraTarget.add(controls.target, 'z', -4000, 4000).listen();
+        const guiCameraPosition = gui.addFolder('Camera Position');
+        guiCameraPosition.add(camera.position, 'x', -4000, 4000).listen();
+        guiCameraPosition.add(camera.position, 'y', -4000, 4000).listen();
+        guiCameraPosition.add(camera.position, 'z', -4000, 4000).listen();
+
+        gui.add({toggleLines() {
+            scene.traverse(item => {
+                if (item.isLine) {
+                    item.visible = !item.visible;
+                }
+            });
+        }}, "toggleLines");
+    }
 
 </script>
 </body>

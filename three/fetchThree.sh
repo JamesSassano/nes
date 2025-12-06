@@ -8,6 +8,7 @@ for i in \
     examples/jsm/loaders/LDrawLoader.js \
     examples/jsm/materials/LDrawConditionalLineMaterial.js \
     examples/jsm/utils/BufferGeometryUtils.js \
+    examples/jsm/libs/lil-gui.module.min.js \
 ; do 
     mkdir -p "v$version/"`dirname $i`
     curl "https://cdn.jsdelivr.net/npm/three@$version/$i" -o "v$version/$i"
