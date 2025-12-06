@@ -77,7 +77,7 @@ class Pallet {
     }
 
     getColor(color) {
-        return this[color] || color;
+        return this[color] ?? color;
     }
 }
 
@@ -498,7 +498,7 @@ class Tile {
                     new TilePiece(studReplacement, topPiece.color, topPiece.options));
             }
         }
-        this.tilePieces = basePieces.concat(spritePieces || []);
+        this.tilePieces = basePieces.concat(spritePieces ?? []);
     }
 
     // [[plateLevel, piece], ...]
@@ -26521,7 +26521,7 @@ const mapRowData = [
     ],
 ];
 
-/** Collect all pieces by part number and opacity to a list of all instances. */
+/** Collect all pieces by part number and opacity to a list of all piece configurations. */
 export function getPieces(showElevation, showSamples, gapSize) {
 
     const mapColumnCount = 256;
@@ -26534,7 +26534,7 @@ export function getPieces(showElevation, showSamples, gapSize) {
     const pieces = {};
 
     function toPosition(position, translate, worldSize, screenSize) {
-        position = position + (translate || 0) - worldSize / 2;
+        position = position + (translate ?? 0) - worldSize / 2;
         return position * legoWidth + (legoWidth / 2) + (Math.floor(position / screenSize) + .5) * gapSize;
     }
 
@@ -26544,7 +26544,8 @@ export function getPieces(showElevation, showSamples, gapSize) {
 
     function addScreen(palletData, screenTileDataGrid, gridX, gridY) {
         // Most screens use one tile pallet.  Some use a two tile border for one, and the inner tiles for another.
-        const pallets = [palletData[0], palletData[1] || palletData[0]];
+        const pallets = [palletData[0], palletData[1] ?? palletData[0]];
+        const screenName = String.fromCharCode(gridX + 65) + (gridY + 1);
         for (const [screenY, screenRowTileData] of screenTileDataGrid.entries()) {
             for (const [screenX, screenTileData] of screenRowTileData.entries()) {
                 if (screenTileData) {
@@ -26557,21 +26558,32 @@ export function getPieces(showElevation, showSamples, gapSize) {
                         .getPieceLevelEntries(elevation, legoWidth, legoPlateHeight);
                     for (const [plateLevel, tilePiece] of piecesByLevel) {
                         const partNumber = tilePiece.piece.partNumber;
-                        const opacity = tilePiece.options.opacity || 1;
+                        const opacity = tilePiece.options.opacity ?? 1;
+                        const pieceName = [
+                            `${screenName}`,
+                            [
+                                `${(screenX + 1).toString().padStart(2, "0")}`,
+                                `${(screenY + 1).toString().padStart(2, "0")}`,
+                                `${plateLevel.toString().padStart(2, "0")}`,
+                            ].join(","),
+                            `${tilePiece.piece.partNumber}_${tilePiece.piece.name}`
+                        ].join("_").replaceAll(" ", "_");
 
-                        pieces[partNumber] = pieces[partNumber] || {};
-                        pieces[partNumber][opacity] = pieces[partNumber][opacity] || [];
+                        pieces[partNumber] ??= {};
+                        pieces[partNumber][opacity] ??= [];
                         pieces[partNumber][opacity].push({
                             positionX: toPosition(mapX, tilePiece.options.translateX, mapColumnCount, screenColumnCount),
                             positionY: legoPlateHeight * plateLevel,
                             positionZ: toPosition(mapY, tilePiece.options.translateY, mapRowCount, screenRowCount),
-                            rotationX: degreesToRadians((tilePiece.options.rotateX || 0) + 180),
-                            rotationY: degreesToRadians(tilePiece.options.rotateY || 0),
-                            rotationZ: degreesToRadians(tilePiece.options.rotateZ || 0),
-                            scaleX: tilePiece.options.scaleX || 1,
-                            scaleY: tilePiece.options.scaleY || 1,
-                            scaleZ: tilePiece.options.scaleZ || 1,
+                            rotationX: degreesToRadians((tilePiece.options.rotateX ?? 0) + 180),
+                            rotationY: degreesToRadians(tilePiece.options.rotateY ?? 0),
+                            rotationZ: degreesToRadians(tilePiece.options.rotateZ ?? 0),
+                            scaleX: tilePiece.options.scaleX ?? 1,
+                            scaleY: tilePiece.options.scaleY ?? 1,
+                            scaleZ: tilePiece.options.scaleZ ?? 1,
                             color: pallet.getColor(tilePiece.color),
+                            screenName: screenName,
+                            pieceName: pieceName,
                         });
                     }
                 }
@@ -26613,7 +26625,7 @@ export function getPieces(showElevation, showSamples, gapSize) {
             // Alternate dungeon enterances.
             14: Object.keys(Tile.dungeon_tops).map(dungeonTopName => Tile.makeDungeon(dungeonTopName)),
             length: 15
-        }, (value) => (value || []).map(tile => tile ? [0, tile] : tile));
+        }, (value) => (value ?? []).map(tile => tile ? [0, tile] : tile));
 
         for (const [palletIndex, pallet] of [
             Pallet.forest,
@@ -26633,7 +26645,7 @@ export function getPieces(showElevation, showSamples, gapSize) {
                     :        (x >= 9 && x <= 11 && y <= 5)
                         ? Tile.ground_sand
                         : Tile.ground;
-                spriteSampleGrid[y] = spriteSampleGrid[y] || [];
+                spriteSampleGrid[y] ??= [];
                 spriteSampleGrid[y][x] = [0, base];
             }
         }
@@ -26664,6 +26676,67 @@ export function getPieces(showElevation, showSamples, gapSize) {
         spriteSampleGrid[10][ 4][2] = Tile.link;
 
         addScreen([Pallet.mountain], spriteSampleGrid, sampleGridX + 3, sampleGridY);
+
+        // Create a mini scene.
+
+        const mini = [
+            [
+                [0, Tile.rock_s],
+                [0, Tile.rock_s],
+                [0, Tile.rock_s],
+                [0, Tile.rock_s],
+                [0, Tile.rock_s],
+                [0, Tile.rock_s],
+                [0, Tile.water_c],
+            ],
+            [
+                [0, Tile.ground],
+                [0, Tile.ground],
+                [0, Tile.ground],
+                [0, Tile.ground],
+                [0, Tile.ground],
+                [0, Tile.rock_s],
+                [0, Tile.water_c],
+            ],
+            [
+                [0, Tile.ground],
+                [0, Tile.tree_nw],
+                [0, Tile.tree_n],
+                [0, Tile.tree_ne],
+                [0, Tile.ground],
+                [0, Tile.rock_s],
+                [0, Tile.water_c],
+            ],
+            [
+                [0, Tile.ground],
+                [0, Tile.tree_sw],
+                [0, Tile.entrance_w],
+                [0, Tile.tree_se],
+                [0, Tile.ground],
+                [0, Tile.rock_s],
+                [0, Tile.water_c],
+            ],
+            [
+                [0, Tile.ground],
+                [0, Tile.ground],
+                [0, Tile.ground],
+                [0, Tile.ground],
+                [0, Tile.ground],
+                [0, Tile.ground],
+                [0, Tile.bridge],
+            ],
+            [
+                [0, Tile.ground],
+                [0, Tile.ground],
+                [0, Tile.ground],
+                [0, Tile.ground],
+                [0, Tile.ground],
+                [0, Tile.rock_n],
+                [0, Tile.water_c],
+            ],
+        ];
+
+        addScreen([Pallet.mountain], mini, 10, 9);
     }
 
     return pieces;

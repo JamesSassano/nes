@@ -8,6 +8,7 @@
 
 <body>
 <a href="https://threejs.org/">three.js</a> | <a href="https://ldraw.org/">LDraw.org</a>
+<button id="download">Download</button>
 <script type="importmap">
     {
         "imports": {
@@ -27,6 +28,7 @@
     import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
     import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
     import * as HyrulePieces from "./HyrulePieces.js";
+    import * as PieceUtils from "./PieceUtils.js";
 
     function viewWidth () {
         return window.innerWidth - 20;
@@ -75,6 +77,8 @@
     lDrawLoader.setPartsLibraryPath('/ldraw/');
     await lDrawLoader.preloadMaterials('/ldraw/LDConfig.ldr');
 
+    const pieceInstances = new PieceUtils.PieceInstances();
+
     // Add pieces.
 
     function addPieces() {
@@ -87,15 +91,16 @@
         const pieces = HyrulePieces.getPieces(showElevation, showSamples, gapSize);
         const loadPendingPartNumbers = new Set(Object.keys(pieces));
         const meshMaterials = {};
+        const colors = {};
 
         // For each piece load the ldraw model and create an instanced mesh of all positions.
-        for (const [partNumber, piecesByOpacity] of Object.entries(pieces)) {
+        for (const [partNumber, pieceConfigurationsByOpacity] of Object.entries(pieces)) {
             const partFile = `/ldraw/parts/${partNumber}.dat`;
             lDrawLoader.load(
                 partFile,
                 function(model) {
-                    for (const [opacity, pieceInstances] of Object.entries(piecesByOpacity)) {
-                        meshMaterials[opacity] = meshMaterials[opacity] || new THREE.MeshStandardMaterial(
+                    for (const [opacity, pieceConfigurations] of Object.entries(pieceConfigurationsByOpacity)) {
+                        meshMaterials[opacity] ??= new THREE.MeshStandardMaterial(
                             "1" == opacity ? {} : {opacity: opacity, transparent: true}
                         );
 
@@ -104,7 +109,7 @@
                         model.traverse(item => {
                             if (item.isMesh) {
                                 pieceInstancedMeshes.push(new THREE.InstancedMesh(
-                                    item.geometry, meshMaterials[opacity], pieceInstances.length));
+                                    item.geometry, meshMaterials[opacity], pieceConfigurations.length));
                             } else if (drawLines && item.isLineSegments && ! item.isConditionalLine) {
                                 pieceLineInstances.push(
                                     {geometry: item.geometry, material: item.material, instances: []});
@@ -112,21 +117,25 @@
                         });
 
                         const object3d = new THREE.Object3D();
-                        for (const [pieceIndex, pieceInstance] of pieceInstances.entries()) {
-                            object3d.position.x = pieceInstance.positionX;
-                            object3d.position.y = pieceInstance.positionY;
-                            object3d.position.z = pieceInstance.positionZ;
-                            object3d.rotation.x = pieceInstance.rotationX;
-                            object3d.rotation.y = pieceInstance.rotationY;
-                            object3d.rotation.z = pieceInstance.rotationZ;
-                            object3d.scale.x    = pieceInstance.scaleX;
-                            object3d.scale.y    = pieceInstance.scaleY;
-                            object3d.scale.z    = pieceInstance.scaleZ;
+                        for (const [pieceIndex, pieceConfiguration] of pieceConfigurations.entries()) {
+                            object3d.position.x = pieceConfiguration.positionX;
+                            object3d.position.y = pieceConfiguration.positionY;
+                            object3d.position.z = pieceConfiguration.positionZ;
+                            object3d.rotation.x = pieceConfiguration.rotationX;
+                            object3d.rotation.y = pieceConfiguration.rotationY;
+                            object3d.rotation.z = pieceConfiguration.rotationZ;
+                            object3d.scale.x    = pieceConfiguration.scaleX;
+                            object3d.scale.y    = pieceConfiguration.scaleY;
+                            object3d.scale.z    = pieceConfiguration.scaleZ;
                             object3d.updateMatrix();
 
                             pieceInstancedMeshes.forEach(pieceInstancedMesh => {
                                 pieceInstancedMesh.setMatrixAt(pieceIndex, object3d.matrix);
-                                pieceInstancedMesh.setColorAt(pieceIndex, new THREE.Color(pieceInstance.color));
+                                colors[pieceConfiguration.color] ??= new THREE.Color(pieceConfiguration.color);
+                                const color = colors[pieceConfiguration.color];
+                                pieceInstancedMesh.setColorAt(pieceIndex, color);
+
+                                pieceInstances.add(pieceConfiguration, pieceInstancedMesh, pieceIndex, color, opacity);
                             });
                             pieceLineInstances.forEach(pieceLineInstance => {
                                 pieceLineInstance.instances.push(
@@ -146,7 +155,7 @@
                         const totalPieces = Object
                             .values(pieces)
                             .flatMap(piecesEntry => Object
-                                .values(piecesEntry).map(piecesByOpacity => piecesByOpacity.length))
+                                .values(piecesEntry).map(pieceConfigurationsByOpacity => pieceConfigurationsByOpacity.length))
                             .reduce((previous, current) => previous + current, 0);
 
                         console.log(`Done loading ${totalPieces} pieces at: ${window.performance.now()}`);
@@ -182,6 +191,34 @@
             });
         }}, "toggleLines");
     }
+
+    document.querySelector('#download').addEventListener('click', function(event) {
+        const downloadButton = event.currentTarget;
+        downloadButton.innerHTML = "Working...";
+        downloadButton.disabled = true;
+
+        setTimeout(async () => {
+            try {
+                const startTime = window.performance.now();
+                const data = await pieceInstances.getObjData();
+                const elapseTime = window.performance.now() - startTime;
+                console.log(`Get obj data took: ${elapseTime / 1000} ms`);
+
+                var a = document.createElement('a');
+                a.href = URL.createObjectURL(new Blob([data], {type: 'application/gzip'}));
+                a.download = `hyrule.tar.gz`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(a.href);
+            } catch (error) {
+                console.error("Download failed:", error);
+            } finally {
+                downloadButton.innerHTML = "Download";
+                downloadButton.disabled = false;
+            }
+        }, 10);
+    });
 
 </script>
 </body>
