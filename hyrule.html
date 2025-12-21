@@ -26,7 +26,7 @@
     import { LDrawConditionalLineMaterial } from 'three/addons/materials/LDrawConditionalLineMaterial.js';
     import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
     import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
-    import getPieces from "./hyrulePieces.js";
+    import * as HyrulePieces from "./HyrulePieces.js";
 
     function viewWidth () {
         return window.innerWidth - 20;
@@ -81,9 +81,10 @@
 
         const showElevation = true;
         const showSamples = false;
+        const gapSize = 2;
         const drawLines = true;
 
-        const pieces = getPieces(showElevation, showSamples);
+        const pieces = HyrulePieces.getPieces(showElevation, showSamples, gapSize);
         const loadPendingPartNumbers = new Set(Object.keys(pieces));
         const meshMaterials = {};
 

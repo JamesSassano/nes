@@ -180,9 +180,9 @@ class Tile {
     ];
 
     static fairy = [
-        new TilePiece(Piece.plate_stud_round,               Color.orange,       {moveX: .5, moveY: .5}),
-        new TilePiece(Piece.plate_stud_round_tabs,          Color.white,        {moveX: .5, moveY: .5, rotateY: 45}),
-        new TilePiece(Piece.plate_smooth_round,             Color.red,          {moveX: .5, moveY: .5}),
+        new TilePiece(Piece.plate_stud_round,               Color.orange,       {translateX: .5, translateY: .5}),
+        new TilePiece(Piece.plate_stud_round_tabs,          Color.white,        {translateX: .5, translateY: .5, rotateY: 45}),
+        new TilePiece(Piece.plate_smooth_round,             Color.red,          {translateX: .5, translateY: .5}),
     ];
 
     static zora = [
@@ -495,17 +495,24 @@ class Tile {
         this.tilePieces = basePieces.concat(spritePieces || []);
     }
 
-    * getPieceLevelEntries() {
-        // [plateLevel, piece]
-        var tileLevel = 0;
+    // [[plateLevel, piece], ...]
+    * getPieceLevelEntries(elevation, legoWidth, legoPlateHeight) {
+        // Add a filler piece for elevation.
+        if (elevation > 0) {
+            yield [elevation, new TilePiece(Piece.box, Color.primary, {
+                scaleX: legoWidth / 2,
+                scaleY: legoPlateHeight * elevation,
+                scaleZ: legoWidth / 2,
+            })];
+        }
         for (const tilePiece of this.tilePieces) {
-            yield [tileLevel + tilePiece.piece.plateLevel, tilePiece];
-            tileLevel += tilePiece.piece.plateHeight;
+            yield [elevation + tilePiece.piece.plateLevel, tilePiece];
+            elevation += tilePiece.piece.plateHeight;
         }
     }
 }
 
-const mapRows = [
+const mapRowData = [
     [ /* gridRow: 1 */
         [ /* screen: A1 */
             [Pallet.mountain],
@@ -26508,81 +26515,58 @@ const mapRows = [
     ],
 ];
 
-class PieceInstance {
-    static mapColumns = 256;
-    static mapRows = 88;
-    static screenColumns = 16;
-    static screenRows = 11;
-    static legoWidth = 20;
-    static legoPlateHeight = 8;
-    static gap = 2;
-
-    constructor(mapX, mapY, plateLevel, color, options) {
-        this.positionX = PieceInstance.toPosition(
-            mapX, options.moveX, PieceInstance.mapColumns, PieceInstance.screenColumns);
-        this.positionY = PieceInstance.legoPlateHeight * plateLevel;
-        this.positionZ = PieceInstance.toPosition(
-            mapY, options.moveY, PieceInstance.mapRows, PieceInstance.screenRows);
-        this.rotationX = PieceInstance.degreesToRadians((options.rotateX || 0) + 180);
-        this.rotationY = PieceInstance.degreesToRadians(options.rotateY || 0);
-        this.rotationZ = PieceInstance.degreesToRadians(options.rotateZ || 0);
-        this.scaleX = options.scaleX || 1;
-        this.scaleY = options.scaleY || 1;
-        this.scaleZ = options.scaleZ || 1;
-        this.color = color;
-    }
-
-    static toPosition(position, move, worldSize, screenSize) {
-        position = position + (move || 0) - worldSize / 2;
-        return position * PieceInstance.legoWidth + (PieceInstance.legoWidth / 2)
-            + (Math.floor(position / screenSize) + .5) * PieceInstance.gap;
-    }
-
-    static degreesToRadians(degrees) {
-        return degrees / 180 * Math.PI;
-    }
-}
-
 /** Collect all pieces by part number and opacity to a list of all instances. */
-function getPieces(showElevation, showSamples) {
+export function getPieces(showElevation, showSamples, gapSize) {
+
+    const mapColumnCount = 256;
+    const mapRowCount = 88;
+    const screenColumnCount = 16;
+    const screenRowCount = 11;
+    const legoWidth = 20;
+    const legoPlateHeight = 8;
 
     const pieces = {};
 
-    function addPiece(pallet, tilePiece, mapX, mapY, plateLevel) {
-        const partNumber = tilePiece.piece.partNumber;
-        const opacity = tilePiece.options.opacity || 1;
+    function toPosition(position, translate, worldSize, screenSize) {
+        position = position + (translate || 0) - worldSize / 2;
+        return position * legoWidth + (legoWidth / 2) + (Math.floor(position / screenSize) + .5) * gapSize;
+    }
 
-        pieces[partNumber] = pieces[partNumber] || {};
-        pieces[partNumber][opacity] = pieces[partNumber][opacity] || [];
-        pieces[partNumber][opacity].push(
-            new PieceInstance(mapX, mapY, plateLevel, pallet.getColor(tilePiece.color), tilePiece.options));
+    function degreesToRadians(degrees) {
+        return degrees / 180 * Math.PI;
     }
 
     function addScreen(palletData, screenTileDataGrid, gridX, gridY) {
         // Most screens use one tile pallet.  Some use a two tile border for one, and the inner tiles for another.
         const pallets = [palletData[0], palletData[1] || palletData[0]];
-        for (const [screenY, screenRows] of screenTileDataGrid.entries()) {
-            for (const [screenX, screenTileData] of screenRows.entries()) {
+        for (const [screenY, screenRowTileData] of screenTileDataGrid.entries()) {
+            for (const [screenX, screenTileData] of screenRowTileData.entries()) {
                 if (screenTileData) {
-                    const pallet = screenX > 1 && screenX < (PieceInstance.screenColumns - 2)
-                                && screenY > 1 && screenY < (PieceInstance.screenRows - 2) ? pallets[1] : pallets[0];
-                    const mapX = gridX * PieceInstance.screenColumns + screenX;
-                    const mapY = gridY * PieceInstance.screenRows + screenY;
+                    const pallet = screenX > 1 && screenX < (screenColumnCount - 2)
+                                && screenY > 1 && screenY < (screenRowCount - 2) ? pallets[1] : pallets[0];
+                    const mapX = gridX * screenColumnCount + screenX;
+                    const mapY = gridY * screenRowCount + screenY;
                     const elevation = showElevation ? screenTileData[0] : 0;
-                    const piecesByLevel = new Tile(screenTileData[1], screenTileData[2]).getPieceLevelEntries();
+                    const piecesByLevel = new Tile(screenTileData[1], screenTileData[2])
+                        .getPieceLevelEntries(elevation, legoWidth, legoPlateHeight);
                     for (const [plateLevel, tilePiece] of piecesByLevel) {
-                        addPiece(pallet, tilePiece, mapX, mapY, plateLevel + elevation);
-                    }
+                        const partNumber = tilePiece.piece.partNumber;
+                        const opacity = tilePiece.options.opacity || 1;
 
-                    // Add a filler piece for elevation.
-                    if (elevation > 0) {
-                        const fillerTilePiece = new TilePiece(
-                            Piece.box, Color.primary, {
-                                scaleX: PieceInstance.legoWidth / 2,
-                                scaleY: PieceInstance.legoPlateHeight * elevation,
-                                scaleZ: PieceInstance.legoWidth / 2,
-                            });
-                        addPiece(pallet, fillerTilePiece, mapX, mapY, elevation);
+                        pieces[partNumber] = pieces[partNumber] || {};
+                        pieces[partNumber][opacity] = pieces[partNumber][opacity] || [];
+                        pieces[partNumber][opacity].push({
+                            positionX: toPosition(mapX, tilePiece.options.translateX, mapColumnCount, screenColumnCount),
+                            positionY: legoPlateHeight * plateLevel,
+                            positionZ: toPosition(mapY, tilePiece.options.translateY, mapRowCount, screenRowCount),
+                            rotationX: degreesToRadians((tilePiece.options.rotateX || 0) + 180),
+                            rotationY: degreesToRadians(tilePiece.options.rotateY || 0),
+                            rotationZ: degreesToRadians(tilePiece.options.rotateZ || 0),
+                            scaleX: tilePiece.options.scaleX || 1,
+                            scaleY: tilePiece.options.scaleY || 1,
+                            scaleZ: tilePiece.options.scaleZ || 1,
+                            color: pallet.getColor(tilePiece.color),
+                        });
                     }
                 }
             }
@@ -26591,8 +26575,8 @@ function getPieces(showElevation, showSamples) {
 
     // Add map pieces.
 
-    for (const [gridY, mapColumns] of mapRows.entries()) {
-        for (const [gridX, screenData] of mapColumns.entries()) {
+    for (const [gridY, mapColumnData] of mapRowData.entries()) {
+        for (const [gridX, screenData] of mapColumnData.entries()) {
             addScreen(screenData[0], screenData[1], gridX, gridY);
         }
     }
@@ -26678,5 +26662,3 @@ function getPieces(showElevation, showSamples) {
 
     return pieces;
 }
-
-export default getPieces;
