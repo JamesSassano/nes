@@ -1,7 +1,7 @@
 Download and unzip the LDraw library:
 
 ```
-curl https://library.ldraw.org/library/updates/complete.zip
+curl -O https://library.ldraw.org/library/updates/complete.zip
 unzip comlete.zip
 ```
 
