@@ -1,3 +1,5 @@
+![Lego Hyrule](hyrule.png?raw=true)
+
 Download and unzip the LDraw library:
 
 ```
