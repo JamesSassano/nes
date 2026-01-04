@@ -7,28 +7,35 @@ export class PieceInstances {
 
     constructor() {
         this.piecesByScreen = {};
-        this.mtllibColors = {};
     }
 
-    add(pieceConfiguration, pieceInstancedMesh, pieceInstancedMeshIndex, color, opacity) {
+    add(pieceConfiguration, pieceInstancedMesh, pieceInstancedMeshIndex) {
         const screenName = pieceConfiguration.screenName;
         this.piecesByScreen[screenName] ??= [];
         this.piecesByScreen[screenName].push({
             pieceName: pieceConfiguration.pieceName,
+            color: pieceConfiguration.color,
+            opacity: pieceConfiguration.opacity,
             pieceInstancedMesh: pieceInstancedMesh,
             pieceInstancedMeshIndex: pieceInstancedMeshIndex,
-            color: color,
-            opacity: opacity,
         });
+    }
 
-        const materialName = PieceInstances.getMaterialName(color, opacity);
-        this.mtllibColors[materialName] ??= `newmtl ${materialName}
-Kd ${PieceInstances.getObjColor(color)}
-d ${Number(opacity).toFixed(3)}
-`;
+    changePalette(palette) {
+        const colors = {};
+        Object.keys(this.piecesByScreen).forEach(screenName => {
+            this.piecesByScreen[screenName].forEach(pieceInstance => {
+                const paletteColor = pieceInstance.color[palette].colorInt;
+                const color = colors[paletteColor] ??= new THREE.Color(paletteColor);
+                pieceInstance.pieceInstancedMesh.setColorAt(pieceInstance.pieceInstancedMeshIndex, color);
+                pieceInstance.pieceInstancedMesh.instanceColor.needsUpdate = true;
+            });
+        });
     }
 
     async getObjData() {
+        const mtllib = {};
+
         const encoder = new TextEncoder();
         const compressionStream = new CompressionStream("gzip");
         const writer = compressionStream.writable.getWriter();
@@ -66,11 +73,11 @@ d ${Number(opacity).toFixed(3)}
             const pieceInstances = this.piecesByScreen[screenName]
                 .sort((a, b) => a.pieceName.localeCompare(b.pieceName));
 
-            const objContent = PieceInstances.createObjContent(pieceInstances);
+            const objContent = PieceInstances.createObjContent(pieceInstances, mtllib);
             await addFile(`hyrule.${screenName}.obj`, objContent);
         }
 
-        await addFile(`hyrule.mtl`, Object.values(this.mtllibColors).join(""));
+        await addFile(`hyrule.mtl`, Object.values(mtllib).join(""));
 
         await writer.write(new Uint8Array(1024));
         await writer.close();
@@ -78,24 +85,28 @@ d ${Number(opacity).toFixed(3)}
         return await outputPromise;
     }
 
-    static getObjColor(color) {
-        return `${color.r.toFixed(3)} ${color.g.toFixed(3)} ${color.b.toFixed(3)}`;
-    }
-
-    static getMaterialName(color, opacity) {
-        return `${color.getHexString()}-${opacity}`;
-    }
-
-    static createObjContent(pieceInstances) {
+    static createObjContent(pieceInstances, mtllib) {
         const objOutput = ["mtllib hyrule.mtl\n"];
+        const instanceMatrix4 = new THREE.Matrix4();
+        const normalMatrix3 = new THREE.Matrix3();
         const vector3 = new THREE.Vector3();
+        const color = new THREE.Color();
+
         let vIndexOffset = 1;
         let vnIndexOffset = 1;
 
         for (const pieceInstance of pieceInstances) {
-            const matrix = new THREE.Matrix4();
-            pieceInstance.pieceInstancedMesh.getMatrixAt(pieceInstance.pieceInstancedMeshIndex, matrix);
-            const normalMatrix = new THREE.Matrix3().getNormalMatrix(matrix);
+            pieceInstance.pieceInstancedMesh.getColorAt(pieceInstance.pieceInstancedMeshIndex, color);
+            pieceInstance.pieceInstancedMesh.getMatrixAt(pieceInstance.pieceInstancedMeshIndex, instanceMatrix4);
+            normalMatrix3.getNormalMatrix(instanceMatrix4);
+
+            const opacity = pieceInstance.opacity.toFixed(3);
+            const materialName = `${color.getHexString()}-${opacity}`;
+            const objColor = `${color.r.toFixed(3)} ${color.g.toFixed(3)} ${color.b.toFixed(3)}`;
+            mtllib[materialName] ??= `newmtl ${materialName}
+Kd ${objColor}
+d ${opacity}
+`;
 
             const vertices = pieceInstance.pieceInstancedMesh.geometry.getAttribute("position");
             const normals = pieceInstance.pieceInstancedMesh.geometry.getAttribute("normal");
@@ -106,19 +117,17 @@ d ${Number(opacity).toFixed(3)}
             let face = [];
 
             for (let i = 0; i < vertices.count; i++) {
-                vector3.fromBufferAttribute(vertices, i).applyMatrix4(matrix).multiplyScalar(0.4);
+                vector3.fromBufferAttribute(vertices, i).applyMatrix4(instanceMatrix4).multiplyScalar(0.4);
 
                 // 3d printer change to: x, -z, y
-                const vLine = `v ${vector3.x.toFixed(6)} ${vector3.y.toFixed(6)} ${vector3.z.toFixed(6)}`
-                    + ` ${PieceInstances.getObjColor(pieceInstance.color)}`
-                    + `\n`;
+                const vLine = `v ${vector3.x.toFixed(6)} ${vector3.y.toFixed(6)} ${vector3.z.toFixed(6)} ${objColor}\n`;
 
                 if (!vMap.has(vLine)) {
                     vMap.set(vLine, vMap.size);
                 }
                 const currentVIndex = vMap.get(vLine);
 
-                vector3.fromBufferAttribute(normals, i).applyMatrix3(normalMatrix).normalize();
+                vector3.fromBufferAttribute(normals, i).applyMatrix3(normalMatrix3).normalize();
 
                 const vnLine = `vn ${vector3.x.toFixed(6)} ${vector3.y.toFixed(6)} ${vector3.z.toFixed(6)}\n`;
 
@@ -138,7 +147,7 @@ d ${Number(opacity).toFixed(3)}
                 `o ${pieceInstance.pieceName}\n`,
                 [...vMap.keys()].join(""),
                 [...vnMap.keys()].join(""),
-                `usemtl ${PieceInstances.getMaterialName(pieceInstance.color, pieceInstance.opacity)}\n`,
+                `usemtl ${materialName}\n`,
                 faces.join("")
             );
 

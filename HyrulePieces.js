@@ -47,22 +47,34 @@ class Piece {
 }
 
 class Color {
-    static blue         = "#2038ec";
-    static green        = "#00a800";
-    static brown        = "#c84c0c";
-    static white        = "#fcfcfc";
-    static red          = "#d82800";
-    static black        = "#000000";
-    static tan          = "#fcd8a8";
-    static gray         = "#747474";
-    static orange       = "#fc9838";
-    static lightgreen   = "#80d010";
-    static lightblue    = "#5c94fc";
-    static bluegreen    = "#008088";
+    static blue         = new Color(0x12, 0x2038EC,  23, 0x0E3E9A, "Dark_Blue_Violet");
+    static green        = new Color(0x1A, 0x00A800,  10, 0x58AB41, "Bright_Green");
+    static brown        = new Color(0x17, 0xC84C0C, 402, 0xCA4C0B, "Reddish_Orange");
+    static white        = new Color(0x20, 0xFCFCFC,  15, 0xF4F4F4, "White");
+    static red          = new Color(0x16, 0xD82800,   4, 0xB40000, "Red");
+    static black        = new Color(0x0D, 0x000000,   0, 0x1B2A34, "Black");
+    static tan          = new Color(0x37, 0xFCD8A8,  78, 0xFFC995, "Light_Nougat");
+    static gray         = new Color(0x00, 0x747474,  72, 0x646464, "Dark_Bluish_Grey");
+    static orange       = new Color(0x27, 0xFC9838, 121, 0xF89A39, "Light_Orange");
+    static lightgreen   = new Color(0x29, 0x80D010,  27, 0xA5CA18, "Lime");
+    static lightblue    = new Color(0x22, 0x5C94FC,  73, 0x7396C8, "Medium_Blue");
+    static bluegreen    = new Color(0x1C, 0x008088,   3, 0x069D9F, "Dark_Turquoise");
 
     static primary      = "primary";
     static secondary    = "secondary";
     static background   = "background";
+
+    constructor(nesCode, nesInt, ldrawCode, ldrawInt, ldrawName) {
+        this.nes = {
+            colorCode: nesCode,
+            colorInt: nesInt,
+        };
+        this.ldraw = {
+            colorCode: ldrawCode,
+            colorInt: ldrawInt,
+            colorName: ldrawName,
+        };
+    }
 }
 
 class Pallet {
@@ -26582,6 +26594,7 @@ export function getPieces(showElevation, showSamples, gapSize) {
                             scaleY: tilePiece.options.scaleY ?? 1,
                             scaleZ: tilePiece.options.scaleZ ?? 1,
                             color: pallet.getColor(tilePiece.color),
+                            opacity: opacity,
                             screenName: screenName,
                             pieceName: pieceName,
                         });

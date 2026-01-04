@@ -36,37 +36,57 @@
         constructor() {
             const urlParams = new URLSearchParams(window.location.search);
 
-            const setValue = (key, parser, defaultValue) => {
+            const setValue = (key, defaultValue, valueValidator, valueParser) => {
                 const urlValue = urlParams.get(key);
                 if (urlValue === null) {
                     this[key] = defaultValue;
                 } else {
-                    const parsedValue = parser(urlValue);
+                    const parsedValue = valueParser(urlValue);
                     if (Number.isNaN(parsedValue)) {
                         console.log(`'${key}=${urlValue}' is NaN; using default ${defaultValue}`);
                         this[key] = defaultValue;
                     } else {
-                        this[key] = parsedValue;
+                        if (valueValidator == null || valueValidator(parsedValue)) {
+                            console.log(`Setting url option '${key}=${parsedValue}'`);
+                            this[key] = parsedValue;
+                        } else {
+                            console.log(`'${key}=${urlValue}' is not valid; using default ${defaultValue}`);
+                            this[key] = defaultValue;
+                        }
                     }
                 }
             }
 
-            const setBool = (key, defaultValue) => setValue(key, (value) => 'true' === value.toString(), defaultValue);
-            const setInt = (key, defaultValue) => setValue(key, parseInt, defaultValue);
-            const setFloat = (key, defaultValue) => setValue(key, parseFloat, defaultValue);
+            const setString = (key, defaultValue, valueValidator) =>
+                setValue(key, defaultValue, valueValidator, value => value);
 
-            setBool("showGui", false);
+            const setBool = (key, defaultValue, valueValidator) =>
+                setValue(key, defaultValue, valueValidator, value => "true" === value);
+
+            const setInt = (key, defaultValue, valueValidator) =>
+                setValue(key, defaultValue, valueValidator, parseInt);
+
+            const setFloat = (key, defaultValue, valueValidator) =>
+                setValue(key, defaultValue, valueValidator, parseFloat);
+
+            setBool("showGui", true);
             setBool("showElevation", true);
             setBool("showSamples", false);
             setInt("gapSize", 2);
             setBool("drawLines", true);
             setBool("antialias", true);
-            setInt("clearColor", 0xdddddd);
+            setInt("clearColor", 0xD4EDFC);
+            setString("palette", "nes", value => ["nes", "ldraw"].includes(value));
+            setFloat("roughness", 1.0);
+            setFloat("polygonOffsetFactor", 0.0);
 
-            setFloat("cameraFov", 45);
-            setFloat("cameraPositionX", -1);
-            setFloat("cameraPositionY", 3200);
-            setFloat("cameraPositionZ", 2000);
+            setFloat("cameraFov", 45.0);
+            setFloat("cameraPositionX", -1.0);
+            setFloat("cameraPositionY", 3200.0);
+            setFloat("cameraPositionZ", 2000.0);
+            setFloat("cameraTargetX", 0.0);
+            setFloat("cameraTargetY", 0.0);
+            setFloat("cameraTargetZ", 0.0);
         }
     };
     const options = new Options();
@@ -85,6 +105,7 @@
     const scene = new THREE.Scene();
 
     camera.position.set(options.cameraPositionX, options.cameraPositionY, options.cameraPositionZ);
+    controls.target.set(options.cameraTargetX, options.cameraTargetY, options.cameraTargetZ);
     renderer.setClearColor(options.clearColor);
     renderer.setSize(viewWidth(), viewHeight());
     renderer.setAnimationLoop(function() {
@@ -136,9 +157,14 @@
                 partFile,
                 function(model) {
                     for (const [opacity, pieceConfigurations] of Object.entries(pieceConfigurationsByOpacity)) {
-                        meshMaterials[opacity] ??= new THREE.MeshStandardMaterial(
-                            "1" == opacity ? {} : {opacity: opacity, transparent: true}
-                        );
+                        meshMaterials[opacity] ??= new THREE.MeshStandardMaterial({
+                            roughness: options.roughness,
+                            polygonOffsetFactor: options.polygonOffsetFactor,
+                            polygonOffset: options.polygonOffsetFactor !== 0.0,
+                            opacity: opacity,
+                            transparent: opacity !== "1",
+                            premultipliedAlpha: opacity !== "1",
+                        });
 
                         const pieceInstancedMeshes = [];
                         const pieceLineInstances = [];
@@ -167,11 +193,11 @@
 
                             pieceInstancedMeshes.forEach(pieceInstancedMesh => {
                                 pieceInstancedMesh.setMatrixAt(pieceIndex, object3d.matrix);
-                                colors[pieceConfiguration.color] ??= new THREE.Color(pieceConfiguration.color);
-                                const color = colors[pieceConfiguration.color];
+                                const paletteColor = pieceConfiguration.color[options.palette].colorInt;
+                                const color = colors[paletteColor] ??= new THREE.Color(paletteColor);
                                 pieceInstancedMesh.setColorAt(pieceIndex, color);
 
-                                pieceInstances.add(pieceConfiguration, pieceInstancedMesh, pieceIndex, color, opacity);
+                                pieceInstances.add(pieceConfiguration, pieceInstancedMesh, pieceIndex);
                             });
                             pieceLineInstances.forEach(pieceLineInstance => {
                                 pieceLineInstance.instances.push(
@@ -211,13 +237,36 @@
     if (options.showGui) {
         const gui = new GUI().close();
         const guiCameraTarget = gui.addFolder('Camera Target');
-        guiCameraTarget.add(controls.target, 'x', -4000, 4000).listen();
-        guiCameraTarget.add(controls.target, 'y', -4000, 4000).listen();
-        guiCameraTarget.add(controls.target, 'z', -4000, 4000).listen();
+        guiCameraTarget.add(controls.target, 'x', -4000, 4000).step(0.01).listen();
+        guiCameraTarget.add(controls.target, 'y', -4000, 4000).step(0.01).listen();
+        guiCameraTarget.add(controls.target, 'z', -4000, 4000).step(0.01).listen();
         const guiCameraPosition = gui.addFolder('Camera Position');
-        guiCameraPosition.add(camera.position, 'x', -4000, 4000).listen();
-        guiCameraPosition.add(camera.position, 'y', -4000, 4000).listen();
-        guiCameraPosition.add(camera.position, 'z', -4000, 4000).listen();
+        guiCameraPosition.add(camera.position, 'x', -4000, 4000).step(0.01).listen();
+        guiCameraPosition.add(camera.position, 'y', -4000, 4000).step(0.01).listen();
+        guiCameraPosition.add(camera.position, 'z', -4000, 4000).step(0.01).listen();
+
+        gui.add(options, 'palette', {nes: "nes", 'ldraw(lego)' : 'ldraw'})
+            .name('Color Palette')
+            .onChange(value => pieceInstances.changePalette(value));
+
+        gui.add(options, 'clearColor', {
+            'nes 1D Black': 0x000000,
+            'nes 2D Dark Gray': 0x787878,
+            'nes 3D Gray':  0xC4C4C4,
+
+            'nes 22 Lavender': 0x5C94FC,
+            'nes 31 Pale Blue': 0xA8E4FC,
+            'nes 3C Pale Grey-Blue': 0x9CFCF0,
+
+            'ldraw 9 Light Blue': 0x97CBD9,
+            'ldraw 323 Light Aqua': 0xD3F2EA,
+
+            'Light Gray': 0xDDDDDD,
+            'Very Pale Grey-Blue': 0xDDEDEE,
+            'Lego Instruction Manual': 0xD4EDFC,
+        })
+            .name('Clear Color')
+            .onChange(value => renderer.setClearColor(value));
 
         gui.add({toggleLines() {
             scene.traverse(item => {
@@ -226,6 +275,23 @@
                 }
             });
         }}, "toggleLines");
+
+        const guiMaterial = gui.addFolder('Materials');
+        guiMaterial.add(options, 'roughness', 0, 1).step(0.01).onChange(value => {
+            scene.traverse(item => {
+                if (item.isMesh && item.material.isMeshStandardMaterial) {
+                    item.material.roughness = value;
+                }
+            });
+        });
+        guiMaterial.add(options, 'polygonOffsetFactor', 0, 1).step(0.01).onChange(value => {
+            scene.traverse(item => {
+                if (item.isMesh && item.material.isMeshStandardMaterial) {
+                    item.material.polygonOffset = value !== 0;
+                    item.material.polygonOffsetFactor = value;
+                }
+            });
+        });
     }
 
     document.querySelector('#download').addEventListener('click', function(event) {
