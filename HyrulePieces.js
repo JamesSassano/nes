@@ -1,39 +1,41 @@
 "use strict";
 
 class Piece {
-    static brick_stud                   = new Piece( 3005, 3,  3, null,                     "brick_stud");
-    static headlight                    = new Piece( 4070, 3,  3, null,                     "headlight");
-    static brick_stud_2_3rd             = new Piece(86996, 2,  2, null,                     "brick_stud_2_3rd");
-
-    static plate_stud                   = new Piece( 3024, 1,  1, null,                     "plate_stud");
-    static plate_stud_round             = new Piece( 6141, 1,  1, null,                     "plate_stud_round (dot)");
-    static plate_stud_round_tabs        = new Piece(33291, 1,  1, null,                     "plate_stud_round_tabs");
-
-    static plate_smooth                 = new Piece( 3070, 1,  1, Piece.plate_stud,         "plate_smooth");
-    static plate_smooth_half_circle     = new Piece(24246, 1,  1, Piece.plate_stud_round,   "plate_smooth_half_circle");
-    static plate_smooth_quarter_circle  = new Piece(25269, 1,  1, Piece.plate_stud_round,   "plate_smooth_quarter_circle");
-    static plate_smooth_round           = new Piece(35381, 1,  1, Piece.plate_stud_round,   "plate_smooth_round");
-
-    static heart                        = new Piece(39739, 1,  1, null,                     "heart");
-    static plate_clip_top               = new Piece(15712, 1,  1, null,                     "plate_clip_top");
-
-    static slope_2_3rd                  = new Piece(54200, 2,  0, null,                     "slope_2_3rd");
-    static round_scala                  = new Piece(33286, 2,  2, null,                     "round_scala");
+    static brick                        = new Piece( 3005, 3,  3, null,                     "brick");
+    static brick_headlight              = new Piece( 4070, 3,  3, null,                     "brick_headlight");
     static inverted_cone                = new Piece(11610, 3,  3, null,                     "inverted_cone");
-    static curved_top                   = new Piece(49307, 2,  0, null,                     "curved_top");
-    static pyramid                      = new Piece(22388, 2,  0, null,                     "pyramid");
-    static swril                        = new Piece(15470, 2,  0, null,                     "swril");
-    static plate_side_hole              = new Piece( 4081, 1,  1, null,                     "plate_side_hole");
-    static plate_side_bar               = new Piece(26047, 1,  1, null,                     "plate_side_bar");
-    static plate_side_clip_horizontal   = new Piece( 4085, 1,  1, null,                     "plate_side_clip_horizontal");
-    static plate_side_hole_vertial      = new Piece(61252, 1,  1, null,                     "plate_side_hole_vertial");
+    static brick_2_3rd                  = new Piece(86996, 2,  2, null,                     "brick_2_3rd");
+    static brick_2_3rd_round_tabs       = new Piece(33286, 2,  2, null,                     "brick_2_3rd_round_tabs");
+    static brick_2_3rd_slope            = new Piece(54200, 2,  0, null,                     "brick_2_3rd_slope");
+    static brick_2_3rd_slope_curved     = new Piece(49307, 2,  0, null,                     "brick_2_3rd_slope_curved");
+    static brick_2_3rd_slope_pyramid    = new Piece(22388, 2,  0, null,                     "brick_2_3rd_slope_pyramid");
 
-    static water_piece_under            = Piece.plate_stud_round;
-    static water_piece_top              = Piece.plate_stud_round;
-    static ground_piece_under           = Piece.plate_stud;
-    static ground_piece_top             = Piece.plate_smooth;
+    static plate                        = new Piece( 3024, 1,  1, null,                     "plate");
+    static plate_clip_top               = new Piece(15712, 1,  1, null,                     "plate_clip_top");
+    static plate_round_dot              = new Piece( 6141, 1,  1, null,                     "plate_round_dot");
+    static plate_round_tabs             = new Piece(33291, 1,  1, null,                     "plate_round_tabs");
 
-    static box                          = new Piece( '../p/box5', 1,  1, null,              "box5");
+    // Use 3070b for a groove.
+    static tile                         = new Piece( 3070, 1,  1, Piece.plate,              "tile");
+    static tile_half_circle             = new Piece(24246, 1,  1, Piece.plate_round_dot,    "tile_half_circle");
+    static tile_heart                   = new Piece(39739, 1,  1, null,                     "tile_heart");
+    static tile_quarter_circle          = new Piece(25269, 1,  1, Piece.plate_round_dot,    "tile_quarter_circle");
+    static tile_round_dot               = new Piece(35381, 1,  1, Piece.plate_round_dot,    "tile_round_dot");
+    
+    // Samples
+    static brick_2_3rd_slope_triangle   = new Piece(35464, 2,  0, null,                     "brick_2_3rd_slope_triangle");
+    static plate_swirl                  = new Piece(15470, 2,  0, null,                     "plate_swirl");
+    static plate_light_attachment       = new Piece( 4081, 1,  1, null,                     "plate_light_attachment");
+    static plate_bar_side               = new Piece(26047, 1,  1, null,                     "plate_bar_side");
+    static plate_clip_vertical_side     = new Piece( 4085, 1,  1, null,                     "plate_clip_vertical_side");
+    static plate_clip_horizontal_side   = new Piece(61252, 1,  1, null,                     "plate_clip_horizontal_side");
+
+    static water_piece_under            = Piece.plate_round_dot;
+    static water_piece_top              = Piece.plate_round_dot;
+    static ground_piece_under           = Piece.plate;
+    static ground_piece_top             = Piece.tile;
+
+    static box                          = new Piece('../p/box5', 1,  1, null,               "box5");
 
     constructor(partNumber, plateHeight, plateLevel, studReplacement, name) {
         this.partNumber = partNumber;
@@ -95,39 +97,39 @@ class Tile {
 
     static makeOctorok(color, rotation) {
         return [
-            new TilePiece(Piece.plate_stud,                 Color.white,        {}),
-            new TilePiece(Piece.plate_smooth_half_circle,   color,              {rotateY: rotation}),
+            new TilePiece(Piece.plate,                      Color.white,        {}),
+            new TilePiece(Piece.tile_half_circle,           color,              {rotateY: rotation}),
         ];
     }
 
     static makeMoblin(color1, color2, color3) {
         return [
-            new TilePiece(Piece.plate_stud,                 color1,             {}),
-            new TilePiece(Piece.plate_stud,                 color2,             {}),
-            new TilePiece(Piece.plate_smooth_round,         color3,             {}),
+            new TilePiece(Piece.plate,                      color1,             {}),
+            new TilePiece(Piece.plate,                      color2,             {}),
+            new TilePiece(Piece.tile_round_dot,             color3,             {}),
         ];
     }
 
     static makeLeever(color, slim, level) {
         return [
-            new TilePiece(Piece.plate_stud,                 color,              {rotateY: slim ? 0 : 45}),
-            new TilePiece(Piece.plate_stud_round_tabs,      Color.white,        {rotateY: 45}),
-            new TilePiece(Piece.plate_smooth_round,         color,              {}),
+            new TilePiece(Piece.plate,                      color,              {rotateY: slim ? 0 : 45}),
+            new TilePiece(Piece.plate_round_tabs,           Color.white,        {rotateY: 45}),
+            new TilePiece(Piece.tile_round_dot,             color,              {}),
         ].slice(level);
     }
 
     static makeLynel(color1, color2) {
         return [
-            new TilePiece(Piece.plate_stud,                 color1,             {}),
-            new TilePiece(Piece.plate_stud,                 Color.white,        {}),
-            new TilePiece(Piece.plate_stud_round,           color2,             {}),
+            new TilePiece(Piece.plate,                      color1,             {}),
+            new TilePiece(Piece.plate,                      Color.white,        {}),
+            new TilePiece(Piece.plate_round_dot,            color2,             {}),
         ];
     }
 
     static makeTektite(color) {
         return [
-            new TilePiece(Piece.plate_stud,                 Color.white,        {}),
-            new TilePiece(Piece.curved_top,                 color,              {rotateY: 90}),
+            new TilePiece(Piece.plate,                      Color.white,        {}),
+            new TilePiece(Piece.brick_2_3rd_slope_curved,   color,              {rotateY: 90}),
         ];
     }
 
@@ -135,13 +137,13 @@ class Tile {
         const peahat = [];
         if (water) {
             peahat.push(
-                new TilePiece(Piece.plate_stud_round,       Color.white,        {opacity: Tile.clear_opacity}),
+                new TilePiece(Piece.plate_round_dot,        Color.white,        {opacity: Tile.clear_opacity}),
             )
         }
         return peahat.concat([
-            new TilePiece(Piece.plate_stud,                 Color.red,          {rotateY: slim ? 0 : 45}),
-            new TilePiece(Piece.plate_stud,                 Color.orange,       {}),
-            new TilePiece(Piece.plate_stud_round_tabs,      Color.white,        {rotateY: slim ? 45 : 0}),
+            new TilePiece(Piece.plate,                      Color.red,          {rotateY: slim ? 0 : 45}),
+            new TilePiece(Piece.plate,                      Color.orange,       {}),
+            new TilePiece(Piece.plate_round_tabs,           Color.white,        {rotateY: slim ? 45 : 0}),
         ]);
     }
 
@@ -174,90 +176,90 @@ class Tile {
 
     //                partNumber                            color               options
     static link = [
-        new TilePiece(Piece.plate_stud,                     Color.brown,        {}),
-        new TilePiece(Piece.plate_stud,                     Color.orange,       {}),
-        new TilePiece(Piece.plate_smooth,                   Color.lightgreen,   {}),
+        new TilePiece(Piece.plate,                          Color.brown,        {}),
+        new TilePiece(Piece.plate,                          Color.orange,       {}),
+        new TilePiece(Piece.tile,                           Color.lightgreen,   {}),
     ];
 
     static fairy = [
-        new TilePiece(Piece.plate_stud_round,               Color.orange,       {translateX: .5, translateY: .5}),
-        new TilePiece(Piece.plate_stud_round_tabs,          Color.white,        {translateX: .5, translateY: .5, rotateY: 45}),
-        new TilePiece(Piece.plate_smooth_round,             Color.red,          {translateX: .5, translateY: .5}),
+        new TilePiece(Piece.plate_round_dot,                Color.orange,       {translateX: .5, translateY: .5}),
+        new TilePiece(Piece.plate_round_tabs,               Color.white,        {translateX: .5, translateY: .5, rotateY: 45}),
+        new TilePiece(Piece.tile_round_dot,                 Color.red,          {translateX: .5, translateY: .5}),
     ];
 
     static zora = [
-        new TilePiece(Piece.plate_stud,                     Color.bluegreen,    {}),
-        new TilePiece(Piece.plate_stud_round,               Color.red,          {}),
+        new TilePiece(Piece.plate,                          Color.bluegreen,    {}),
+        new TilePiece(Piece.plate_round_dot,                Color.red,          {}),
     ];
     static rock = [
-        new TilePiece(Piece.plate_stud_round,               Color.red,          {}),
-        new TilePiece(Piece.plate_stud_round,               Color.orange,       {}),
+        new TilePiece(Piece.plate_round_dot,                Color.red,          {}),
+        new TilePiece(Piece.plate_round_dot,                Color.orange,       {}),
     ];
     static ghini = [
-        new TilePiece(Piece.plate_stud_round,               Color.blue,         {}),
-        new TilePiece(Piece.plate_stud_round,               Color.white,        {}),
+        new TilePiece(Piece.plate_round_dot,                Color.blue,         {}),
+        new TilePiece(Piece.plate_round_dot,                Color.white,        {}),
     ];
     static armos_red_awake = [
-        new TilePiece(Piece.plate_stud,                     Color.orange,       {}),
-        new TilePiece(Piece.plate_stud,                     Color.red,          {}),
+        new TilePiece(Piece.plate,                          Color.orange,       {}),
+        new TilePiece(Piece.plate,                          Color.red,          {}),
         new TilePiece(Piece.plate_clip_top,                 Color.orange,       {}),
     ];
 
     static bush = [
-        new TilePiece(Piece.brick_stud_2_3rd,               Color.primary,      {}),
+        new TilePiece(Piece.brick_2_3rd,                    Color.primary,      {}),
         new TilePiece(Piece.ground_piece_under,             Color.background,   {}),
-        new TilePiece(Piece.plate_stud_round,               Color.secondary,    {}),
-        new TilePiece(Piece.plate_smooth_round,             Color.primary,      {}),
+        new TilePiece(Piece.plate_round_dot,                Color.secondary,    {}),
+        new TilePiece(Piece.tile_round_dot,                 Color.primary,      {}),
     ];
     static ground = [
-        new TilePiece(Piece.brick_stud_2_3rd,               Color.primary,      {}),
+        new TilePiece(Piece.brick_2_3rd,                    Color.primary,      {}),
         new TilePiece(Piece.ground_piece_top,               Color.background,   {}),
     ];
     static ground_sand = [
-        new TilePiece(Piece.brick_stud_2_3rd,               Color.primary,      {}),
-        new TilePiece(Piece.plate_smooth_round,             Color.background,   {}),
+        new TilePiece(Piece.brick_2_3rd,                    Color.primary,      {}),
+        new TilePiece(Piece.tile_round_dot,                 Color.background,   {}),
     ];
     static entrance_e = [
-        new TilePiece(Piece.plate_stud,                     Color.primary,      {}),
-        new TilePiece(Piece.slope_2_3rd,                    Color.black,        {rotateY: 90}),
+        new TilePiece(Piece.plate,                          Color.primary,      {}),
+        new TilePiece(Piece.brick_2_3rd_slope,              Color.black,        {rotateY: 90}),
     ];
     static entrance_w = [
-        new TilePiece(Piece.plate_stud,                     Color.primary,      {}),
-        new TilePiece(Piece.slope_2_3rd,                    Color.black,        {rotateY: 270}),
+        new TilePiece(Piece.plate,                          Color.primary,      {}),
+        new TilePiece(Piece.brick_2_3rd_slope,              Color.black,        {rotateY: 270}),
     ];
 
     static armos_statue = [
-        new TilePiece(Piece.brick_stud_2_3rd,               Color.primary,      {}),
+        new TilePiece(Piece.brick_2_3rd,                    Color.primary,      {}),
         new TilePiece(Piece.ground_piece_under,             Color.background,   {}),
-        new TilePiece(Piece.plate_stud,                     Color.primary,      {}),
-        new TilePiece(Piece.plate_stud,                     Color.secondary,    {}),
+        new TilePiece(Piece.plate,                          Color.primary,      {}),
+        new TilePiece(Piece.plate,                          Color.secondary,    {}),
         new TilePiece(Piece.plate_clip_top,                 Color.primary,      {}),
     ];
     static armos_statue_empty = [
-        new TilePiece(Piece.brick_stud_2_3rd,               Color.primary,      {}),
+        new TilePiece(Piece.brick_2_3rd,                    Color.primary,      {}),
         new TilePiece(Piece.ground_piece_top,               Color.background,   {}),
     ];
     static armos_statue_entrance = Tile.entrance_w;
-    static rock_bolder = [
-        new TilePiece(Piece.brick_stud_2_3rd,               Color.primary,      {}),
+    static rock_boulder = [
+        new TilePiece(Piece.brick_2_3rd,                    Color.primary,      {}),
         new TilePiece(Piece.ground_piece_under,             Color.background,   {}),
-        new TilePiece(Piece.curved_top,                     Color.primary,      {rotateY: 90}),
+        new TilePiece(Piece.brick_2_3rd_slope_curved,       Color.primary,      {rotateY: 90}),
     ];
     static steps = [
-        new TilePiece(Piece.brick_stud_2_3rd,               Color.primary,      {}),
-        new TilePiece(Piece.plate_smooth_round,             Color.secondary,    {}),
+        new TilePiece(Piece.brick_2_3rd,                    Color.primary,      {}),
+        new TilePiece(Piece.tile_round_dot,                 Color.secondary,    {}),
     ];
     static tomb = [
-        new TilePiece(Piece.brick_stud_2_3rd,               Color.primary,      {}),
+        new TilePiece(Piece.brick_2_3rd,                    Color.primary,      {}),
         new TilePiece(Piece.ground_piece_under,             Color.background,   {}),
-        new TilePiece(Piece.plate_stud,                     Color.secondary,    {}),
-        new TilePiece(Piece.plate_smooth_half_circle,       Color.primary,      {rotateY: 180}),
+        new TilePiece(Piece.plate,                          Color.secondary,    {}),
+        new TilePiece(Piece.tile_half_circle,               Color.primary,      {rotateY: 180}),
     ];
 
     // Rocks
     static makeRockEdge(rockTop) {
         return [
-            new TilePiece(Piece.brick_stud,                 Color.primary,      {}),
+            new TilePiece(Piece.brick,                      Color.primary,      {}),
         ].concat(rockTop);
     }
     static makeRockCorner(angle) {
@@ -265,18 +267,18 @@ class Tile {
             // Rock corner's should never raise the elevation more than 1 level
             // from any adjacent top levels otherwise this will be exposed.
             // Change to "#ff00ff" to test exposure.
-            new TilePiece(Piece.brick_stud_2_3rd,           Color.primary,      {}),
-            new TilePiece(Piece.plate_stud,                 Color.background,   {}),
-            new TilePiece(Piece.plate_smooth_quarter_circle,Color.primary,      {rotateY: angle}),
+            new TilePiece(Piece.brick_2_3rd,                Color.primary,      {}),
+            new TilePiece(Piece.plate,                      Color.background,   {}),
+            new TilePiece(Piece.tile_quarter_circle,        Color.primary,      {rotateY: angle}),
         ];
     }
 
     static rock_n = Tile.makeRockEdge([
-        new TilePiece(Piece.brick_stud_2_3rd,               Color.primary,      {}),
-        new TilePiece(Piece.plate_smooth_half_circle,       Color.primary,      {rotateY: 180}),
+        new TilePiece(Piece.brick_2_3rd,                    Color.primary,      {}),
+        new TilePiece(Piece.tile_half_circle,               Color.primary,      {rotateY: 180}),
     ]);
     static rock_s = Tile.makeRockEdge([
-        new TilePiece(Piece.brick_stud,                     Color.primary,      {}),
+        new TilePiece(Piece.brick,                          Color.primary,      {}),
     ]);
     static rock_ne = Tile.makeRockCorner(270);
     static rock_nw = Tile.makeRockCorner(180);
@@ -285,79 +287,83 @@ class Tile {
 
     static dungeon_tops = {
         curvedTop: [
-            new TilePiece(Piece.plate_stud,             Color.secondary,    {}),
-            new TilePiece(Piece.curved_top,             Color.primary,      {rotateY: 90}),
+            new TilePiece(Piece.plate,                      Color.secondary,    {}),
+            new TilePiece(Piece.brick_2_3rd_slope_curved,   Color.primary,      {rotateY: 90}),
+        ],
+        triangle: [
+            new TilePiece(Piece.plate,                      Color.secondary,    {}),
+            new TilePiece(Piece.brick_2_3rd_slope_triangle, Color.primary,      {rotateY: 90}),
         ],
         slope: [
-            new TilePiece(Piece.plate_stud,             Color.secondary,    {}),
-            new TilePiece(Piece.slope_2_3rd,            Color.primary,      {}),
+            new TilePiece(Piece.plate,                      Color.secondary,    {}),
+            new TilePiece(Piece.brick_2_3rd_slope,          Color.primary,      {}),
         ],
         pyramid: [
-            new TilePiece(Piece.plate_stud,             Color.secondary,    {}),
-            new TilePiece(Piece.pyramid,                Color.primary,      {}),
+            new TilePiece(Piece.plate,                      Color.secondary,    {}),
+            new TilePiece(Piece.brick_2_3rd_slope_pyramid,  Color.primary,      {}),
         ],
-        swril: [
-            new TilePiece(Piece.plate_stud,             Color.secondary,    {}),
-            new TilePiece(Piece.swril,                  Color.primary,      {}),
+        swirl: [
+            new TilePiece(Piece.plate,                      Color.secondary,    {}),
+            new TilePiece(Piece.plate_swirl,                Color.primary,      {}),
         ],
         clip_top: [
-            new TilePiece(Piece.plate_stud,             Color.secondary,    {}),
-            new TilePiece(Piece.plate_clip_top,         Color.primary,      {}),
+            new TilePiece(Piece.plate,                      Color.secondary,    {}),
+            new TilePiece(Piece.plate_clip_top,             Color.primary,      {}),
         ],
 
         plateDotStud: [
-            new TilePiece(Piece.plate_stud,             Color.secondary,    {}),
-            new TilePiece(Piece.plate_stud,             Color.primary,      {}),
-            new TilePiece(Piece.plate_stud_round,       Color.primary,      {}),
+            new TilePiece(Piece.plate,                      Color.secondary,    {}),
+            new TilePiece(Piece.plate,                      Color.primary,      {}),
+            new TilePiece(Piece.plate_round_dot,            Color.primary,      {}),
         ],
         plateDotSmooth: [
-            new TilePiece(Piece.plate_stud,             Color.secondary,    {}),
-            new TilePiece(Piece.plate_stud,             Color.primary,      {}),
-            new TilePiece(Piece.plate_smooth_round,     Color.primary,      {}),
+            new TilePiece(Piece.plate,                      Color.secondary,    {}),
+            new TilePiece(Piece.plate,                      Color.primary,      {}),
+            new TilePiece(Piece.tile_round_dot,             Color.primary,      {}),
         ],
         plateDotTabs: [
-            new TilePiece(Piece.plate_stud,             Color.secondary,    {}),
-            new TilePiece(Piece.plate_stud,             Color.primary,      {}),
-            new TilePiece(Piece.plate_stud_round_tabs,  Color.primary,      {rotateY: 45}),
+            new TilePiece(Piece.plate,                      Color.secondary,    {}),
+            new TilePiece(Piece.plate,                      Color.primary,      {}),
+            new TilePiece(Piece.plate_round_tabs,           Color.primary,      {rotateY: 45}),
         ],
 
         dotDotStud: [
-            new TilePiece(Piece.plate_stud,             Color.secondary,    {}),
-            new TilePiece(Piece.plate_stud_round,       Color.primary,      {}),
-            new TilePiece(Piece.plate_stud_round,       Color.primary,      {}),
+            new TilePiece(Piece.plate,                      Color.secondary,    {}),
+            new TilePiece(Piece.plate_round_dot,            Color.primary,      {}),
+            new TilePiece(Piece.plate_round_dot,            Color.primary,      {}),
         ],
         dotDotSmooth: [
-            new TilePiece(Piece.plate_stud,             Color.secondary,    {}),
-            new TilePiece(Piece.plate_stud_round,       Color.primary,      {}),
-            new TilePiece(Piece.plate_smooth_round,     Color.primary,      {}),
+            new TilePiece(Piece.plate,                      Color.secondary,    {}),
+            new TilePiece(Piece.plate_round_dot,            Color.primary,      {}),
+            new TilePiece(Piece.tile_round_dot,             Color.primary,      {}),
         ],
         dotDotTabs: [
-            new TilePiece(Piece.plate_stud,             Color.secondary,    {}),
-            new TilePiece(Piece.plate_stud_round,       Color.primary,      {}),
-            new TilePiece(Piece.plate_stud_round_tabs,  Color.primary,      {rotateY: 45}),
+            new TilePiece(Piece.plate,                      Color.secondary,    {}),
+            new TilePiece(Piece.plate_round_dot,            Color.primary,      {}),
+            new TilePiece(Piece.plate_round_tabs,           Color.primary,      {rotateY: 45}),
         ],
 
         overhangHole: [
-            new TilePiece(Piece.brick_stud_2_3rd,       Color.secondary,    {}),
-            new TilePiece(Piece.plate_side_hole,        Color.primary,      {}),
+            new TilePiece(Piece.brick_2_3rd,                Color.secondary,    {}),
+            new TilePiece(Piece.plate_light_attachment,     Color.primary,      {}),
         ],
         overhangBar: [
-            new TilePiece(Piece.brick_stud_2_3rd,       Color.secondary,    {}),
-            new TilePiece(Piece.plate_side_bar,         Color.primary,      {}),
-        ],
-        overhangClipH: [
-            new TilePiece(Piece.brick_stud_2_3rd,       Color.secondary,    {}),
-            new TilePiece(Piece.plate_side_clip_horizontal, Color.primary,  {}),
+            new TilePiece(Piece.brick_2_3rd,                Color.secondary,    {}),
+            new TilePiece(Piece.plate_bar_side,             Color.primary,      {}),
         ],
         overhangClipV: [
-            new TilePiece(Piece.brick_stud_2_3rd,       Color.secondary,    {}),
-            new TilePiece(Piece.plate_side_hole_vertial,    Color.primary,  {}),
+            new TilePiece(Piece.brick_2_3rd,                Color.secondary,    {}),
+            new TilePiece(Piece.plate_clip_vertical_side,   Color.primary,  {}),
+        ],
+        overhangClipH: [
+            new TilePiece(Piece.brick_2_3rd,                Color.secondary,    {}),
+            new TilePiece(Piece.plate_clip_horizontal_side, Color.primary,  {}),
         ],
     };
     static makeDungeon(topName) {
         return [
-            new TilePiece(Piece.brick_stud,             Color.primary,      {}),
-            new TilePiece(Piece.brick_stud_2_3rd,       Color.primary,      {}),
+            new TilePiece(Piece.brick,                      Color.primary,      {}),
+            new TilePiece(Piece.brick_2_3rd,                Color.primary,      {}),
         ].concat(Tile.dungeon_tops[topName]);
     }
 
@@ -365,88 +371,88 @@ class Tile {
     static dungeon_n1 = Tile.makeDungeon("curvedTop");
     static dungeon_n2 = Tile.makeDungeon("clip_top");
     static dungeon_ne = [
-        new TilePiece(Piece.brick_stud_2_3rd,               Color.primary,      {}),
-        new TilePiece(Piece.brick_stud_2_3rd,               Color.primary,      {}),
+        new TilePiece(Piece.brick_2_3rd,                    Color.primary,      {}),
+        new TilePiece(Piece.brick_2_3rd,                    Color.primary,      {}),
         new TilePiece(Piece.inverted_cone,                  Color.secondary,    {}),
-        new TilePiece(Piece.plate_smooth_round,             Color.primary,      {}),
+        new TilePiece(Piece.tile_round_dot,                 Color.primary,      {}),
     ];
     static dungeon_nw = Tile.dungeon_ne;
     static dungeon_se = [
-        new TilePiece(Piece.plate_stud,                     Color.primary,      {}),
-        new TilePiece(Piece.brick_stud_2_3rd,               Color.primary,      {}),
+        new TilePiece(Piece.plate,                          Color.primary,      {}),
+        new TilePiece(Piece.brick_2_3rd,                    Color.primary,      {}),
         new TilePiece(Piece.inverted_cone,                  Color.secondary,    {}),
-        new TilePiece(Piece.plate_smooth_round,             Color.primary,      {}),
+        new TilePiece(Piece.tile_round_dot,                 Color.primary,      {}),
     ];
     static dungeon_sw = Tile.dungeon_se;
 
     static tree_n = [
-        new TilePiece(Piece.brick_stud_2_3rd,               Color.primary,      {}),
+        new TilePiece(Piece.brick_2_3rd,                    Color.primary,      {}),
         new TilePiece(Piece.ground_piece_under,             Color.background,   {}),
-        new TilePiece(Piece.round_scala,                    Color.primary,      {rotateY: 45}),
-        new TilePiece(Piece.brick_stud_2_3rd,               Color.primary,      {}),
-        new TilePiece(Piece.plate_stud_round_tabs,          Color.primary,      {rotateY: 45}),
+        new TilePiece(Piece.brick_2_3rd_round_tabs,         Color.primary,      {rotateY: 45}),
+        new TilePiece(Piece.brick_2_3rd,                    Color.primary,      {}),
+        new TilePiece(Piece.plate_round_tabs,               Color.primary,      {rotateY: 45}),
     ];
     static tree_ne = [
-        new TilePiece(Piece.brick_stud_2_3rd,               Color.primary,      {}),
+        new TilePiece(Piece.brick_2_3rd,                    Color.primary,      {}),
         new TilePiece(Piece.ground_piece_under,             Color.background,   {}),
-        new TilePiece(Piece.round_scala,                    Color.primary,      {rotateY: 45}),
-        new TilePiece(Piece.plate_stud,                     Color.secondary,    {}),
-        new TilePiece(Piece.plate_stud,                     Color.primary,      {}),
-        new TilePiece(Piece.plate_stud_round_tabs,          Color.primary,      {rotateY: 45}),
+        new TilePiece(Piece.brick_2_3rd_round_tabs,         Color.primary,      {rotateY: 45}),
+        new TilePiece(Piece.plate,                          Color.secondary,    {}),
+        new TilePiece(Piece.plate,                          Color.primary,      {}),
+        new TilePiece(Piece.plate_round_tabs,               Color.primary,      {rotateY: 45}),
     ];
     static tree_sw = Tile.tree_ne;
     static tree_nw = [
-        new TilePiece(Piece.brick_stud_2_3rd,               Color.primary,      {}),
+        new TilePiece(Piece.brick_2_3rd,                    Color.primary,      {}),
         new TilePiece(Piece.ground_piece_under,             Color.background,   {}),
-        new TilePiece(Piece.headlight,                      Color.primary,      {rotateY: 90}),
-        new TilePiece(Piece.plate_stud,                     Color.primary,      {}),
-        new TilePiece(Piece.plate_stud_round_tabs,          Color.primary,      {rotateY: 45}),
+        new TilePiece(Piece.brick_headlight,                Color.primary,      {rotateY: 90}),
+        new TilePiece(Piece.plate,                          Color.primary,      {}),
+        new TilePiece(Piece.plate_round_tabs,               Color.primary,      {rotateY: 45}),
     ];
     static tree_se = [
-        new TilePiece(Piece.brick_stud_2_3rd,               Color.primary,      {}),
+        new TilePiece(Piece.brick_2_3rd,                    Color.primary,      {}),
         new TilePiece(Piece.ground_piece_under,             Color.background,   {}),
-        new TilePiece(Piece.headlight,                      Color.primary,      {rotateY: 270}),
-        new TilePiece(Piece.plate_stud,                     Color.primary,      {}),
-        new TilePiece(Piece.plate_stud_round_tabs,          Color.primary,      {rotateY: 45}),
+        new TilePiece(Piece.brick_headlight,                Color.primary,      {rotateY: 270}),
+        new TilePiece(Piece.plate,                          Color.primary,      {}),
+        new TilePiece(Piece.plate_round_tabs,               Color.primary,      {rotateY: 45}),
     ];
 
-    static heart = [
-        new TilePiece(Piece.plate_stud_round,               Color.white,        {opacity: Tile.clear_opacity}),
-        new TilePiece(Piece.heart,                          Color.red,          {rotateY: 45}),
+    static tile_heart = [
+        new TilePiece(Piece.plate_round_dot,                Color.white,        {opacity: Tile.clear_opacity}),
+        new TilePiece(Piece.tile_heart,                     Color.red,          {rotateY: 45}),
     ];
 
     // Water
     static bridge = [
         new TilePiece(Piece.ground_piece_under,             Color.primary,      {}),
         new TilePiece(Piece.water_piece_under,              Color.secondary,    {opacity: Tile.water_opacity}),
-        new TilePiece(Piece.plate_smooth,                   Color.primary,      {}),
+        new TilePiece(Piece.tile,                           Color.primary,      {}),
     ];
     static bridge_heart = [
         new TilePiece(Piece.ground_piece_under,             Color.primary,      {}),
         new TilePiece(Piece.water_piece_under,              Color.secondary,    {opacity: Tile.water_opacity}),
-        new TilePiece(Piece.plate_stud,                     Color.primary,      {}),
-        new TilePiece(Piece.heart,                          Color.red,          {rotateY: 45}),
+        new TilePiece(Piece.plate,                          Color.primary,      {}),
+        new TilePiece(Piece.tile_heart,                     Color.red,          {rotateY: 45}),
     ];
 
     static ground_water_ne = [
         new TilePiece(Piece.ground_piece_under,             Color.primary,      {}),
         new TilePiece(Piece.water_piece_under,              Color.secondary,    {opacity: Tile.water_opacity}),
-        new TilePiece(Piece.plate_smooth_quarter_circle,    Color.background,   {rotateY: 270}),
+        new TilePiece(Piece.tile_quarter_circle,            Color.background,   {rotateY: 270}),
     ];
     static ground_water_nw = [
         new TilePiece(Piece.ground_piece_under,             Color.primary,      {}),
         new TilePiece(Piece.water_piece_under,              Color.secondary,    {opacity: Tile.water_opacity}),
-        new TilePiece(Piece.plate_smooth_quarter_circle,    Color.background,   {rotateY: 180}),
+        new TilePiece(Piece.tile_quarter_circle,            Color.background,   {rotateY: 180}),
     ];
     static ground_water_se = [
         new TilePiece(Piece.ground_piece_under,             Color.primary,      {}),
         new TilePiece(Piece.water_piece_under,              Color.secondary,    {opacity: Tile.water_opacity}),
-        new TilePiece(Piece.plate_smooth_quarter_circle,    Color.background,   {}),
+        new TilePiece(Piece.tile_quarter_circle,            Color.background,   {}),
     ];
     static ground_water_sw = [
         new TilePiece(Piece.ground_piece_under,             Color.primary,      {}),
         new TilePiece(Piece.water_piece_under,              Color.secondary,    {opacity: Tile.water_opacity}),
-        new TilePiece(Piece.plate_smooth_quarter_circle,    Color.background,   {rotateY: 90}),
+        new TilePiece(Piece.tile_quarter_circle,            Color.background,   {rotateY: 90}),
     ];
     static water_c = [
         new TilePiece(Piece.ground_piece_under,             Color.primary,      {}),
@@ -459,22 +465,22 @@ class Tile {
     static water_ne = [
         new TilePiece(Piece.ground_piece_under,             Color.primary,      {}),
         new TilePiece(Piece.water_piece_under,              Color.secondary,    {opacity: Tile.water_opacity}),
-        new TilePiece(Piece.plate_smooth_quarter_circle,    Color.background,   {rotateY: 90}),
+        new TilePiece(Piece.tile_quarter_circle,            Color.background,   {rotateY: 90}),
     ];
     static water_nw = [
         new TilePiece(Piece.ground_piece_under,             Color.primary,      {}),
         new TilePiece(Piece.water_piece_under,              Color.secondary,    {opacity: Tile.water_opacity}),
-        new TilePiece(Piece.plate_smooth_quarter_circle,    Color.background,   {}),
+        new TilePiece(Piece.tile_quarter_circle,            Color.background,   {}),
     ];
     static water_se = [
         new TilePiece(Piece.ground_piece_under,             Color.primary,      {}),
         new TilePiece(Piece.water_piece_under,              Color.secondary,    {opacity: Tile.water_opacity}),
-        new TilePiece(Piece.plate_smooth_quarter_circle,    Color.background,   {rotateY: 180}),
+        new TilePiece(Piece.tile_quarter_circle,            Color.background,   {rotateY: 180}),
     ];
     static water_sw = [
         new TilePiece(Piece.ground_piece_under,             Color.primary,      {}),
         new TilePiece(Piece.water_piece_under,              Color.secondary,    {opacity: Tile.water_opacity}),
-        new TilePiece(Piece.plate_smooth_quarter_circle,    Color.background,   {rotateY: 270}),
+        new TilePiece(Piece.tile_quarter_circle,            Color.background,   {rotateY: 270}),
     ];
     static waterfall1 = [
         new TilePiece(Piece.ground_piece_under,             Color.background,   {}),
@@ -2405,7 +2411,7 @@ const mapRowData = [
                     /* screen: J1, row:  4, col:  4 */ [14, Tile.ground],
                     /* screen: J1, row:  4, col:  5 */ [14, Tile.ground],
                     /* screen: J1, row:  4, col:  6 */ [14, Tile.ground],
-                    /* screen: J1, row:  4, col:  7 */ [14, Tile.rock_bolder],
+                    /* screen: J1, row:  4, col:  7 */ [14, Tile.rock_boulder],
                     /* screen: J1, row:  4, col:  8 */ [14, Tile.ground],
                     /* screen: J1, row:  4, col:  9 */ [14, Tile.ground],
                     /* screen: J1, row:  4, col: 10 */ [14, Tile.ground],
@@ -2422,7 +2428,7 @@ const mapRowData = [
                     /* screen: J1, row:  5, col:  3 */ [14, Tile.ground],
                     /* screen: J1, row:  5, col:  4 */ [14, Tile.ground],
                     /* screen: J1, row:  5, col:  5 */ [14, Tile.ground],
-                    /* screen: J1, row:  5, col:  6 */ [14, Tile.rock_bolder],
+                    /* screen: J1, row:  5, col:  6 */ [14, Tile.rock_boulder],
                     /* screen: J1, row:  5, col:  7 */ [14, Tile.ground],
                     /* screen: J1, row:  5, col:  8 */ [14, Tile.ground],
                     /* screen: J1, row:  5, col:  9 */ [14, Tile.ground],
@@ -2439,15 +2445,15 @@ const mapRowData = [
                     /* screen: J1, row:  6, col:  2 */ [14, Tile.ground],
                     /* screen: J1, row:  6, col:  3 */ [14, Tile.ground],
                     /* screen: J1, row:  6, col:  4 */ [14, Tile.ground],
-                    /* screen: J1, row:  6, col:  5 */ [14, Tile.rock_bolder],
+                    /* screen: J1, row:  6, col:  5 */ [14, Tile.rock_boulder],
                     /* screen: J1, row:  6, col:  6 */ [14, Tile.ground],
-                    /* screen: J1, row:  6, col:  7 */ [14, Tile.rock_bolder],
+                    /* screen: J1, row:  6, col:  7 */ [14, Tile.rock_boulder],
                     /* screen: J1, row:  6, col:  8 */ [14, Tile.ground],
-                    /* screen: J1, row:  6, col:  9 */ [14, Tile.rock_bolder],
+                    /* screen: J1, row:  6, col:  9 */ [14, Tile.rock_boulder],
                     /* screen: J1, row:  6, col: 10 */ [14, Tile.ground],
-                    /* screen: J1, row:  6, col: 11 */ [14, Tile.rock_bolder],
+                    /* screen: J1, row:  6, col: 11 */ [14, Tile.rock_boulder],
                     /* screen: J1, row:  6, col: 12 */ [14, Tile.ground],
-                    /* screen: J1, row:  6, col: 13 */ [14, Tile.rock_bolder],
+                    /* screen: J1, row:  6, col: 13 */ [14, Tile.rock_boulder],
                     /* screen: J1, row:  6, col: 14 */ [14, Tile.ground],
                     /* screen: J1, row:  6, col: 15 */ [14, Tile.ground],
                     /* screen: J1, row:  6, col: 16 */ [14, Tile.rock_s],
@@ -2458,7 +2464,7 @@ const mapRowData = [
                     /* screen: J1, row:  7, col:  3 */ [14, Tile.ground],
                     /* screen: J1, row:  7, col:  4 */ [14, Tile.ground],
                     /* screen: J1, row:  7, col:  5 */ [14, Tile.ground],
-                    /* screen: J1, row:  7, col:  6 */ [14, Tile.rock_bolder],
+                    /* screen: J1, row:  7, col:  6 */ [14, Tile.rock_boulder],
                     /* screen: J1, row:  7, col:  7 */ [14, Tile.ground],
                     /* screen: J1, row:  7, col:  8 */ [14, Tile.ground],
                     /* screen: J1, row:  7, col:  9 */ [14, Tile.ground],
@@ -2477,7 +2483,7 @@ const mapRowData = [
                     /* screen: J1, row:  8, col:  4 */ [14, Tile.ground],
                     /* screen: J1, row:  8, col:  5 */ [14, Tile.ground],
                     /* screen: J1, row:  8, col:  6 */ [14, Tile.ground],
-                    /* screen: J1, row:  8, col:  7 */ [14, Tile.rock_bolder],
+                    /* screen: J1, row:  8, col:  7 */ [14, Tile.rock_boulder],
                     /* screen: J1, row:  8, col:  8 */ [14, Tile.ground],
                     /* screen: J1, row:  8, col:  9 */ [14, Tile.ground],
                     /* screen: J1, row:  8, col: 10 */ [14, Tile.ground],
@@ -3826,7 +3832,7 @@ const mapRowData = [
                     /* screen: A2, row:  4, col:  2 */ [15, Tile.rock_se],
                     /* screen: A2, row:  4, col:  3 */ [15, Tile.ground],
                     /* screen: A2, row:  4, col:  4 */ [15, Tile.ground, Tile.lynel_blue],
-                    /* screen: A2, row:  4, col:  5 */ [15, Tile.rock_bolder],
+                    /* screen: A2, row:  4, col:  5 */ [15, Tile.rock_boulder],
                     /* screen: A2, row:  4, col:  6 */ [15, Tile.ground],
                     /* screen: A2, row:  4, col:  7 */ [15, Tile.ground],
                     /* screen: A2, row:  4, col:  8 */ [15, Tile.ground],
@@ -3846,7 +3852,7 @@ const mapRowData = [
                     /* screen: A2, row:  5, col:  4 */ [15, Tile.ground],
                     /* screen: A2, row:  5, col:  5 */ [15, Tile.ground],
                     /* screen: A2, row:  5, col:  6 */ [15, Tile.ground],
-                    /* screen: A2, row:  5, col:  7 */ [15, Tile.rock_bolder],
+                    /* screen: A2, row:  5, col:  7 */ [15, Tile.rock_boulder],
                     /* screen: A2, row:  5, col:  8 */ [15, Tile.ground],
                     /* screen: A2, row:  5, col:  9 */ [15, Tile.ground],
                     /* screen: A2, row:  5, col: 10 */ [15, Tile.ground],
@@ -3862,11 +3868,11 @@ const mapRowData = [
                     /* screen: A2, row:  6, col:  2 */ [15, Tile.ground],
                     /* screen: A2, row:  6, col:  3 */ [15, Tile.ground, Tile.lynel_blue],
                     /* screen: A2, row:  6, col:  4 */ [15, Tile.ground],
-                    /* screen: A2, row:  6, col:  5 */ [15, Tile.rock_bolder],
+                    /* screen: A2, row:  6, col:  5 */ [15, Tile.rock_boulder],
                     /* screen: A2, row:  6, col:  6 */ [15, Tile.ground],
                     /* screen: A2, row:  6, col:  7 */ [15, Tile.ground],
                     /* screen: A2, row:  6, col:  8 */ [15, Tile.ground],
-                    /* screen: A2, row:  6, col:  9 */ [15, Tile.rock_bolder],
+                    /* screen: A2, row:  6, col:  9 */ [15, Tile.rock_boulder],
                     /* screen: A2, row:  6, col: 10 */ [15, Tile.ground],
                     /* screen: A2, row:  6, col: 11 */ [16, Tile.ground],
                     /* screen: A2, row:  6, col: 12 */ [16, Tile.ground],
@@ -3882,7 +3888,7 @@ const mapRowData = [
                     /* screen: A2, row:  7, col:  4 */ [15, Tile.ground],
                     /* screen: A2, row:  7, col:  5 */ [15, Tile.ground],
                     /* screen: A2, row:  7, col:  6 */ [15, Tile.ground],
-                    /* screen: A2, row:  7, col:  7 */ [15, Tile.rock_bolder],
+                    /* screen: A2, row:  7, col:  7 */ [15, Tile.rock_boulder],
                     /* screen: A2, row:  7, col:  8 */ [15, Tile.ground],
                     /* screen: A2, row:  7, col:  9 */ [15, Tile.ground],
                     /* screen: A2, row:  7, col: 10 */ [15, Tile.ground],
@@ -3898,7 +3904,7 @@ const mapRowData = [
                     /* screen: A2, row:  8, col:  2 */ [15, Tile.rock_ne],
                     /* screen: A2, row:  8, col:  3 */ [15, Tile.ground],
                     /* screen: A2, row:  8, col:  4 */ [15, Tile.ground],
-                    /* screen: A2, row:  8, col:  5 */ [15, Tile.rock_bolder],
+                    /* screen: A2, row:  8, col:  5 */ [15, Tile.rock_boulder],
                     /* screen: A2, row:  8, col:  6 */ [15, Tile.ground],
                     /* screen: A2, row:  8, col:  7 */ [15, Tile.ground],
                     /* screen: A2, row:  8, col:  8 */ [15, Tile.ground],
@@ -4037,7 +4043,7 @@ const mapRowData = [
                     /* screen: B2, row:  4, col: 10 */ [17, Tile.ground],
                     /* screen: B2, row:  4, col: 11 */ [17, Tile.ground],
                     /* screen: B2, row:  4, col: 12 */ [17, Tile.ground],
-                    /* screen: B2, row:  4, col: 13 */ [17, Tile.rock_bolder],
+                    /* screen: B2, row:  4, col: 13 */ [17, Tile.rock_boulder],
                     /* screen: B2, row:  4, col: 14 */ [17, Tile.ground],
                     /* screen: B2, row:  4, col: 15 */ [17, Tile.ground],
                     /* screen: B2, row:  4, col: 16 */ [16, Tile.rock_s],
@@ -4053,7 +4059,7 @@ const mapRowData = [
                     /* screen: B2, row:  5, col:  8 */ [17, Tile.ground, Tile.lynel_red],
                     /* screen: B2, row:  5, col:  9 */ [17, Tile.ground],
                     /* screen: B2, row:  5, col: 10 */ [17, Tile.ground],
-                    /* screen: B2, row:  5, col: 11 */ [17, Tile.rock_bolder],
+                    /* screen: B2, row:  5, col: 11 */ [17, Tile.rock_boulder],
                     /* screen: B2, row:  5, col: 12 */ [17, Tile.ground],
                     /* screen: B2, row:  5, col: 13 */ [17, Tile.ground],
                     /* screen: B2, row:  5, col: 14 */ [17, Tile.ground],
@@ -4069,11 +4075,11 @@ const mapRowData = [
                     /* screen: B2, row:  6, col:  6 */ [16, Tile.ground],
                     /* screen: B2, row:  6, col:  7 */ [17, Tile.ground],
                     /* screen: B2, row:  6, col:  8 */ [17, Tile.ground],
-                    /* screen: B2, row:  6, col:  9 */ [17, Tile.rock_bolder],
+                    /* screen: B2, row:  6, col:  9 */ [17, Tile.rock_boulder],
                     /* screen: B2, row:  6, col: 10 */ [17, Tile.ground],
                     /* screen: B2, row:  6, col: 11 */ [17, Tile.ground],
                     /* screen: B2, row:  6, col: 12 */ [17, Tile.ground],
-                    /* screen: B2, row:  6, col: 13 */ [17, Tile.rock_bolder],
+                    /* screen: B2, row:  6, col: 13 */ [17, Tile.rock_boulder],
                     /* screen: B2, row:  6, col: 14 */ [17, Tile.ground],
                     /* screen: B2, row:  6, col: 15 */ [17, Tile.ground],
                     /* screen: B2, row:  6, col: 16 */ [16, Tile.rock_s],
@@ -4089,7 +4095,7 @@ const mapRowData = [
                     /* screen: B2, row:  7, col:  8 */ [17, Tile.ground],
                     /* screen: B2, row:  7, col:  9 */ [17, Tile.ground],
                     /* screen: B2, row:  7, col: 10 */ [17, Tile.ground],
-                    /* screen: B2, row:  7, col: 11 */ [17, Tile.rock_bolder],
+                    /* screen: B2, row:  7, col: 11 */ [17, Tile.rock_boulder],
                     /* screen: B2, row:  7, col: 12 */ [17, Tile.ground],
                     /* screen: B2, row:  7, col: 13 */ [17, Tile.ground],
                     /* screen: B2, row:  7, col: 14 */ [17, Tile.ground],
@@ -4109,7 +4115,7 @@ const mapRowData = [
                     /* screen: B2, row:  8, col: 10 */ [17, Tile.ground, Tile.peahat_slim],
                     /* screen: B2, row:  8, col: 11 */ [17, Tile.ground],
                     /* screen: B2, row:  8, col: 12 */ [17, Tile.ground],
-                    /* screen: B2, row:  8, col: 13 */ [17, Tile.rock_bolder],
+                    /* screen: B2, row:  8, col: 13 */ [17, Tile.rock_boulder],
                     /* screen: B2, row:  8, col: 14 */ [17, Tile.ground],
                     /* screen: B2, row:  8, col: 15 */ [17, Tile.ground],
                     /* screen: B2, row:  8, col: 16 */ [16, Tile.rock_s],
@@ -6060,7 +6066,7 @@ const mapRowData = [
                     /* screen: L2, row:  4, col:  3 */ [ 5, Tile.ground],
                     /* screen: L2, row:  4, col:  4 */ [ 5, Tile.ground],
                     /* screen: L2, row:  4, col:  5 */ [ 5, Tile.ground],
-                    /* screen: L2, row:  4, col:  6 */ [ 5, Tile.rock_bolder],
+                    /* screen: L2, row:  4, col:  6 */ [ 5, Tile.rock_boulder],
                     /* screen: L2, row:  4, col:  7 */ [ 5, Tile.ground],
                     /* screen: L2, row:  4, col:  8 */ [ 5, Tile.ground],
                     /* screen: L2, row:  4, col:  9 */ [ 5, Tile.ground],
@@ -6076,14 +6082,14 @@ const mapRowData = [
                     /* screen: L2, row:  5, col:  1 */ [ 5, Tile.rock_s],
                     /* screen: L2, row:  5, col:  2 */ [ 5, Tile.rock_se],
                     /* screen: L2, row:  5, col:  3 */ [ 5, Tile.ground],
-                    /* screen: L2, row:  5, col:  4 */ [ 5, Tile.rock_bolder],
+                    /* screen: L2, row:  5, col:  4 */ [ 5, Tile.rock_boulder],
                     /* screen: L2, row:  5, col:  5 */ [ 5, Tile.ground],
                     /* screen: L2, row:  5, col:  6 */ [ 5, Tile.ground],
                     /* screen: L2, row:  5, col:  7 */ [ 5, Tile.ground],
                     /* screen: L2, row:  5, col:  8 */ [ 5, Tile.ground],
-                    /* screen: L2, row:  5, col:  9 */ [ 5, Tile.rock_bolder],
+                    /* screen: L2, row:  5, col:  9 */ [ 5, Tile.rock_boulder],
                     /* screen: L2, row:  5, col: 10 */ [ 5, Tile.ground],
-                    /* screen: L2, row:  5, col: 11 */ [ 5, Tile.rock_bolder],
+                    /* screen: L2, row:  5, col: 11 */ [ 5, Tile.rock_boulder],
                     /* screen: L2, row:  5, col: 12 */ [ 5, Tile.ground],
                     /* screen: L2, row:  5, col: 13 */ [ 5, Tile.ground],
                     /* screen: L2, row:  5, col: 14 */ [ 5, Tile.ground],
@@ -6096,14 +6102,14 @@ const mapRowData = [
                     /* screen: L2, row:  6, col:  3 */ [ 5, Tile.ground],
                     /* screen: L2, row:  6, col:  4 */ [ 5, Tile.ground],
                     /* screen: L2, row:  6, col:  5 */ [ 5, Tile.ground],
-                    /* screen: L2, row:  6, col:  6 */ [ 5, Tile.rock_bolder],
+                    /* screen: L2, row:  6, col:  6 */ [ 5, Tile.rock_boulder],
                     /* screen: L2, row:  6, col:  7 */ [ 5, Tile.ground],
                     /* screen: L2, row:  6, col:  8 */ [ 5, Tile.ground],
                     /* screen: L2, row:  6, col:  9 */ [ 5, Tile.ground],
                     /* screen: L2, row:  6, col: 10 */ [ 5, Tile.ground],
                     /* screen: L2, row:  6, col: 11 */ [ 5, Tile.ground],
                     /* screen: L2, row:  6, col: 12 */ [ 5, Tile.ground],
-                    /* screen: L2, row:  6, col: 13 */ [ 5, Tile.rock_bolder],
+                    /* screen: L2, row:  6, col: 13 */ [ 5, Tile.rock_boulder],
                     /* screen: L2, row:  6, col: 14 */ [ 5, Tile.ground],
                     /* screen: L2, row:  6, col: 15 */ [ 5, Tile.ground],
                     /* screen: L2, row:  6, col: 16 */ [ 5, Tile.ground],
@@ -6112,14 +6118,14 @@ const mapRowData = [
                     /* screen: L2, row:  7, col:  1 */ [ 5, Tile.rock_n],
                     /* screen: L2, row:  7, col:  2 */ [ 5, Tile.rock_ne],
                     /* screen: L2, row:  7, col:  3 */ [ 5, Tile.ground],
-                    /* screen: L2, row:  7, col:  4 */ [ 5, Tile.rock_bolder],
+                    /* screen: L2, row:  7, col:  4 */ [ 5, Tile.rock_boulder],
                     /* screen: L2, row:  7, col:  5 */ [ 5, Tile.ground],
                     /* screen: L2, row:  7, col:  6 */ [ 5, Tile.ground],
                     /* screen: L2, row:  7, col:  7 */ [ 5, Tile.ground],
                     /* screen: L2, row:  7, col:  8 */ [ 5, Tile.ground],
-                    /* screen: L2, row:  7, col:  9 */ [ 5, Tile.rock_bolder],
+                    /* screen: L2, row:  7, col:  9 */ [ 5, Tile.rock_boulder],
                     /* screen: L2, row:  7, col: 10 */ [ 5, Tile.ground],
-                    /* screen: L2, row:  7, col: 11 */ [ 5, Tile.rock_bolder],
+                    /* screen: L2, row:  7, col: 11 */ [ 5, Tile.rock_boulder],
                     /* screen: L2, row:  7, col: 12 */ [ 5, Tile.ground],
                     /* screen: L2, row:  7, col: 13 */ [ 5, Tile.ground],
                     /* screen: L2, row:  7, col: 14 */ [ 5, Tile.ground],
@@ -6132,7 +6138,7 @@ const mapRowData = [
                     /* screen: L2, row:  8, col:  3 */ [ 5, Tile.ground],
                     /* screen: L2, row:  8, col:  4 */ [ 5, Tile.ground],
                     /* screen: L2, row:  8, col:  5 */ [ 5, Tile.ground],
-                    /* screen: L2, row:  8, col:  6 */ [ 5, Tile.rock_bolder],
+                    /* screen: L2, row:  8, col:  6 */ [ 5, Tile.rock_boulder],
                     /* screen: L2, row:  8, col:  7 */ [ 5, Tile.ground],
                     /* screen: L2, row:  8, col:  8 */ [ 5, Tile.ground],
                     /* screen: L2, row:  8, col:  9 */ [ 5, Tile.ground],
@@ -6500,7 +6506,7 @@ const mapRowData = [
                     /* screen: N2, row:  6, col:  1 */ [ 7, Tile.ground],
                     /* screen: N2, row:  6, col:  2 */ [ 7, Tile.ground],
                     /* screen: N2, row:  6, col:  3 */ [ 8, Tile.ground],
-                    /* screen: N2, row:  6, col:  4 */ [ 8, Tile.rock_bolder],
+                    /* screen: N2, row:  6, col:  4 */ [ 8, Tile.rock_boulder],
                     /* screen: N2, row:  6, col:  5 */ [ 8, Tile.ground],
                     /* screen: N2, row:  6, col:  6 */ [ 7, Tile.rock_s, Tile.peahat_slim],
                     /* screen: N2, row:  6, col:  7 */ [ 1, Tile.rock_se],
@@ -6813,39 +6819,39 @@ const mapRowData = [
             [Pallet.mountain, Pallet.forest],
             [
                 [   /* screen: P2, row:  1              el  tiles */
-                    /* screen: P2, row:  1, col:  1 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row:  1, col:  2 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row:  1, col:  3 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row:  1, col:  4 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row:  1, col:  5 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row:  1, col:  6 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row:  1, col:  7 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row:  1, col:  8 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row:  1, col:  9 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row:  1, col: 10 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row:  1, col: 11 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row:  1, col: 12 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row:  1, col: 13 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row:  1, col: 14 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row:  1, col: 15 */ [ 0, Tile.rock_s],
+                    /* screen: P2, row:  1, col:  1 */ [ 1, Tile.rock_s],
+                    /* screen: P2, row:  1, col:  2 */ [ 2, Tile.rock_s],
+                    /* screen: P2, row:  1, col:  3 */ [ 2, Tile.rock_s],
+                    /* screen: P2, row:  1, col:  4 */ [ 2, Tile.rock_s],
+                    /* screen: P2, row:  1, col:  5 */ [ 2, Tile.rock_s],
+                    /* screen: P2, row:  1, col:  6 */ [ 2, Tile.rock_s],
+                    /* screen: P2, row:  1, col:  7 */ [ 2, Tile.rock_s],
+                    /* screen: P2, row:  1, col:  8 */ [ 2, Tile.rock_s],
+                    /* screen: P2, row:  1, col:  9 */ [ 2, Tile.rock_s],
+                    /* screen: P2, row:  1, col: 10 */ [ 2, Tile.rock_s],
+                    /* screen: P2, row:  1, col: 11 */ [ 2, Tile.rock_s],
+                    /* screen: P2, row:  1, col: 12 */ [ 2, Tile.rock_s],
+                    /* screen: P2, row:  1, col: 13 */ [ 2, Tile.rock_s],
+                    /* screen: P2, row:  1, col: 14 */ [ 2, Tile.rock_s],
+                    /* screen: P2, row:  1, col: 15 */ [ 2, Tile.rock_s],
                     /* screen: P2, row:  1, col: 16 */ [ 0, Tile.water_c],
                 ],
                 [   /* screen: P2, row:  2              el  tiles */
-                    /* screen: P2, row:  2, col:  1 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row:  2, col:  2 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row:  2, col:  3 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row:  2, col:  4 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row:  2, col:  5 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row:  2, col:  6 */ [ 0, Tile.rock_s, Tile.peahat_slim],
-                    /* screen: P2, row:  2, col:  7 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row:  2, col:  8 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row:  2, col:  9 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row:  2, col: 10 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row:  2, col: 11 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row:  2, col: 12 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row:  2, col: 13 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row:  2, col: 14 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row:  2, col: 15 */ [ 0, Tile.rock_s],
+                    /* screen: P2, row:  2, col:  1 */ [ 1, Tile.rock_s],
+                    /* screen: P2, row:  2, col:  2 */ [ 1, Tile.rock_s],
+                    /* screen: P2, row:  2, col:  3 */ [ 1, Tile.rock_s],
+                    /* screen: P2, row:  2, col:  4 */ [ 1, Tile.rock_s],
+                    /* screen: P2, row:  2, col:  5 */ [ 1, Tile.rock_s],
+                    /* screen: P2, row:  2, col:  6 */ [ 1, Tile.rock_s, Tile.peahat_slim],
+                    /* screen: P2, row:  2, col:  7 */ [ 1, Tile.rock_s],
+                    /* screen: P2, row:  2, col:  8 */ [ 1, Tile.rock_s],
+                    /* screen: P2, row:  2, col:  9 */ [ 1, Tile.rock_s],
+                    /* screen: P2, row:  2, col: 10 */ [ 1, Tile.rock_s],
+                    /* screen: P2, row:  2, col: 11 */ [ 1, Tile.rock_s],
+                    /* screen: P2, row:  2, col: 12 */ [ 1, Tile.rock_s],
+                    /* screen: P2, row:  2, col: 13 */ [ 1, Tile.rock_s],
+                    /* screen: P2, row:  2, col: 14 */ [ 1, Tile.rock_s],
+                    /* screen: P2, row:  2, col: 15 */ [ 1, Tile.rock_s],
                     /* screen: P2, row:  2, col: 16 */ [ 0, Tile.water_c],
                 ],
                 [   /* screen: P2, row:  3              el  tiles */
@@ -6993,21 +6999,21 @@ const mapRowData = [
                     /* screen: P2, row: 10, col: 16 */ [ 0, Tile.water_c],
                 ],
                 [   /* screen: P2, row: 11              el  tiles */
-                    /* screen: P2, row: 11, col:  1 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row: 11, col:  2 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row: 11, col:  3 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row: 11, col:  4 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row: 11, col:  5 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row: 11, col:  6 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row: 11, col:  7 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row: 11, col:  8 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row: 11, col:  9 */ [ 0, Tile.rock_s, Tile.peahat_slim],
-                    /* screen: P2, row: 11, col: 10 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row: 11, col: 11 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row: 11, col: 12 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row: 11, col: 13 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row: 11, col: 14 */ [ 0, Tile.rock_s],
-                    /* screen: P2, row: 11, col: 15 */ [ 0, Tile.rock_s],
+                    /* screen: P2, row: 11, col:  1 */ [ 1, Tile.rock_s],
+                    /* screen: P2, row: 11, col:  2 */ [ 1, Tile.rock_s],
+                    /* screen: P2, row: 11, col:  3 */ [ 1, Tile.rock_s],
+                    /* screen: P2, row: 11, col:  4 */ [ 1, Tile.rock_s],
+                    /* screen: P2, row: 11, col:  5 */ [ 1, Tile.rock_s],
+                    /* screen: P2, row: 11, col:  6 */ [ 1, Tile.rock_s],
+                    /* screen: P2, row: 11, col:  7 */ [ 1, Tile.rock_s],
+                    /* screen: P2, row: 11, col:  8 */ [ 1, Tile.rock_s],
+                    /* screen: P2, row: 11, col:  9 */ [ 1, Tile.rock_s, Tile.peahat_slim],
+                    /* screen: P2, row: 11, col: 10 */ [ 1, Tile.rock_s],
+                    /* screen: P2, row: 11, col: 11 */ [ 1, Tile.rock_s],
+                    /* screen: P2, row: 11, col: 12 */ [ 1, Tile.rock_s],
+                    /* screen: P2, row: 11, col: 13 */ [ 1, Tile.rock_s],
+                    /* screen: P2, row: 11, col: 14 */ [ 1, Tile.rock_s],
+                    /* screen: P2, row: 11, col: 15 */ [ 1, Tile.rock_s],
                     /* screen: P2, row: 11, col: 16 */ [ 0, Tile.water_c],
                 ],
             ]
@@ -7703,7 +7709,7 @@ const mapRowData = [
                     /* screen: D3, row:  5, col:  2 */ [11, Tile.ground],
                     /* screen: D3, row:  5, col:  3 */ [11, Tile.ground],
                     /* screen: D3, row:  5, col:  4 */ [11, Tile.ground],
-                    /* screen: D3, row:  5, col:  5 */ [11, Tile.rock_bolder],
+                    /* screen: D3, row:  5, col:  5 */ [11, Tile.rock_boulder],
                     /* screen: D3, row:  5, col:  6 */ [11, Tile.ground],
                     /* screen: D3, row:  5, col:  7 */ [11, Tile.ground],
                     /* screen: D3, row:  5, col:  8 */ [11, Tile.ground],
@@ -7720,9 +7726,9 @@ const mapRowData = [
                     /* screen: D3, row:  6, col:  1 */ [11, Tile.rock_s],
                     /* screen: D3, row:  6, col:  2 */ [11, Tile.ground],
                     /* screen: D3, row:  6, col:  3 */ [11, Tile.ground],
-                    /* screen: D3, row:  6, col:  4 */ [11, Tile.rock_bolder],
+                    /* screen: D3, row:  6, col:  4 */ [11, Tile.rock_boulder],
                     /* screen: D3, row:  6, col:  5 */ [11, Tile.ground],
-                    /* screen: D3, row:  6, col:  6 */ [11, Tile.rock_bolder],
+                    /* screen: D3, row:  6, col:  6 */ [11, Tile.rock_boulder],
                     /* screen: D3, row:  6, col:  7 */ [11, Tile.ground],
                     /* screen: D3, row:  6, col:  8 */ [11, Tile.ground],
                     /* screen: D3, row:  6, col:  9 */ [11, Tile.rock_s],
@@ -7739,7 +7745,7 @@ const mapRowData = [
                     /* screen: D3, row:  7, col:  2 */ [11, Tile.ground],
                     /* screen: D3, row:  7, col:  3 */ [11, Tile.ground],
                     /* screen: D3, row:  7, col:  4 */ [11, Tile.ground],
-                    /* screen: D3, row:  7, col:  5 */ [11, Tile.rock_bolder],
+                    /* screen: D3, row:  7, col:  5 */ [11, Tile.rock_boulder],
                     /* screen: D3, row:  7, col:  6 */ [11, Tile.ground],
                     /* screen: D3, row:  7, col:  7 */ [11, Tile.ground, Tile.lynel_red],
                     /* screen: D3, row:  7, col:  8 */ [11, Tile.ground],
@@ -12137,10 +12143,10 @@ const mapRowData = [
                     /* screen: J4, row:  3, col:  4 */ [ 0, Tile.ground],
                     /* screen: J4, row:  3, col:  5 */ [ 0, Tile.ground],
                     /* screen: J4, row:  3, col:  6 */ [ 0, Tile.ground],
-                    /* screen: J4, row:  3, col:  7 */ [ 0, Tile.ground, Tile.heart],
+                    /* screen: J4, row:  3, col:  7 */ [ 0, Tile.ground, Tile.tile_heart],
                     /* screen: J4, row:  3, col:  8 */ [ 0, Tile.ground],
                     /* screen: J4, row:  3, col:  9 */ [ 0, Tile.ground],
-                    /* screen: J4, row:  3, col: 10 */ [ 0, Tile.ground, Tile.heart],
+                    /* screen: J4, row:  3, col: 10 */ [ 0, Tile.ground, Tile.tile_heart],
                     /* screen: J4, row:  3, col: 11 */ [ 0, Tile.ground],
                     /* screen: J4, row:  3, col: 12 */ [ 0, Tile.ground],
                     /* screen: J4, row:  3, col: 13 */ [ 0, Tile.ground],
@@ -12153,14 +12159,14 @@ const mapRowData = [
                     /* screen: J4, row:  4, col:  2 */ [ 0, Tile.ground],
                     /* screen: J4, row:  4, col:  3 */ [ 0, Tile.ground],
                     /* screen: J4, row:  4, col:  4 */ [ 0, Tile.ground],
-                    /* screen: J4, row:  4, col:  5 */ [ 0, Tile.ground, Tile.heart],
+                    /* screen: J4, row:  4, col:  5 */ [ 0, Tile.ground, Tile.tile_heart],
                     /* screen: J4, row:  4, col:  6 */ [ 0, Tile.water_nw],
                     /* screen: J4, row:  4, col:  7 */ [ 0, Tile.water_n],
                     /* screen: J4, row:  4, col:  8 */ [ 0, Tile.water_n, Tile.fairy],
                     /* screen: J4, row:  4, col:  9 */ [ 0, Tile.water_n],
                     /* screen: J4, row:  4, col: 10 */ [ 0, Tile.water_n],
                     /* screen: J4, row:  4, col: 11 */ [ 0, Tile.water_ne],
-                    /* screen: J4, row:  4, col: 12 */ [ 0, Tile.ground, Tile.heart],
+                    /* screen: J4, row:  4, col: 12 */ [ 0, Tile.ground, Tile.tile_heart],
                     /* screen: J4, row:  4, col: 13 */ [ 0, Tile.ground],
                     /* screen: J4, row:  4, col: 14 */ [ 0, Tile.ground],
                     /* screen: J4, row:  4, col: 15 */ [ 0, Tile.ground],
@@ -12189,14 +12195,14 @@ const mapRowData = [
                     /* screen: J4, row:  6, col:  2 */ [ 0, Tile.ground],
                     /* screen: J4, row:  6, col:  3 */ [ 0, Tile.ground],
                     /* screen: J4, row:  6, col:  4 */ [ 0, Tile.ground],
-                    /* screen: J4, row:  6, col:  5 */ [ 0, Tile.ground, Tile.heart],
+                    /* screen: J4, row:  6, col:  5 */ [ 0, Tile.ground, Tile.tile_heart],
                     /* screen: J4, row:  6, col:  6 */ [ 0, Tile.water_w],
                     /* screen: J4, row:  6, col:  7 */ [ 0, Tile.water_c],
                     /* screen: J4, row:  6, col:  8 */ [ 0, Tile.water_c],
                     /* screen: J4, row:  6, col:  9 */ [ 0, Tile.water_c],
                     /* screen: J4, row:  6, col: 10 */ [ 0, Tile.water_c],
                     /* screen: J4, row:  6, col: 11 */ [ 0, Tile.water_e],
-                    /* screen: J4, row:  6, col: 12 */ [ 0, Tile.ground, Tile.heart],
+                    /* screen: J4, row:  6, col: 12 */ [ 0, Tile.ground, Tile.tile_heart],
                     /* screen: J4, row:  6, col: 13 */ [ 0, Tile.ground],
                     /* screen: J4, row:  6, col: 14 */ [ 0, Tile.ground],
                     /* screen: J4, row:  6, col: 15 */ [ 0, Tile.ground],
@@ -12227,10 +12233,10 @@ const mapRowData = [
                     /* screen: J4, row:  8, col:  4 */ [ 0, Tile.ground],
                     /* screen: J4, row:  8, col:  5 */ [ 0, Tile.ground],
                     /* screen: J4, row:  8, col:  6 */ [ 0, Tile.ground],
-                    /* screen: J4, row:  8, col:  7 */ [ 0, Tile.ground, Tile.heart],
+                    /* screen: J4, row:  8, col:  7 */ [ 0, Tile.ground, Tile.tile_heart],
                     /* screen: J4, row:  8, col:  8 */ [ 0, Tile.ground],
                     /* screen: J4, row:  8, col:  9 */ [ 0, Tile.ground],
-                    /* screen: J4, row:  8, col: 10 */ [ 0, Tile.ground, Tile.heart],
+                    /* screen: J4, row:  8, col: 10 */ [ 0, Tile.ground, Tile.tile_heart],
                     /* screen: J4, row:  8, col: 11 */ [ 0, Tile.ground],
                     /* screen: J4, row:  8, col: 12 */ [ 0, Tile.ground],
                     /* screen: J4, row:  8, col: 13 */ [ 0, Tile.ground],
@@ -14169,10 +14175,10 @@ const mapRowData = [
                     /* screen: D5, row:  3, col:  4 */ [ 0, Tile.ground],
                     /* screen: D5, row:  3, col:  5 */ [ 0, Tile.ground],
                     /* screen: D5, row:  3, col:  6 */ [ 0, Tile.ground],
-                    /* screen: D5, row:  3, col:  7 */ [ 0, Tile.ground, Tile.heart],
+                    /* screen: D5, row:  3, col:  7 */ [ 0, Tile.ground, Tile.tile_heart],
                     /* screen: D5, row:  3, col:  8 */ [ 0, Tile.ground],
                     /* screen: D5, row:  3, col:  9 */ [ 0, Tile.ground],
-                    /* screen: D5, row:  3, col: 10 */ [ 0, Tile.ground, Tile.heart],
+                    /* screen: D5, row:  3, col: 10 */ [ 0, Tile.ground, Tile.tile_heart],
                     /* screen: D5, row:  3, col: 11 */ [ 0, Tile.ground],
                     /* screen: D5, row:  3, col: 12 */ [ 0, Tile.ground],
                     /* screen: D5, row:  3, col: 13 */ [ 0, Tile.ground],
@@ -14185,14 +14191,14 @@ const mapRowData = [
                     /* screen: D5, row:  4, col:  2 */ [ 0, Tile.ground],
                     /* screen: D5, row:  4, col:  3 */ [ 0, Tile.ground],
                     /* screen: D5, row:  4, col:  4 */ [ 0, Tile.ground],
-                    /* screen: D5, row:  4, col:  5 */ [ 0, Tile.ground, Tile.heart],
+                    /* screen: D5, row:  4, col:  5 */ [ 0, Tile.ground, Tile.tile_heart],
                     /* screen: D5, row:  4, col:  6 */ [ 0, Tile.water_nw],
                     /* screen: D5, row:  4, col:  7 */ [ 0, Tile.water_n],
                     /* screen: D5, row:  4, col:  8 */ [ 0, Tile.water_n, Tile.fairy],
                     /* screen: D5, row:  4, col:  9 */ [ 0, Tile.water_n],
                     /* screen: D5, row:  4, col: 10 */ [ 0, Tile.water_n],
                     /* screen: D5, row:  4, col: 11 */ [ 0, Tile.water_ne],
-                    /* screen: D5, row:  4, col: 12 */ [ 0, Tile.ground, Tile.heart],
+                    /* screen: D5, row:  4, col: 12 */ [ 0, Tile.ground, Tile.tile_heart],
                     /* screen: D5, row:  4, col: 13 */ [ 0, Tile.ground],
                     /* screen: D5, row:  4, col: 14 */ [ 0, Tile.ground],
                     /* screen: D5, row:  4, col: 15 */ [ 0, Tile.ground],
@@ -14221,14 +14227,14 @@ const mapRowData = [
                     /* screen: D5, row:  6, col:  2 */ [ 0, Tile.ground],
                     /* screen: D5, row:  6, col:  3 */ [ 0, Tile.ground],
                     /* screen: D5, row:  6, col:  4 */ [ 0, Tile.ground],
-                    /* screen: D5, row:  6, col:  5 */ [ 0, Tile.ground, Tile.heart],
+                    /* screen: D5, row:  6, col:  5 */ [ 0, Tile.ground, Tile.tile_heart],
                     /* screen: D5, row:  6, col:  6 */ [ 0, Tile.water_w],
                     /* screen: D5, row:  6, col:  7 */ [ 0, Tile.water_c],
                     /* screen: D5, row:  6, col:  8 */ [ 0, Tile.water_c],
                     /* screen: D5, row:  6, col:  9 */ [ 0, Tile.water_c],
                     /* screen: D5, row:  6, col: 10 */ [ 0, Tile.water_c],
                     /* screen: D5, row:  6, col: 11 */ [ 0, Tile.water_e],
-                    /* screen: D5, row:  6, col: 12 */ [ 0, Tile.ground, Tile.heart],
+                    /* screen: D5, row:  6, col: 12 */ [ 0, Tile.ground, Tile.tile_heart],
                     /* screen: D5, row:  6, col: 13 */ [ 0, Tile.ground],
                     /* screen: D5, row:  6, col: 14 */ [ 0, Tile.ground],
                     /* screen: D5, row:  6, col: 15 */ [ 0, Tile.ground],
@@ -14259,10 +14265,10 @@ const mapRowData = [
                     /* screen: D5, row:  8, col:  4 */ [ 0, Tile.ground],
                     /* screen: D5, row:  8, col:  5 */ [ 0, Tile.ground],
                     /* screen: D5, row:  8, col:  6 */ [ 0, Tile.ground],
-                    /* screen: D5, row:  8, col:  7 */ [ 0, Tile.ground, Tile.heart],
+                    /* screen: D5, row:  8, col:  7 */ [ 0, Tile.ground, Tile.tile_heart],
                     /* screen: D5, row:  8, col:  8 */ [ 0, Tile.ground],
                     /* screen: D5, row:  8, col:  9 */ [ 0, Tile.ground],
-                    /* screen: D5, row:  8, col: 10 */ [ 0, Tile.ground, Tile.heart],
+                    /* screen: D5, row:  8, col: 10 */ [ 0, Tile.ground, Tile.tile_heart],
                     /* screen: D5, row:  8, col: 11 */ [ 0, Tile.ground],
                     /* screen: D5, row:  8, col: 12 */ [ 0, Tile.ground],
                     /* screen: D5, row:  8, col: 13 */ [ 0, Tile.ground],
@@ -15438,7 +15444,7 @@ const mapRowData = [
                     /* screen: J5, row:  6, col:  1 */ [ 0, Tile.bush],
                     /* screen: J5, row:  6, col:  2 */ [ 0, Tile.bush],
                     /* screen: J5, row:  6, col:  3 */ [ 0, Tile.ground],
-                    /* screen: J5, row:  6, col:  4 */ [ 0, Tile.rock_bolder],
+                    /* screen: J5, row:  6, col:  4 */ [ 0, Tile.rock_boulder],
                     /* screen: J5, row:  6, col:  5 */ [ 0, Tile.ground],
                     /* screen: J5, row:  6, col:  6 */ [ 0, Tile.ground],
                     /* screen: J5, row:  6, col:  7 */ [ 0, Tile.ground],
@@ -21097,7 +21103,7 @@ const mapRowData = [
                     /* screen: F7, row:  4, col:  8 */ [ 0, Tile.ground],
                     /* screen: F7, row:  4, col:  9 */ [ 0, Tile.ground],
                     /* screen: F7, row:  4, col: 10 */ [ 0, Tile.ground],
-                    /* screen: F7, row:  4, col: 11 */ [ 0, Tile.rock_bolder],
+                    /* screen: F7, row:  4, col: 11 */ [ 0, Tile.rock_boulder],
                     /* screen: F7, row:  4, col: 12 */ [ 0, Tile.ground],
                     /* screen: F7, row:  4, col: 13 */ [ 0, Tile.ground],
                     /* screen: F7, row:  4, col: 14 */ [ 0, Tile.ground],
@@ -21117,7 +21123,7 @@ const mapRowData = [
                     /* screen: F7, row:  5, col: 10 */ [ 0, Tile.ground],
                     /* screen: F7, row:  5, col: 11 */ [ 0, Tile.ground],
                     /* screen: F7, row:  5, col: 12 */ [ 0, Tile.ground],
-                    /* screen: F7, row:  5, col: 13 */ [ 0, Tile.rock_bolder],
+                    /* screen: F7, row:  5, col: 13 */ [ 0, Tile.rock_boulder],
                     /* screen: F7, row:  5, col: 14 */ [ 0, Tile.ground],
                     /* screen: F7, row:  5, col: 15 */ [ 0, Tile.ground],
                     /* screen: F7, row:  5, col: 16 */ [ 0, Tile.ground],
@@ -21133,7 +21139,7 @@ const mapRowData = [
                     /* screen: F7, row:  6, col:  8 */ [ 0, Tile.ground],
                     /* screen: F7, row:  6, col:  9 */ [ 0, Tile.ground],
                     /* screen: F7, row:  6, col: 10 */ [ 0, Tile.ground],
-                    /* screen: F7, row:  6, col: 11 */ [ 0, Tile.rock_bolder],
+                    /* screen: F7, row:  6, col: 11 */ [ 0, Tile.rock_boulder],
                     /* screen: F7, row:  6, col: 12 */ [ 0, Tile.ground],
                     /* screen: F7, row:  6, col: 13 */ [ 0, Tile.ground],
                     /* screen: F7, row:  6, col: 14 */ [ 0, Tile.ground],
@@ -21153,7 +21159,7 @@ const mapRowData = [
                     /* screen: F7, row:  7, col: 10 */ [ 0, Tile.ground],
                     /* screen: F7, row:  7, col: 11 */ [ 0, Tile.ground],
                     /* screen: F7, row:  7, col: 12 */ [ 0, Tile.ground],
-                    /* screen: F7, row:  7, col: 13 */ [ 0, Tile.rock_bolder],
+                    /* screen: F7, row:  7, col: 13 */ [ 0, Tile.rock_boulder],
                     /* screen: F7, row:  7, col: 14 */ [ 0, Tile.ground],
                     /* screen: F7, row:  7, col: 15 */ [ 0, Tile.ground],
                     /* screen: F7, row:  7, col: 16 */ [ 0, Tile.ground],
@@ -21169,7 +21175,7 @@ const mapRowData = [
                     /* screen: F7, row:  8, col:  8 */ [ 0, Tile.ground],
                     /* screen: F7, row:  8, col:  9 */ [ 0, Tile.ground],
                     /* screen: F7, row:  8, col: 10 */ [ 0, Tile.ground],
-                    /* screen: F7, row:  8, col: 11 */ [ 0, Tile.rock_bolder],
+                    /* screen: F7, row:  8, col: 11 */ [ 0, Tile.rock_boulder],
                     /* screen: F7, row:  8, col: 12 */ [ 0, Tile.ground],
                     /* screen: F7, row:  8, col: 13 */ [ 0, Tile.ground],
                     /* screen: F7, row:  8, col: 14 */ [ 0, Tile.ground],
@@ -21293,10 +21299,10 @@ const mapRowData = [
                     /* screen: G7, row:  4, col:  1 */ [ 0, Tile.ground],
                     /* screen: G7, row:  4, col:  2 */ [ 0, Tile.ground],
                     /* screen: G7, row:  4, col:  3 */ [ 0, Tile.ground, Tile.octorok_red_n],
-                    /* screen: G7, row:  4, col:  4 */ [ 0, Tile.rock_bolder],
-                    /* screen: G7, row:  4, col:  5 */ [ 0, Tile.rock_bolder],
-                    /* screen: G7, row:  4, col:  6 */ [ 0, Tile.rock_bolder],
-                    /* screen: G7, row:  4, col:  7 */ [ 0, Tile.rock_bolder],
+                    /* screen: G7, row:  4, col:  4 */ [ 0, Tile.rock_boulder],
+                    /* screen: G7, row:  4, col:  5 */ [ 0, Tile.rock_boulder],
+                    /* screen: G7, row:  4, col:  6 */ [ 0, Tile.rock_boulder],
+                    /* screen: G7, row:  4, col:  7 */ [ 0, Tile.rock_boulder],
                     /* screen: G7, row:  4, col:  8 */ [ 0, Tile.ground],
                     /* screen: G7, row:  4, col:  9 */ [ 0, Tile.ground],
                     /* screen: G7, row:  4, col: 10 */ [ 0, Tile.ground],
@@ -21316,9 +21322,9 @@ const mapRowData = [
                     /* screen: G7, row:  5, col:  6 */ [ 0, Tile.ground],
                     /* screen: G7, row:  5, col:  7 */ [ 0, Tile.ground],
                     /* screen: G7, row:  5, col:  8 */ [ 0, Tile.ground],
-                    /* screen: G7, row:  5, col:  9 */ [ 0, Tile.rock_bolder],
-                    /* screen: G7, row:  5, col: 10 */ [ 0, Tile.rock_bolder],
-                    /* screen: G7, row:  5, col: 11 */ [ 0, Tile.rock_bolder],
+                    /* screen: G7, row:  5, col:  9 */ [ 0, Tile.rock_boulder],
+                    /* screen: G7, row:  5, col: 10 */ [ 0, Tile.rock_boulder],
+                    /* screen: G7, row:  5, col: 11 */ [ 0, Tile.rock_boulder],
                     /* screen: G7, row:  5, col: 12 */ [ 0, Tile.ground],
                     /* screen: G7, row:  5, col: 13 */ [ 0, Tile.ground],
                     /* screen: G7, row:  5, col: 14 */ [ 0, Tile.ground],
@@ -21329,10 +21335,10 @@ const mapRowData = [
                     /* screen: G7, row:  6, col:  1 */ [ 0, Tile.ground],
                     /* screen: G7, row:  6, col:  2 */ [ 0, Tile.ground],
                     /* screen: G7, row:  6, col:  3 */ [ 0, Tile.ground],
-                    /* screen: G7, row:  6, col:  4 */ [ 0, Tile.rock_bolder],
-                    /* screen: G7, row:  6, col:  5 */ [ 0, Tile.rock_bolder],
-                    /* screen: G7, row:  6, col:  6 */ [ 0, Tile.rock_bolder],
-                    /* screen: G7, row:  6, col:  7 */ [ 0, Tile.rock_bolder],
+                    /* screen: G7, row:  6, col:  4 */ [ 0, Tile.rock_boulder],
+                    /* screen: G7, row:  6, col:  5 */ [ 0, Tile.rock_boulder],
+                    /* screen: G7, row:  6, col:  6 */ [ 0, Tile.rock_boulder],
+                    /* screen: G7, row:  6, col:  7 */ [ 0, Tile.rock_boulder],
                     /* screen: G7, row:  6, col:  8 */ [ 0, Tile.ground],
                     /* screen: G7, row:  6, col:  9 */ [ 0, Tile.ground],
                     /* screen: G7, row:  6, col: 10 */ [ 0, Tile.ground],
@@ -21352,9 +21358,9 @@ const mapRowData = [
                     /* screen: G7, row:  7, col:  6 */ [ 0, Tile.ground],
                     /* screen: G7, row:  7, col:  7 */ [ 0, Tile.ground],
                     /* screen: G7, row:  7, col:  8 */ [ 0, Tile.ground, Tile.octorok_red_s],
-                    /* screen: G7, row:  7, col:  9 */ [ 0, Tile.rock_bolder],
-                    /* screen: G7, row:  7, col: 10 */ [ 0, Tile.rock_bolder],
-                    /* screen: G7, row:  7, col: 11 */ [ 0, Tile.rock_bolder],
+                    /* screen: G7, row:  7, col:  9 */ [ 0, Tile.rock_boulder],
+                    /* screen: G7, row:  7, col: 10 */ [ 0, Tile.rock_boulder],
+                    /* screen: G7, row:  7, col: 11 */ [ 0, Tile.rock_boulder],
                     /* screen: G7, row:  7, col: 12 */ [ 0, Tile.ground],
                     /* screen: G7, row:  7, col: 13 */ [ 0, Tile.ground],
                     /* screen: G7, row:  7, col: 14 */ [ 0, Tile.ground],
@@ -21365,10 +21371,10 @@ const mapRowData = [
                     /* screen: G7, row:  8, col:  1 */ [ 0, Tile.ground],
                     /* screen: G7, row:  8, col:  2 */ [ 0, Tile.ground],
                     /* screen: G7, row:  8, col:  3 */ [ 0, Tile.ground],
-                    /* screen: G7, row:  8, col:  4 */ [ 0, Tile.rock_bolder],
-                    /* screen: G7, row:  8, col:  5 */ [ 0, Tile.rock_bolder],
-                    /* screen: G7, row:  8, col:  6 */ [ 0, Tile.rock_bolder],
-                    /* screen: G7, row:  8, col:  7 */ [ 0, Tile.rock_bolder],
+                    /* screen: G7, row:  8, col:  4 */ [ 0, Tile.rock_boulder],
+                    /* screen: G7, row:  8, col:  5 */ [ 0, Tile.rock_boulder],
+                    /* screen: G7, row:  8, col:  6 */ [ 0, Tile.rock_boulder],
+                    /* screen: G7, row:  8, col:  7 */ [ 0, Tile.rock_boulder],
                     /* screen: G7, row:  8, col:  8 */ [ 0, Tile.ground],
                     /* screen: G7, row:  8, col:  9 */ [ 0, Tile.ground],
                     /* screen: G7, row:  8, col: 10 */ [ 0, Tile.ground],
@@ -21496,16 +21502,16 @@ const mapRowData = [
                     /* screen: H7, row:  4, col:  1 */ [ 0, Tile.rock_se],
                     /* screen: H7, row:  4, col:  2 */ [ 0, Tile.ground],
                     /* screen: H7, row:  4, col:  3 */ [ 0, Tile.ground],
-                    /* screen: H7, row:  4, col:  4 */ [ 0, Tile.rock_bolder],
+                    /* screen: H7, row:  4, col:  4 */ [ 0, Tile.rock_boulder],
                     /* screen: H7, row:  4, col:  5 */ [ 0, Tile.ground],
-                    /* screen: H7, row:  4, col:  6 */ [ 0, Tile.rock_bolder],
+                    /* screen: H7, row:  4, col:  6 */ [ 0, Tile.rock_boulder],
                     /* screen: H7, row:  4, col:  7 */ [ 0, Tile.ground, Tile.octorok_red_n],
                     /* screen: H7, row:  4, col:  8 */ [ 0, Tile.ground],
                     /* screen: H7, row:  4, col:  9 */ [ 0, Tile.ground],
                     /* screen: H7, row:  4, col: 10 */ [ 0, Tile.ground],
                     /* screen: H7, row:  4, col: 11 */ [ 0, Tile.ground],
                     /* screen: H7, row:  4, col: 12 */ [ 0, Tile.ground],
-                    /* screen: H7, row:  4, col: 13 */ [ 0, Tile.rock_bolder],
+                    /* screen: H7, row:  4, col: 13 */ [ 0, Tile.rock_boulder],
                     /* screen: H7, row:  4, col: 14 */ [ 0, Tile.ground],
                     /* screen: H7, row:  4, col: 15 */ [ 0, Tile.ground],
                     /* screen: H7, row:  4, col: 16 */ [ 0, Tile.rock_sw],
@@ -21532,16 +21538,16 @@ const mapRowData = [
                     /* screen: H7, row:  6, col:  1 */ [ 0, Tile.ground],
                     /* screen: H7, row:  6, col:  2 */ [ 0, Tile.ground],
                     /* screen: H7, row:  6, col:  3 */ [ 0, Tile.ground],
-                    /* screen: H7, row:  6, col:  4 */ [ 0, Tile.rock_bolder],
+                    /* screen: H7, row:  6, col:  4 */ [ 0, Tile.rock_boulder],
                     /* screen: H7, row:  6, col:  5 */ [ 0, Tile.ground],
-                    /* screen: H7, row:  6, col:  6 */ [ 0, Tile.rock_bolder],
+                    /* screen: H7, row:  6, col:  6 */ [ 0, Tile.rock_boulder],
                     /* screen: H7, row:  6, col:  7 */ [ 0, Tile.ground],
                     /* screen: H7, row:  6, col:  8 */ [ 0, Tile.ground],
                     /* screen: H7, row:  6, col:  9 */ [ 0, Tile.ground, Tile.octorok_red_e],
                     /* screen: H7, row:  6, col: 10 */ [ 0, Tile.ground],
                     /* screen: H7, row:  6, col: 11 */ [ 0, Tile.ground],
                     /* screen: H7, row:  6, col: 12 */ [ 0, Tile.ground],
-                    /* screen: H7, row:  6, col: 13 */ [ 0, Tile.rock_bolder],
+                    /* screen: H7, row:  6, col: 13 */ [ 0, Tile.rock_boulder],
                     /* screen: H7, row:  6, col: 14 */ [ 0, Tile.ground],
                     /* screen: H7, row:  6, col: 15 */ [ 0, Tile.ground],
                     /* screen: H7, row:  6, col: 16 */ [ 0, Tile.ground],
@@ -21568,16 +21574,16 @@ const mapRowData = [
                     /* screen: H7, row:  8, col:  1 */ [ 0, Tile.rock_ne],
                     /* screen: H7, row:  8, col:  2 */ [ 0, Tile.ground],
                     /* screen: H7, row:  8, col:  3 */ [ 0, Tile.ground],
-                    /* screen: H7, row:  8, col:  4 */ [ 0, Tile.rock_bolder],
+                    /* screen: H7, row:  8, col:  4 */ [ 0, Tile.rock_boulder],
                     /* screen: H7, row:  8, col:  5 */ [ 0, Tile.ground],
-                    /* screen: H7, row:  8, col:  6 */ [ 0, Tile.rock_bolder],
+                    /* screen: H7, row:  8, col:  6 */ [ 0, Tile.rock_boulder],
                     /* screen: H7, row:  8, col:  7 */ [ 0, Tile.ground],
                     /* screen: H7, row:  8, col:  8 */ [ 0, Tile.ground],
                     /* screen: H7, row:  8, col:  9 */ [ 0, Tile.ground],
                     /* screen: H7, row:  8, col: 10 */ [ 0, Tile.ground],
                     /* screen: H7, row:  8, col: 11 */ [ 0, Tile.ground],
                     /* screen: H7, row:  8, col: 12 */ [ 0, Tile.ground],
-                    /* screen: H7, row:  8, col: 13 */ [ 0, Tile.rock_bolder],
+                    /* screen: H7, row:  8, col: 13 */ [ 0, Tile.rock_boulder],
                     /* screen: H7, row:  8, col: 14 */ [ 0, Tile.ground],
                     /* screen: H7, row:  8, col: 15 */ [ 0, Tile.ground],
                     /* screen: H7, row:  8, col: 16 */ [ 0, Tile.rock_nw],
@@ -24345,11 +24351,11 @@ const mapRowData = [
                     /* screen: F8, row:  4, col:  6 */ [ 0, Tile.water_c, Tile.peahat_water],
                     /* screen: F8, row:  4, col:  7 */ [ 0, Tile.water_c],
                     /* screen: F8, row:  4, col:  8 */ [ 0, Tile.ground],
-                    /* screen: F8, row:  4, col:  9 */ [ 0, Tile.rock_bolder],
+                    /* screen: F8, row:  4, col:  9 */ [ 0, Tile.rock_boulder],
                     /* screen: F8, row:  4, col: 10 */ [ 0, Tile.ground],
                     /* screen: F8, row:  4, col: 11 */ [ 0, Tile.ground],
                     /* screen: F8, row:  4, col: 12 */ [ 0, Tile.ground],
-                    /* screen: F8, row:  4, col: 13 */ [ 0, Tile.rock_bolder],
+                    /* screen: F8, row:  4, col: 13 */ [ 0, Tile.rock_boulder],
                     /* screen: F8, row:  4, col: 14 */ [ 0, Tile.ground],
                     /* screen: F8, row:  4, col: 15 */ [ 0, Tile.ground],
                     /* screen: F8, row:  4, col: 16 */ [ 0, Tile.ground],
@@ -24365,7 +24371,7 @@ const mapRowData = [
                     /* screen: F8, row:  5, col:  8 */ [ 0, Tile.ground],
                     /* screen: F8, row:  5, col:  9 */ [ 0, Tile.ground],
                     /* screen: F8, row:  5, col: 10 */ [ 0, Tile.ground, Tile.leever_blue_sunk1],
-                    /* screen: F8, row:  5, col: 11 */ [ 0, Tile.rock_bolder],
+                    /* screen: F8, row:  5, col: 11 */ [ 0, Tile.rock_boulder],
                     /* screen: F8, row:  5, col: 12 */ [ 0, Tile.ground],
                     /* screen: F8, row:  5, col: 13 */ [ 0, Tile.ground],
                     /* screen: F8, row:  5, col: 14 */ [ 0, Tile.ground, Tile.leever_blue],
@@ -24376,16 +24382,16 @@ const mapRowData = [
                     /* screen: F8, row:  6, col:  1 */ [ 0, Tile.rock_s],
                     /* screen: F8, row:  6, col:  2 */ [ 0, Tile.ground],
                     /* screen: F8, row:  6, col:  3 */ [ 0, Tile.ground],
-                    /* screen: F8, row:  6, col:  4 */ [ 0, Tile.rock_bolder],
+                    /* screen: F8, row:  6, col:  4 */ [ 0, Tile.rock_boulder],
                     /* screen: F8, row:  6, col:  5 */ [ 0, Tile.ground],
                     /* screen: F8, row:  6, col:  6 */ [ 0, Tile.water_c],
                     /* screen: F8, row:  6, col:  7 */ [ 0, Tile.water_c],
                     /* screen: F8, row:  6, col:  8 */ [ 0, Tile.ground],
-                    /* screen: F8, row:  6, col:  9 */ [ 0, Tile.rock_bolder],
+                    /* screen: F8, row:  6, col:  9 */ [ 0, Tile.rock_boulder],
                     /* screen: F8, row:  6, col: 10 */ [ 0, Tile.ground],
                     /* screen: F8, row:  6, col: 11 */ [ 0, Tile.ground],
                     /* screen: F8, row:  6, col: 12 */ [ 0, Tile.ground],
-                    /* screen: F8, row:  6, col: 13 */ [ 0, Tile.rock_bolder],
+                    /* screen: F8, row:  6, col: 13 */ [ 0, Tile.rock_boulder],
                     /* screen: F8, row:  6, col: 14 */ [ 0, Tile.ground],
                     /* screen: F8, row:  6, col: 15 */ [ 0, Tile.ground],
                     /* screen: F8, row:  6, col: 16 */ [ 0, Tile.ground],
@@ -24401,7 +24407,7 @@ const mapRowData = [
                     /* screen: F8, row:  7, col:  8 */ [ 0, Tile.ground],
                     /* screen: F8, row:  7, col:  9 */ [ 0, Tile.ground],
                     /* screen: F8, row:  7, col: 10 */ [ 0, Tile.ground],
-                    /* screen: F8, row:  7, col: 11 */ [ 0, Tile.rock_bolder],
+                    /* screen: F8, row:  7, col: 11 */ [ 0, Tile.rock_boulder],
                     /* screen: F8, row:  7, col: 12 */ [ 0, Tile.ground, Tile.peahat_slim],
                     /* screen: F8, row:  7, col: 13 */ [ 0, Tile.ground],
                     /* screen: F8, row:  7, col: 14 */ [ 0, Tile.ground],
@@ -24417,11 +24423,11 @@ const mapRowData = [
                     /* screen: F8, row:  8, col:  6 */ [ 0, Tile.water_c],
                     /* screen: F8, row:  8, col:  7 */ [ 0, Tile.water_c],
                     /* screen: F8, row:  8, col:  8 */ [ 0, Tile.ground],
-                    /* screen: F8, row:  8, col:  9 */ [ 0, Tile.rock_bolder],
+                    /* screen: F8, row:  8, col:  9 */ [ 0, Tile.rock_boulder],
                     /* screen: F8, row:  8, col: 10 */ [ 0, Tile.ground],
                     /* screen: F8, row:  8, col: 11 */ [ 0, Tile.ground],
                     /* screen: F8, row:  8, col: 12 */ [ 0, Tile.ground],
-                    /* screen: F8, row:  8, col: 13 */ [ 0, Tile.rock_bolder],
+                    /* screen: F8, row:  8, col: 13 */ [ 0, Tile.rock_boulder],
                     /* screen: F8, row:  8, col: 14 */ [ 0, Tile.ground],
                     /* screen: F8, row:  8, col: 15 */ [ 0, Tile.ground],
                     /* screen: F8, row:  8, col: 16 */ [ 0, Tile.ground],
@@ -24548,7 +24554,7 @@ const mapRowData = [
                     /* screen: G8, row:  4, col:  6 */ [ 0, Tile.ground],
                     /* screen: G8, row:  4, col:  7 */ [ 0, Tile.ground],
                     /* screen: G8, row:  4, col:  8 */ [ 0, Tile.ground, Tile.tektite_red],
-                    /* screen: G8, row:  4, col:  9 */ [ 0, Tile.rock_bolder],
+                    /* screen: G8, row:  4, col:  9 */ [ 0, Tile.rock_boulder],
                     /* screen: G8, row:  4, col: 10 */ [ 0, Tile.ground],
                     /* screen: G8, row:  4, col: 11 */ [ 0, Tile.ground],
                     /* screen: G8, row:  4, col: 12 */ [ 0, Tile.ground, Tile.tektite_red],
@@ -24568,7 +24574,7 @@ const mapRowData = [
                     /* screen: G8, row:  5, col:  8 */ [ 0, Tile.ground],
                     /* screen: G8, row:  5, col:  9 */ [ 0, Tile.ground],
                     /* screen: G8, row:  5, col: 10 */ [ 0, Tile.ground],
-                    /* screen: G8, row:  5, col: 11 */ [ 0, Tile.rock_bolder],
+                    /* screen: G8, row:  5, col: 11 */ [ 0, Tile.rock_boulder],
                     /* screen: G8, row:  5, col: 12 */ [ 0, Tile.ground],
                     /* screen: G8, row:  5, col: 13 */ [ 0, Tile.ground],
                     /* screen: G8, row:  5, col: 14 */ [ 0, Tile.ground],
@@ -24578,13 +24584,13 @@ const mapRowData = [
                 [   /* screen: G8, row:  6              el  tiles */
                     /* screen: G8, row:  6, col:  1 */ [ 0, Tile.ground],
                     /* screen: G8, row:  6, col:  2 */ [ 0, Tile.ground],
-                    /* screen: G8, row:  6, col:  3 */ [ 0, Tile.rock_bolder],
+                    /* screen: G8, row:  6, col:  3 */ [ 0, Tile.rock_boulder],
                     /* screen: G8, row:  6, col:  4 */ [ 0, Tile.ground],
                     /* screen: G8, row:  6, col:  5 */ [ 0, Tile.ground],
-                    /* screen: G8, row:  6, col:  6 */ [ 0, Tile.rock_bolder],
+                    /* screen: G8, row:  6, col:  6 */ [ 0, Tile.rock_boulder],
                     /* screen: G8, row:  6, col:  7 */ [ 0, Tile.ground],
                     /* screen: G8, row:  6, col:  8 */ [ 0, Tile.ground],
-                    /* screen: G8, row:  6, col:  9 */ [ 0, Tile.rock_bolder],
+                    /* screen: G8, row:  6, col:  9 */ [ 0, Tile.rock_boulder],
                     /* screen: G8, row:  6, col: 10 */ [ 0, Tile.ground],
                     /* screen: G8, row:  6, col: 11 */ [ 0, Tile.ground],
                     /* screen: G8, row:  6, col: 12 */ [ 0, Tile.ground],
@@ -24604,7 +24610,7 @@ const mapRowData = [
                     /* screen: G8, row:  7, col:  8 */ [ 0, Tile.ground],
                     /* screen: G8, row:  7, col:  9 */ [ 0, Tile.ground],
                     /* screen: G8, row:  7, col: 10 */ [ 0, Tile.ground],
-                    /* screen: G8, row:  7, col: 11 */ [ 0, Tile.rock_bolder],
+                    /* screen: G8, row:  7, col: 11 */ [ 0, Tile.rock_boulder],
                     /* screen: G8, row:  7, col: 12 */ [ 0, Tile.ground],
                     /* screen: G8, row:  7, col: 13 */ [ 0, Tile.ground],
                     /* screen: G8, row:  7, col: 14 */ [ 0, Tile.ground],
@@ -24620,7 +24626,7 @@ const mapRowData = [
                     /* screen: G8, row:  8, col:  6 */ [ 0, Tile.ground],
                     /* screen: G8, row:  8, col:  7 */ [ 0, Tile.ground],
                     /* screen: G8, row:  8, col:  8 */ [ 0, Tile.ground],
-                    /* screen: G8, row:  8, col:  9 */ [ 0, Tile.rock_bolder],
+                    /* screen: G8, row:  8, col:  9 */ [ 0, Tile.rock_boulder],
                     /* screen: G8, row:  8, col: 10 */ [ 0, Tile.ground],
                     /* screen: G8, row:  8, col: 11 */ [ 0, Tile.ground],
                     /* screen: G8, row:  8, col: 12 */ [ 0, Tile.ground],
@@ -25176,7 +25182,7 @@ const mapRowData = [
                     /* screen: J8, row:  5, col:  7 */ [ 0, Tile.ground],
                     /* screen: J8, row:  5, col:  8 */ [ 0, Tile.ground],
                     /* screen: J8, row:  5, col:  9 */ [ 0, Tile.ground],
-                    /* screen: J8, row:  5, col: 10 */ [ 0, Tile.rock_bolder],
+                    /* screen: J8, row:  5, col: 10 */ [ 0, Tile.rock_boulder],
                     /* screen: J8, row:  5, col: 11 */ [ 0, Tile.ground],
                     /* screen: J8, row:  5, col: 12 */ [ 0, Tile.ground],
                     /* screen: J8, row:  5, col: 13 */ [ 0, Tile.ground],
@@ -25193,9 +25199,9 @@ const mapRowData = [
                     /* screen: J8, row:  6, col:  6 */ [ 0, Tile.rock_se],
                     /* screen: J8, row:  6, col:  7 */ [ 0, Tile.ground, Tile.tektite_blue],
                     /* screen: J8, row:  6, col:  8 */ [ 0, Tile.ground],
-                    /* screen: J8, row:  6, col:  9 */ [ 0, Tile.rock_bolder],
+                    /* screen: J8, row:  6, col:  9 */ [ 0, Tile.rock_boulder],
                     /* screen: J8, row:  6, col: 10 */ [ 0, Tile.ground],
-                    /* screen: J8, row:  6, col: 11 */ [ 0, Tile.rock_bolder],
+                    /* screen: J8, row:  6, col: 11 */ [ 0, Tile.rock_boulder],
                     /* screen: J8, row:  6, col: 12 */ [ 0, Tile.ground, Tile.tektite_blue],
                     /* screen: J8, row:  6, col: 13 */ [ 0, Tile.ground],
                     /* screen: J8, row:  6, col: 14 */ [ 0, Tile.ground],
@@ -25212,7 +25218,7 @@ const mapRowData = [
                     /* screen: J8, row:  7, col:  7 */ [ 0, Tile.ground],
                     /* screen: J8, row:  7, col:  8 */ [ 0, Tile.ground],
                     /* screen: J8, row:  7, col:  9 */ [ 0, Tile.ground],
-                    /* screen: J8, row:  7, col: 10 */ [ 0, Tile.rock_bolder],
+                    /* screen: J8, row:  7, col: 10 */ [ 0, Tile.rock_boulder],
                     /* screen: J8, row:  7, col: 11 */ [ 0, Tile.ground],
                     /* screen: J8, row:  7, col: 12 */ [ 0, Tile.ground],
                     /* screen: J8, row:  7, col: 13 */ [ 0, Tile.ground],
@@ -26602,7 +26608,7 @@ export function getPieces(showElevation, showSamples, gapSize) {
             6: [
                 Tile.water_sw, Tile.ground_water_sw, Tile.ground_water_se, Tile.water_c, Tile.bridge, Tile.water_se,
                 null,
-                Tile.bush, Tile.ground, Tile.ground_sand, Tile.rock_bolder, Tile.steps, Tile.tomb, Tile.armos_statue,
+                Tile.bush, Tile.ground, Tile.ground_sand, Tile.rock_boulder, Tile.steps, Tile.tomb, Tile.armos_statue,
             ],
             // Alternate dungeon enterances.
             14: Object.keys(Tile.dungeon_tops).map(dungeonTopName => Tile.makeDungeon(dungeonTopName)),
