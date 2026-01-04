@@ -9,6 +9,7 @@
 <body>
 <a href="https://threejs.org/">three.js</a> | <a href="https://ldraw.org/">LDraw.org</a>
 <button id="download">Download</button>
+<button id="screenshot">Screenshot</button>
 <script type="importmap">
     {
         "imports": {
@@ -30,6 +31,46 @@
     import * as HyrulePieces from "./HyrulePieces.js";
     import * as PieceUtils from "./PieceUtils.js";
 
+    /** Read URL parameter options. */
+    class Options {
+        constructor() {
+            const urlParams = new URLSearchParams(window.location.search);
+
+            const setValue = (key, parser, defaultValue) => {
+                const urlValue = urlParams.get(key);
+                if (urlValue === null) {
+                    this[key] = defaultValue;
+                } else {
+                    const parsedValue = parser(urlValue);
+                    if (Number.isNaN(parsedValue)) {
+                        console.log(`'${key}=${urlValue}' is NaN; using default ${defaultValue}`);
+                        this[key] = defaultValue;
+                    } else {
+                        this[key] = parsedValue;
+                    }
+                }
+            }
+
+            const setBool = (key, defaultValue) => setValue(key, (value) => 'true' === value.toString(), defaultValue);
+            const setInt = (key, defaultValue) => setValue(key, parseInt, defaultValue);
+            const setFloat = (key, defaultValue) => setValue(key, parseFloat, defaultValue);
+
+            setBool("showGui", false);
+            setBool("showElevation", true);
+            setBool("showSamples", false);
+            setInt("gapSize", 2);
+            setBool("drawLines", true);
+            setBool("antialias", true);
+            setInt("clearColor", 0xdddddd);
+
+            setFloat("cameraFov", 45);
+            setFloat("cameraPositionX", -1);
+            setFloat("cameraPositionY", 3200);
+            setFloat("cameraPositionZ", 2000);
+        }
+    };
+    const options = new Options();
+
     function viewWidth () {
         return window.innerWidth - 20;
     }
@@ -38,13 +79,13 @@
         return window.innerHeight - 40;
     }
 
-    const renderer = new THREE.WebGLRenderer();
-    const camera = new THREE.PerspectiveCamera(45, viewWidth() / viewHeight(), 1, 10000);
+    const renderer = new THREE.WebGLRenderer({antialias: options.antialias});
+    const camera = new THREE.PerspectiveCamera(options.cameraFov, viewWidth() / viewHeight(), 1, 10000);
     const controls = new OrbitControls(camera, renderer.domElement);
     const scene = new THREE.Scene();
 
-    camera.position.set(1, 3000, 1500);
-    renderer.setClearColor(0xdddddd);
+    camera.position.set(options.cameraPositionX, options.cameraPositionY, options.cameraPositionZ);
+    renderer.setClearColor(options.clearColor);
     renderer.setSize(viewWidth(), viewHeight());
     renderer.setAnimationLoop(function() {
         controls.update();
@@ -83,12 +124,7 @@
 
     function addPieces() {
 
-        const showElevation = true;
-        const showSamples = false;
-        const gapSize = 2;
-        const drawLines = true;
-
-        const pieces = HyrulePieces.getPieces(showElevation, showSamples, gapSize);
+        const pieces = HyrulePieces.getPieces(options.showElevation, options.showSamples, options.gapSize);
         const loadPendingPartNumbers = new Set(Object.keys(pieces));
         const meshMaterials = {};
         const colors = {};
@@ -110,7 +146,7 @@
                             if (item.isMesh) {
                                 pieceInstancedMeshes.push(new THREE.InstancedMesh(
                                     item.geometry, meshMaterials[opacity], pieceConfigurations.length));
-                            } else if (drawLines && item.isLineSegments && ! item.isConditionalLine) {
+                            } else if (options.drawLines && item.isLineSegments && ! item.isConditionalLine) {
                                 pieceLineInstances.push(
                                     {geometry: item.geometry, material: item.material, instances: []});
                             }
@@ -155,7 +191,8 @@
                         const totalPieces = Object
                             .values(pieces)
                             .flatMap(piecesEntry => Object
-                                .values(piecesEntry).map(pieceConfigurationsByOpacity => pieceConfigurationsByOpacity.length))
+                                .values(piecesEntry)
+                                .map(pieceConfigurationsByOpacity => pieceConfigurationsByOpacity.length))
                             .reduce((previous, current) => previous + current, 0);
 
                         console.log(`Done loading ${totalPieces} pieces at: ${window.performance.now()}`);
@@ -171,8 +208,7 @@
     }
     addPieces();
 
-    const showGui = false;
-    if (showGui) {
+    if (options.showGui) {
         const gui = new GUI().close();
         const guiCameraTarget = gui.addFolder('Camera Target');
         guiCameraTarget.add(controls.target, 'x', -4000, 4000).listen();
@@ -203,14 +239,7 @@
                 const data = await pieceInstances.getObjData();
                 const elapseTime = window.performance.now() - startTime;
                 console.log(`Get obj data took: ${elapseTime / 1000} ms`);
-
-                var a = document.createElement('a');
-                a.href = URL.createObjectURL(new Blob([data], {type: 'application/gzip'}));
-                a.download = `hyrule.tar.gz`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(a.href);
+                downloadBlob(new Blob([data], {type: 'application/gzip'}), "hyrule.tar.gz");
             } catch (error) {
                 console.error("Download failed:", error);
             } finally {
@@ -219,6 +248,23 @@
             }
         }, 10);
     });
+
+    document.querySelector('#screenshot').addEventListener('click', function() {
+        renderer.render(scene, camera, null, false);
+        renderer.domElement.toBlob((blob) => {
+            downloadBlob(blob, "hyrule.png");
+        });
+    });
+
+    function downloadBlob(blob, filename) {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(a.href);
+    }
 
 </script>
 </body>
