@@ -21,7 +21,7 @@ class Piece {
     static tile_heart                   = new Piece(39739, 1,  1, null,                     "tile_heart");
     static tile_quarter_circle          = new Piece(25269, 1,  1, Piece.plate_round_dot,    "tile_quarter_circle");
     static tile_round_dot               = new Piece(35381, 1,  1, Piece.plate_round_dot,    "tile_round_dot");
-    
+
     // Samples
     static brick_2_3rd_slope_triangle   = new Piece(35464, 2,  0, null,                     "brick_2_3rd_slope_triangle");
     static plate_swirl                  = new Piece(15470, 2,  0, null,                     "plate_swirl");
@@ -77,10 +77,10 @@ class Color {
     }
 }
 
-class Pallet {
-    static forest    = new Pallet(Color.green, Color.blue, Color.tan);
-    static mountain  = new Pallet(Color.brown, Color.blue, Color.tan);
-    static graveyard = new Pallet(Color.white, Color.blue, Color.gray);
+class Palette {
+    static forest    = new Palette(Color.green, Color.blue, Color.tan);
+    static mountain  = new Palette(Color.brown, Color.blue, Color.tan);
+    static graveyard = new Palette(Color.white, Color.blue, Color.gray);
 
     constructor(primary, secondary, background) {
         this.primary = primary;
@@ -533,7 +533,7 @@ class Tile {
 const mapRowData = [
     [ /* gridRow: 1 */
         [ /* screen: A1 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: A1, row:  1              el  tiles */
                     /* screen: A1, row:  1, col:  1 */ [23, Tile.rock_s],
@@ -736,7 +736,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: B1 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: B1, row:  1              el  tiles */
                     /* screen: B1, row:  1, col:  1 */ [23, Tile.rock_s],
@@ -939,7 +939,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: C1 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: C1, row:  1              el  tiles */
                     /* screen: C1, row:  1, col:  1 */ [23, Tile.rock_s],
@@ -1142,7 +1142,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: D1 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: D1, row:  1              el  tiles */
                     /* screen: D1, row:  1, col:  1 */ [24, Tile.rock_s],
@@ -1345,7 +1345,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: E1 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: E1, row:  1              el  tiles */
                     /* screen: E1, row:  1, col:  1 */ [16, Tile.rock_s],
@@ -1548,7 +1548,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: F1 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: F1, row:  1              el  tiles */
                     /* screen: F1, row:  1, col:  1 */ [16, Tile.rock_s],
@@ -1751,7 +1751,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: G1 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: G1, row:  1              el  tiles */
                     /* screen: G1, row:  1, col:  1 */ [16, Tile.rock_s],
@@ -1954,7 +1954,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: H1 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: H1, row:  1              el  tiles */
                     /* screen: H1, row:  1, col:  1 */ [16, Tile.rock_s],
@@ -2157,7 +2157,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: I1 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: I1, row:  1              el  tiles */
                     /* screen: I1, row:  1, col:  1 */ [16, Tile.rock_s],
@@ -2360,7 +2360,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: J1 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: J1, row:  1              el  tiles */
                     /* screen: J1, row:  1, col:  1 */ [15, Tile.rock_s],
@@ -2563,7 +2563,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: K1 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: K1, row:  1              el  tiles */
                     /* screen: K1, row:  1, col:  1 */ [14, Tile.rock_s],
@@ -2766,7 +2766,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: L1 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: L1, row:  1              el  tiles */
                     /* screen: L1, row:  1, col:  1 */ [11, Tile.rock_s],
@@ -2969,7 +2969,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: M1 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: M1, row:  1              el  tiles */
                     /* screen: M1, row:  1, col:  1 */ [11, Tile.rock_s],
@@ -3172,7 +3172,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: N1 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: N1, row:  1              el  tiles */
                     /* screen: N1, row:  1, col:  1 */ [10, Tile.rock_s],
@@ -3375,7 +3375,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: O1 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: O1, row:  1              el  tiles */
                     /* screen: O1, row:  1, col:  1 */ [ 0, Tile.water_c],
@@ -3578,7 +3578,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: P1 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: P1, row:  1              el  tiles */
                     /* screen: P1, row:  1, col:  1 */ [ 0, Tile.water_c],
@@ -3783,7 +3783,7 @@ const mapRowData = [
     ],
     [ /* gridRow: 2 */
         [ /* screen: A2 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: A2, row:  1              el  tiles */
                     /* screen: A2, row:  1, col:  1 */ [17, Tile.rock_s],
@@ -3986,7 +3986,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: B2 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: B2, row:  1              el  tiles */
                     /* screen: B2, row:  1, col:  1 */ [19, Tile.rock_s],
@@ -4189,7 +4189,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: C2 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: C2, row:  1              el  tiles */
                     /* screen: C2, row:  1, col:  1 */ [17, Tile.rock_s],
@@ -4392,7 +4392,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: D2 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: D2, row:  1              el  tiles */
                     /* screen: D2, row:  1, col:  1 */ [17, Tile.rock_s],
@@ -4595,7 +4595,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: E2 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: E2, row:  1              el  tiles */
                     /* screen: E2, row:  1, col:  1 */ [15, Tile.rock_s],
@@ -4798,7 +4798,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: F2 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: F2, row:  1              el  tiles */
                     /* screen: F2, row:  1, col:  1 */ [14, Tile.rock_s],
@@ -5001,7 +5001,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: G2 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: G2, row:  1              el  tiles */
                     /* screen: G2, row:  1, col:  1 */ [12, Tile.rock_s],
@@ -5204,7 +5204,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: H2 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: H2, row:  1              el  tiles */
                     /* screen: H2, row:  1, col:  1 */ [ 9, Tile.rock_s],
@@ -5407,7 +5407,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: I2 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: I2, row:  1              el  tiles */
                     /* screen: I2, row:  1, col:  1 */ [12, Tile.rock_s],
@@ -5610,7 +5610,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: J2 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: J2, row:  1              el  tiles */
                     /* screen: J2, row:  1, col:  1 */ [12, Tile.rock_s],
@@ -5813,7 +5813,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: K2 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: K2, row:  1              el  tiles */
                     /* screen: K2, row:  1, col:  1 */ [12, Tile.rock_s],
@@ -6016,7 +6016,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: L2 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: L2, row:  1              el  tiles */
                     /* screen: L2, row:  1, col:  1 */ [ 8, Tile.rock_s],
@@ -6219,7 +6219,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: M2 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: M2, row:  1              el  tiles */
                     /* screen: M2, row:  1, col:  1 */ [ 7, Tile.rock_s],
@@ -6422,7 +6422,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: N2 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: N2, row:  1              el  tiles */
                     /* screen: N2, row:  1, col:  1 */ [ 7, Tile.rock_s],
@@ -6625,7 +6625,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: O2 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: O2, row:  1              el  tiles */
                     /* screen: O2, row:  1, col:  1 */ [ 4, Tile.rock_s],
@@ -6828,7 +6828,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: P2 */
-            [Pallet.mountain, Pallet.forest],
+            [Palette.mountain, Palette.forest],
             [
                 [   /* screen: P2, row:  1              el  tiles */
                     /* screen: P2, row:  1, col:  1 */ [ 1, Tile.rock_s],
@@ -7033,7 +7033,7 @@ const mapRowData = [
     ],
     [ /* gridRow: 3 */
         [ /* screen: A3 */
-            [Pallet.graveyard],
+            [Palette.graveyard],
             [
                 [   /* screen: A3, row:  1              el  tiles */
                     /* screen: A3, row:  1, col:  1 */ [10, Tile.rock_s],
@@ -7236,7 +7236,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: B3 */
-            [Pallet.graveyard],
+            [Palette.graveyard],
             [
                 [   /* screen: B3, row:  1              el  tiles */
                     /* screen: B3, row:  1, col:  1 */ [11, Tile.rock_s],
@@ -7439,7 +7439,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: C3 */
-            [Pallet.mountain, Pallet.graveyard],
+            [Palette.mountain, Palette.graveyard],
             [
                 [   /* screen: C3, row:  1              el  tiles */
                     /* screen: C3, row:  1, col:  1 */ [13, Tile.rock_s],
@@ -7642,7 +7642,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: D3 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: D3, row:  1              el  tiles */
                     /* screen: D3, row:  1, col:  1 */ [11, Tile.rock_s],
@@ -7845,7 +7845,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: E3 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: E3, row:  1              el  tiles */
                     /* screen: E3, row:  1, col:  1 */ [11, Tile.rock_s],
@@ -8048,7 +8048,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: F3 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: F3, row:  1              el  tiles */
                     /* screen: F3, row:  1, col:  1 */ [ 9, Tile.rock_s],
@@ -8251,7 +8251,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: G3 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: G3, row:  1              el  tiles */
                     /* screen: G3, row:  1, col:  1 */ [ 6, Tile.rock_s],
@@ -8454,7 +8454,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: H3 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: H3, row:  1              el  tiles */
                     /* screen: H3, row:  1, col:  1 */ [ 2, Tile.rock_s],
@@ -8657,7 +8657,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: I3 */
-            [Pallet.mountain, Pallet.forest],
+            [Palette.mountain, Palette.forest],
             [
                 [   /* screen: I3, row:  1              el  tiles */
                     /* screen: I3, row:  1, col:  1 */ [ 2, Tile.bush],
@@ -8860,7 +8860,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: J3 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: J3, row:  1              el  tiles */
                     /* screen: J3, row:  1, col:  1 */ [ 2, Tile.rock_s],
@@ -9063,7 +9063,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: K3 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: K3, row:  1              el  tiles */
                     /* screen: K3, row:  1, col:  1 */ [ 2, Tile.rock_s],
@@ -9266,7 +9266,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: L3 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: L3, row:  1              el  tiles */
                     /* screen: L3, row:  1, col:  1 */ [ 2, Tile.rock_s],
@@ -9469,7 +9469,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: M3 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: M3, row:  1              el  tiles */
                     /* screen: M3, row:  1, col:  1 */ [ 2, Tile.rock_s],
@@ -9672,7 +9672,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: N3 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: N3, row:  1              el  tiles */
                     /* screen: N3, row:  1, col:  1 */ [ 5, Tile.rock_s],
@@ -9875,7 +9875,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: O3 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: O3, row:  1              el  tiles */
                     /* screen: O3, row:  1, col:  1 */ [ 0, Tile.water_c],
@@ -10078,7 +10078,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: P3 */
-            [Pallet.graveyard],
+            [Palette.graveyard],
             [
                 [   /* screen: P3, row:  1              el  tiles */
                     /* screen: P3, row:  1, col:  1 */ [ 2, Tile.rock_s],
@@ -10283,7 +10283,7 @@ const mapRowData = [
     ],
     [ /* gridRow: 4 */
         [ /* screen: A4 */
-            [Pallet.graveyard],
+            [Palette.graveyard],
             [
                 [   /* screen: A4, row:  1              el  tiles */
                     /* screen: A4, row:  1, col:  1 */ [ 8, Tile.rock_s],
@@ -10486,7 +10486,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: B4 */
-            [Pallet.graveyard],
+            [Palette.graveyard],
             [
                 [   /* screen: B4, row:  1              el  tiles */
                     /* screen: B4, row:  1, col:  1 */ [ 8, Tile.rock_s],
@@ -10689,7 +10689,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: C4 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: C4, row:  1              el  tiles */
                     /* screen: C4, row:  1, col:  1 */ [ 8, Tile.rock_s],
@@ -10892,7 +10892,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: D4 */
-            [Pallet.mountain, Pallet.graveyard],
+            [Palette.mountain, Palette.graveyard],
             [
                 [   /* screen: D4, row:  1              el  tiles */
                     /* screen: D4, row:  1, col:  1 */ [ 8, Tile.rock_s],
@@ -11095,7 +11095,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: E4 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: E4, row:  1              el  tiles */
                     /* screen: E4, row:  1, col:  1 */ [ 6, Tile.rock_s],
@@ -11298,7 +11298,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: F4 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: F4, row:  1              el  tiles */
                     /* screen: F4, row:  1, col:  1 */ [ 4, Tile.rock_s],
@@ -11501,7 +11501,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: G4 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: G4, row:  1              el  tiles */
                     /* screen: G4, row:  1, col:  1 */ [ 1, Tile.rock_s],
@@ -11704,7 +11704,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: H4 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: H4, row:  1              el  tiles */
                     /* screen: H4, row:  1, col:  1 */ [ 0, Tile.water_c],
@@ -11907,7 +11907,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: I4 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: I4, row:  1              el  tiles */
                     /* screen: I4, row:  1, col:  1 */ [ 0, Tile.water_c],
@@ -12110,7 +12110,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: J4 */
-            [Pallet.mountain, Pallet.forest],
+            [Palette.mountain, Palette.forest],
             [
                 [   /* screen: J4, row:  1              el  tiles */
                     /* screen: J4, row:  1, col:  1 */ [ 0, Tile.rock_s],
@@ -12313,7 +12313,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: K4 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: K4, row:  1              el  tiles */
                     /* screen: K4, row:  1, col:  1 */ [ 0, Tile.rock_s],
@@ -12516,7 +12516,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: L4 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: L4, row:  1              el  tiles */
                     /* screen: L4, row:  1, col:  1 */ [ 0, Tile.rock_s],
@@ -12719,7 +12719,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: M4 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: M4, row:  1              el  tiles */
                     /* screen: M4, row:  1, col:  1 */ [ 4, Tile.rock_s],
@@ -12922,7 +12922,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: N4 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: N4, row:  1              el  tiles */
                     /* screen: N4, row:  1, col:  1 */ [ 0, Tile.bush],
@@ -13125,7 +13125,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: O4 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: O4, row:  1              el  tiles */
                     /* screen: O4, row:  1, col:  1 */ [ 0, Tile.rock_s],
@@ -13328,7 +13328,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: P4 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: P4, row:  1              el  tiles */
                     /* screen: P4, row:  1, col:  1 */ [ 0, Tile.water_c],
@@ -13533,7 +13533,7 @@ const mapRowData = [
     ],
     [ /* gridRow: 5 */
         [ /* screen: A5 */
-            [Pallet.graveyard],
+            [Palette.graveyard],
             [
                 [   /* screen: A5, row:  1              el  tiles */
                     /* screen: A5, row:  1, col:  1 */ [ 8, Tile.rock_s],
@@ -13736,7 +13736,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: B5 */
-            [Pallet.graveyard],
+            [Palette.graveyard],
             [
                 [   /* screen: B5, row:  1              el  tiles */
                     /* screen: B5, row:  1, col:  1 */ [ 8, Tile.rock_s],
@@ -13939,7 +13939,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: C5 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: C5, row:  1              el  tiles */
                     /* screen: C5, row:  1, col:  1 */ [ 2, Tile.rock_s],
@@ -14142,7 +14142,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: D5 */
-            [Pallet.mountain, Pallet.forest],
+            [Palette.mountain, Palette.forest],
             [
                 [   /* screen: D5, row:  1              el  tiles */
                     /* screen: D5, row:  1, col:  1 */ [ 2, Tile.rock_s],
@@ -14345,7 +14345,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: E5 */
-            [Pallet.mountain, Pallet.forest],
+            [Palette.mountain, Palette.forest],
             [
                 [   /* screen: E5, row:  1              el  tiles */
                     /* screen: E5, row:  1, col:  1 */ [ 0, Tile.rock_s],
@@ -14548,7 +14548,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: F5 */
-            [Pallet.mountain, Pallet.forest],
+            [Palette.mountain, Palette.forest],
             [
                 [   /* screen: F5, row:  1              el  tiles */
                     /* screen: F5, row:  1, col:  1 */ [ 0, Tile.water_c],
@@ -14751,7 +14751,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: G5 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: G5, row:  1              el  tiles */
                     /* screen: G5, row:  1, col:  1 */ [ 0, Tile.water_c],
@@ -14954,7 +14954,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: H5 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: H5, row:  1              el  tiles */
                     /* screen: H5, row:  1, col:  1 */ [ 0, Tile.water_c],
@@ -15157,7 +15157,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: I5 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: I5, row:  1              el  tiles */
                     /* screen: I5, row:  1, col:  1 */ [ 0, Tile.water_c],
@@ -15360,7 +15360,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: J5 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: J5, row:  1              el  tiles */
                     /* screen: J5, row:  1, col:  1 */ [ 0, Tile.bush],
@@ -15563,7 +15563,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: K5 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: K5, row:  1              el  tiles */
                     /* screen: K5, row:  1, col:  1 */ [ 0, Tile.rock_s],
@@ -15766,7 +15766,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: L5 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: L5, row:  1              el  tiles */
                     /* screen: L5, row:  1, col:  1 */ [ 0, Tile.bush],
@@ -15969,7 +15969,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: M5 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: M5, row:  1              el  tiles */
                     /* screen: M5, row:  1, col:  1 */ [ 5, Tile.rock_s],
@@ -16172,7 +16172,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: N5 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: N5, row:  1              el  tiles */
                     /* screen: N5, row:  1, col:  1 */ [ 0, Tile.bush],
@@ -16375,7 +16375,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: O5 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: O5, row:  1              el  tiles */
                     /* screen: O5, row:  1, col:  1 */ [ 0, Tile.bush],
@@ -16578,7 +16578,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: P5 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: P5, row:  1              el  tiles */
                     /* screen: P5, row:  1, col:  1 */ [ 0, Tile.rock_s],
@@ -16783,7 +16783,7 @@ const mapRowData = [
     ],
     [ /* gridRow: 6 */
         [ /* screen: A6 */
-            [Pallet.graveyard],
+            [Palette.graveyard],
             [
                 [   /* screen: A6, row:  1              el  tiles */
                     /* screen: A6, row:  1, col:  1 */ [ 5, Tile.rock_s],
@@ -16986,7 +16986,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: B6 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: B6, row:  1              el  tiles */
                     /* screen: B6, row:  1, col:  1 */ [ 1, Tile.bush],
@@ -17189,7 +17189,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: C6 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: C6, row:  1              el  tiles */
                     /* screen: C6, row:  1, col:  1 */ [ 0, Tile.bush],
@@ -17392,7 +17392,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: D6 */
-            [Pallet.mountain, Pallet.forest],
+            [Palette.mountain, Palette.forest],
             [
                 [   /* screen: D6, row:  1              el  tiles */
                     /* screen: D6, row:  1, col:  1 */ [ 0, Tile.bush],
@@ -17595,7 +17595,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: E6 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: E6, row:  1              el  tiles */
                     /* screen: E6, row:  1, col:  1 */ [ 0, Tile.bush],
@@ -17798,7 +17798,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: F6 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: F6, row:  1              el  tiles */
                     /* screen: F6, row:  1, col:  1 */ [ 0, Tile.water_c],
@@ -18001,7 +18001,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: G6 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: G6, row:  1              el  tiles */
                     /* screen: G6, row:  1, col:  1 */ [ 0, Tile.water_c],
@@ -18204,7 +18204,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: H6 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: H6, row:  1              el  tiles */
                     /* screen: H6, row:  1, col:  1 */ [ 0, Tile.bush],
@@ -18407,7 +18407,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: I6 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: I6, row:  1              el  tiles */
                     /* screen: I6, row:  1, col:  1 */ [ 0, Tile.bush],
@@ -18610,7 +18610,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: J6 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: J6, row:  1              el  tiles */
                     /* screen: J6, row:  1, col:  1 */ [ 0, Tile.bush],
@@ -18813,7 +18813,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: K6 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: K6, row:  1              el  tiles */
                     /* screen: K6, row:  1, col:  1 */ [ 0, Tile.bush],
@@ -19016,7 +19016,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: L6 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: L6, row:  1              el  tiles */
                     /* screen: L6, row:  1, col:  1 */ [ 0, Tile.bush],
@@ -19219,7 +19219,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: M6 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: M6, row:  1              el  tiles */
                     /* screen: M6, row:  1, col:  1 */ [ 0, Tile.bush],
@@ -19422,7 +19422,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: N6 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: N6, row:  1              el  tiles */
                     /* screen: N6, row:  1, col:  1 */ [ 0, Tile.bush],
@@ -19625,7 +19625,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: O6 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: O6, row:  1              el  tiles */
                     /* screen: O6, row:  1, col:  1 */ [ 0, Tile.rock_s],
@@ -19828,7 +19828,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: P6 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: P6, row:  1              el  tiles */
                     /* screen: P6, row:  1, col:  1 */ [ 0, Tile.rock_s],
@@ -20033,7 +20033,7 @@ const mapRowData = [
     ],
     [ /* gridRow: 7 */
         [ /* screen: A7 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: A7, row:  1              el  tiles */
                     /* screen: A7, row:  1, col:  1 */ [ 0, Tile.bush],
@@ -20236,7 +20236,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: B7 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: B7, row:  1              el  tiles */
                     /* screen: B7, row:  1, col:  1 */ [ 0, Tile.bush],
@@ -20439,7 +20439,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: C7 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: C7, row:  1              el  tiles */
                     /* screen: C7, row:  1, col:  1 */ [ 0, Tile.bush],
@@ -20642,7 +20642,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: D7 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: D7, row:  1              el  tiles */
                     /* screen: D7, row:  1, col:  1 */ [ 0, Tile.bush],
@@ -20845,7 +20845,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: E7 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: E7, row:  1              el  tiles */
                     /* screen: E7, row:  1, col:  1 */ [ 0, Tile.rock_s],
@@ -21048,7 +21048,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: F7 */
-            [Pallet.forest, Pallet.mountain],
+            [Palette.forest, Palette.mountain],
             [
                 [   /* screen: F7, row:  1              el  tiles */
                     /* screen: F7, row:  1, col:  1 */ [ 0, Tile.rock_s],
@@ -21251,7 +21251,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: G7 */
-            [Pallet.forest, Pallet.mountain],
+            [Palette.forest, Palette.mountain],
             [
                 [   /* screen: G7, row:  1              el  tiles */
                     /* screen: G7, row:  1, col:  1 */ [ 0, Tile.rock_s],
@@ -21454,7 +21454,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: H7 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: H7, row:  1              el  tiles */
                     /* screen: H7, row:  1, col:  1 */ [ 0, Tile.rock_s],
@@ -21657,7 +21657,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: I7 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: I7, row:  1              el  tiles */
                     /* screen: I7, row:  1, col:  1 */ [ 0, Tile.rock_s],
@@ -21860,7 +21860,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: J7 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: J7, row:  1              el  tiles */
                     /* screen: J7, row:  1, col:  1 */ [ 0, Tile.bush],
@@ -22063,7 +22063,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: K7 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: K7, row:  1              el  tiles */
                     /* screen: K7, row:  1, col:  1 */ [ 0, Tile.water_c],
@@ -22266,7 +22266,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: L7 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: L7, row:  1              el  tiles */
                     /* screen: L7, row:  1, col:  1 */ [ 0, Tile.bush],
@@ -22469,7 +22469,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: M7 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: M7, row:  1              el  tiles */
                     /* screen: M7, row:  1, col:  1 */ [ 0, Tile.bush],
@@ -22672,7 +22672,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: N7 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: N7, row:  1              el  tiles */
                     /* screen: N7, row:  1, col:  1 */ [ 0, Tile.bush],
@@ -22875,7 +22875,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: O7 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: O7, row:  1              el  tiles */
                     /* screen: O7, row:  1, col:  1 */ [ 0, Tile.bush],
@@ -23078,7 +23078,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: P7 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: P7, row:  1              el  tiles */
                     /* screen: P7, row:  1, col:  1 */ [ 0, Tile.rock_s],
@@ -23283,7 +23283,7 @@ const mapRowData = [
     ],
     [ /* gridRow: 8 */
         [ /* screen: A8 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: A8, row:  1              el  tiles */
                     /* screen: A8, row:  1, col:  1 */ [ 0, Tile.rock_s],
@@ -23486,7 +23486,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: B8 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: B8, row:  1              el  tiles */
                     /* screen: B8, row:  1, col:  1 */ [ 0, Tile.rock_s],
@@ -23689,7 +23689,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: C8 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: C8, row:  1              el  tiles */
                     /* screen: C8, row:  1, col:  1 */ [ 0, Tile.bush],
@@ -23892,7 +23892,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: D8 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: D8, row:  1              el  tiles */
                     /* screen: D8, row:  1, col:  1 */ [ 0, Tile.bush],
@@ -24095,7 +24095,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: E8 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: E8, row:  1              el  tiles */
                     /* screen: E8, row:  1, col:  1 */ [ 0, Tile.rock_s],
@@ -24298,7 +24298,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: F8 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: F8, row:  1              el  tiles */
                     /* screen: F8, row:  1, col:  1 */ [ 0, Tile.rock_s],
@@ -24501,7 +24501,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: G8 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: G8, row:  1              el  tiles */
                     /* screen: G8, row:  1, col:  1 */ [ 0, Tile.rock_s],
@@ -24704,7 +24704,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: H8 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: H8, row:  1              el  tiles */
                     /* screen: H8, row:  1, col:  1 */ [ 0, Tile.rock_s],
@@ -24907,7 +24907,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: I8 */
-            [Pallet.forest],
+            [Palette.forest],
             [
                 [   /* screen: I8, row:  1              el  tiles */
                     /* screen: I8, row:  1, col:  1 */ [ 0, Tile.rock_s],
@@ -25110,7 +25110,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: J8 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: J8, row:  1              el  tiles */
                     /* screen: J8, row:  1, col:  1 */ [ 0, Tile.rock_s],
@@ -25313,7 +25313,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: K8 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: K8, row:  1              el  tiles */
                     /* screen: K8, row:  1, col:  1 */ [ 0, Tile.rock_s],
@@ -25516,7 +25516,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: L8 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: L8, row:  1              el  tiles */
                     /* screen: L8, row:  1, col:  1 */ [ 0, Tile.rock_s],
@@ -25719,7 +25719,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: M8 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: M8, row:  1              el  tiles */
                     /* screen: M8, row:  1, col:  1 */ [ 0, Tile.rock_s],
@@ -25922,7 +25922,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: N8 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: N8, row:  1              el  tiles */
                     /* screen: N8, row:  1, col:  1 */ [ 0, Tile.rock_s],
@@ -26125,7 +26125,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: O8 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: O8, row:  1              el  tiles */
                     /* screen: O8, row:  1, col:  1 */ [ 0, Tile.rock_s],
@@ -26328,7 +26328,7 @@ const mapRowData = [
             ]
         ],
         [ /* screen: P8 */
-            [Pallet.mountain],
+            [Palette.mountain],
             [
                 [   /* screen: P8, row:  1              el  tiles */
                     /* screen: P8, row:  1, col:  1 */ [ 0, Tile.rock_s],
@@ -26554,15 +26554,15 @@ export function getPieces(showElevation, showSamples, gapSize) {
         return degrees / 180 * Math.PI;
     }
 
-    function addScreen(palletData, screenTileDataGrid, gridX, gridY) {
-        // Most screens use one tile pallet.  Some use a two tile border for one, and the inner tiles for another.
-        const pallets = [palletData[0], palletData[1] ?? palletData[0]];
+    function addScreen(paletteData, screenTileDataGrid, gridX, gridY) {
+        // Most screens use one tile palette.  Some use a two tile border for one, and the inner tiles for another.
+        const palettes = [paletteData[0], paletteData[1] ?? paletteData[0]];
         const screenName = String.fromCharCode(gridX + 65) + (gridY + 1);
         for (const [screenY, screenRowTileData] of screenTileDataGrid.entries()) {
             for (const [screenX, screenTileData] of screenRowTileData.entries()) {
                 if (screenTileData) {
-                    const pallet = screenX > 1 && screenX < (screenColumnCount - 2)
-                                && screenY > 1 && screenY < (screenRowCount - 2) ? pallets[1] : pallets[0];
+                    const palette = screenX > 1 && screenX < (screenColumnCount - 2)
+                                && screenY > 1 && screenY < (screenRowCount - 2) ? palettes[1] : palettes[0];
                     const mapX = gridX * screenColumnCount + screenX;
                     const mapY = gridY * screenRowCount + screenY;
                     const elevation = showElevation ? screenTileData[0] : 0;
@@ -26593,7 +26593,7 @@ export function getPieces(showElevation, showSamples, gapSize) {
                             scaleX: tilePiece.options.scaleX ?? 1,
                             scaleY: tilePiece.options.scaleY ?? 1,
                             scaleZ: tilePiece.options.scaleZ ?? 1,
-                            color: pallet.getColor(tilePiece.color),
+                            color: palette.getColor(tilePiece.color),
                             opacity: opacity,
                             screenName: screenName,
                             pieceName: pieceName,
@@ -26614,7 +26614,7 @@ export function getPieces(showElevation, showSamples, gapSize) {
 
     if (showSamples) {
 
-        // Add sample pieces for each pallet.
+        // Add sample pieces for each palette.
         const sampleGridX = 6;
         const sampleGridY = 9;
 
@@ -26640,12 +26640,12 @@ export function getPieces(showElevation, showSamples, gapSize) {
             length: 15
         }, (value) => (value ?? []).map(tile => tile ? [0, tile] : tile));
 
-        for (const [palletIndex, pallet] of [
-            Pallet.forest,
-            Pallet.mountain,
-            Pallet.graveyard,
+        for (const [paletteIndex, palette] of [
+            Palette.forest,
+            Palette.mountain,
+            Palette.graveyard,
         ].entries()) {
-            addScreen([pallet], samplesDataGrid, sampleGridX + palletIndex, sampleGridY);
+            addScreen([palette], samplesDataGrid, sampleGridX + paletteIndex, sampleGridY);
         }
 
         // Add sample enemies/sprites.
@@ -26688,7 +26688,7 @@ export function getPieces(showElevation, showSamples, gapSize) {
         spriteSampleGrid[ 9][11][2] = Tile.peahat_slim;
         spriteSampleGrid[10][ 4][2] = Tile.link;
 
-        addScreen([Pallet.mountain], spriteSampleGrid, sampleGridX + 3, sampleGridY);
+        addScreen([Palette.mountain], spriteSampleGrid, sampleGridX + 3, sampleGridY);
 
         // Create a mini scene.
 
@@ -26749,7 +26749,7 @@ export function getPieces(showElevation, showSamples, gapSize) {
             ],
         ];
 
-        addScreen([Pallet.mountain], mini, 10, 9);
+        addScreen([Palette.mountain], mini, 10, 9);
     }
 
     return pieces;

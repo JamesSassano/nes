@@ -1,13 +1,14 @@
 ![Lego Hyrule](hyrule.png?raw=true)
 
-Download and unzip the LDraw library:
+Afer cloning the repository download and unzip the LDraw library in the `nes` directory.
 
 ```
+cd nes
 curl -O https://library.ldraw.org/library/updates/complete.zip
-unzip comlete.zip
+unzip complete.zip
 ```
 
-Run a local web server:
+Run a local web server in the `nes` directory:
 
 ```
 npx serve

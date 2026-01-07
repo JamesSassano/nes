@@ -33,7 +33,7 @@ export class PieceInstances {
         });
     }
 
-    async getObjData() {
+    async getObjData(onProgress) {
         const mtllib = {};
 
         const encoder = new TextEncoder();
@@ -69,7 +69,8 @@ export class PieceInstances {
             //.filter(screenName => ["H3", "H4"].includes(screenName))
         ;
         for (const screenName of screenNames) {
-            console.log(`Create screen obj ${screenName} at: ${window.performance.now()}`);
+            await onProgress(screenName);
+
             const pieceInstances = this.piecesByScreen[screenName]
                 .sort((a, b) => a.pieceName.localeCompare(b.pieceName));
 

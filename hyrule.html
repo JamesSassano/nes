@@ -8,8 +8,6 @@
 
 <body>
 <a href="https://threejs.org/">three.js</a> | <a href="https://ldraw.org/">LDraw.org</a>
-<button id="download">Download</button>
-<button id="screenshot">Screenshot</button>
 <script type="importmap">
     {
         "imports": {
@@ -236,14 +234,70 @@
 
     if (options.showGui) {
         const gui = new GUI().close();
-        const guiCameraTarget = gui.addFolder('Camera Target');
-        guiCameraTarget.add(controls.target, 'x', -4000, 4000).step(0.01).listen();
-        guiCameraTarget.add(controls.target, 'y', -4000, 4000).step(0.01).listen();
-        guiCameraTarget.add(controls.target, 'z', -4000, 4000).step(0.01).listen();
+
+        const guiDownloadDefaultName = "Download OBJ";
+        const guiDownload = gui.add({downloadObj() {
+            guiDownload.disable();
+
+            setTimeout(async () => {
+                try {
+                    const startTime = window.performance.now();
+                    const data = await pieceInstances.getObjData(async (screenName) => {
+                        guiDownload.name(`Working... ${screenName}`);
+                        await new Promise(resolve => setTimeout(resolve, 0));
+                    });
+                    const elapseTime = window.performance.now() - startTime;
+                    console.log(`Get obj data took: ${elapseTime / 1000} ms`);
+                    downloadBlob(new Blob([data], {type: 'application/gzip'}), "hyrule.tar.gz");
+                } catch (error) {
+                    console.error("Download failed:", error);
+                } finally {
+                    guiDownload.name(guiDownloadDefaultName);
+                    guiDownload.enable();
+                }
+            }, 10);
+        }}, "downloadObj").name(guiDownloadDefaultName);
+
+        gui.add({screenshot() {
+            renderer.render(scene, camera, null, false);
+            renderer.domElement.toBlob((blob) => {
+                downloadBlob(blob, "hyrule.png");
+            });
+        }}, "screenshot").name("Screenshot");
+
         const guiCameraPosition = gui.addFolder('Camera Position');
         guiCameraPosition.add(camera.position, 'x', -4000, 4000).step(0.01).listen();
         guiCameraPosition.add(camera.position, 'y', -4000, 4000).step(0.01).listen();
         guiCameraPosition.add(camera.position, 'z', -4000, 4000).step(0.01).listen();
+        const guiCameraTarget = gui.addFolder('Camera Target');
+        guiCameraTarget.add(controls.target, 'x', -4000, 4000).step(0.01).listen();
+        guiCameraTarget.add(controls.target, 'y', -4000, 4000).step(0.01).listen();
+        guiCameraTarget.add(controls.target, 'z', -4000, 4000).step(0.01).listen();
+
+        const guiCameraUrlDefaultName = "Copy Camera URL to clipboard";
+        const guiCameraUrl = gui.add({copyCameraURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+
+            for (const [key, value] of [
+                ["cameraPositionX", camera.position.x.toFixed(2)],
+                ["cameraPositionY", camera.position.y.toFixed(2)],
+                ["cameraPositionZ", camera.position.z.toFixed(2)],
+                ["cameraTargetX", controls.target.x.toFixed(2)],
+                ["cameraTargetY", controls.target.y.toFixed(2)],
+                ["cameraTargetZ", controls.target.z.toFixed(2)],
+            ]) {
+                urlParams.delete(key);
+                urlParams.set(key, value);
+            }
+
+            const cameraUrl = `${window.location.origin}${window.location.pathname}?${urlParams}`;
+            console.log(`Camera URL: ${cameraUrl}`);
+
+            navigator.clipboard.writeText(cameraUrl).then(() => {
+                guiCameraUrl.name("Copied!");
+                setTimeout(() => guiCameraUrl.name(guiCameraUrlDefaultName), 1000);
+            });
+        }}, "copyCameraURL").name(guiCameraUrlDefaultName);
 
         gui.add(options, 'palette', {nes: "nes", 'ldraw(lego)' : 'ldraw'})
             .name('Color Palette')
@@ -274,7 +328,7 @@
                     item.visible = !item.visible;
                 }
             });
-        }}, "toggleLines");
+        }}, "toggleLines").name("Toggle Lines");
 
         const guiMaterial = gui.addFolder('Materials');
         guiMaterial.add(options, 'roughness', 0, 1).step(0.01).onChange(value => {
@@ -293,34 +347,6 @@
             });
         });
     }
-
-    document.querySelector('#download').addEventListener('click', function(event) {
-        const downloadButton = event.currentTarget;
-        downloadButton.innerHTML = "Working...";
-        downloadButton.disabled = true;
-
-        setTimeout(async () => {
-            try {
-                const startTime = window.performance.now();
-                const data = await pieceInstances.getObjData();
-                const elapseTime = window.performance.now() - startTime;
-                console.log(`Get obj data took: ${elapseTime / 1000} ms`);
-                downloadBlob(new Blob([data], {type: 'application/gzip'}), "hyrule.tar.gz");
-            } catch (error) {
-                console.error("Download failed:", error);
-            } finally {
-                downloadButton.innerHTML = "Download";
-                downloadButton.disabled = false;
-            }
-        }, 10);
-    });
-
-    document.querySelector('#screenshot').addEventListener('click', function() {
-        renderer.render(scene, camera, null, false);
-        renderer.domElement.toBlob((blob) => {
-            downloadBlob(blob, "hyrule.png");
-        });
-    });
 
     function downloadBlob(blob, filename) {
         const a = document.createElement('a');
