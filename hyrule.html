@@ -70,6 +70,7 @@
             setBool("showGui", true);
             setString("upAxis", "Y");
             setInt("gapSize", 2);
+            setBool("showUnderworld", false);
             setBool("showSprites", true);
             setBool("showElevation", true);
             setBool("showSamples", false);
@@ -146,7 +147,7 @@
     function addPieces() {
 
         const pieces = HyruleBuilder.getPieces(
-            options.gapSize, options.showSprites, options.showElevation, options.showSamples);
+            options.gapSize, options.showUnderworld, options.showSprites, options.showElevation, options.showSamples);
         const loadPendingPartNumbers = new Set(Object.keys(pieces));
         const meshMaterials = {};
         const colors = {};

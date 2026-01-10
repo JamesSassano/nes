@@ -5,17 +5,23 @@ import {NESColor} from "./Colors.js";
 export class Piece {
     static brick                        = new Piece( 3005, 3,  3, null,                     "brick");
     static brick_headlight              = new Piece( 4070, 3,  3, null,                     "brick_headlight");
+    static brick_side_stud              = new Piece(87087, 3,  3, null,                     "brick_side_stud");
+    static brick_side_stud2             = new Piece(32952, 5,  5, null,                     "brick_side_stud2");
     static inverted_cone                = new Piece(11610, 3,  3, null,                     "inverted_cone");
     static brick_2_3rd                  = new Piece(86996, 2,  2, null,                     "brick_2_3rd");
     static brick_2_3rd_round_tabs       = new Piece(33286, 2,  2, null,                     "brick_2_3rd_round_tabs");
     static brick_2_3rd_slope            = new Piece(54200, 2,  0, null,                     "brick_2_3rd_slope");
     static brick_2_3rd_slope_curved     = new Piece(49307, 2,  0, null,                     "brick_2_3rd_slope_curved");
     static brick_2_3rd_slope_pyramid    = new Piece(22388, 2,  0, null,                     "brick_2_3rd_slope_pyramid");
+    static brick_2_3rd_half_cirle_side_stud = new Piece(3386, 2,  2, null,                  "brick_2_3rd_half_cirle_side_stud");
 
     static plate                        = new Piece( 3024, 1,  1, null,                     "plate");
     static plate_clip_top               = new Piece(15712, 1,  1, null,                     "plate_clip_top");
     static plate_round_dot              = new Piece( 6141, 1,  1, null,                     "plate_round_dot");
     static plate_round_tabs             = new Piece(33291, 1,  1, null,                     "plate_round_tabs");
+    static plate_center_stud            = new Piece(15573, 1,  1, null,                     "plate_center_stud");
+    static plate_center_stud2           = new Piece(34103, 1,  1, null,                     "plate_center_stud2");
+    static plate6                       = new Piece(3666,  1,  1, null,                     "plate6");
 
     // Use 3070b for a groove.
     static tile                         = new Piece( 3070, 1,  1, Piece.plate,              "tile");
@@ -23,6 +29,8 @@ export class Piece {
     static tile_heart                   = new Piece(39739, 1,  1, null,                     "tile_heart");
     static tile_quarter_circle          = new Piece(25269, 1,  1, Piece.plate_round_dot,    "tile_quarter_circle");
     static tile_round_dot               = new Piece(35381, 1,  1, Piece.plate_round_dot,    "tile_round_dot");
+    static tile_round_dot_with_hole     = new Piece(85861, 1,  1, Piece.plate_round_dot,    "tile_round_dot_with_hole");
+    static tile2                        = new Piece(3069,  1,  1, null,                     "tile2");
 
     // Samples
     static brick_2_3rd_slope_triangle   = new Piece(35464, 2,  0, null,                     "brick_2_3rd_slope_triangle");
@@ -468,6 +476,201 @@ export class Tile {
     ];
     static waterfall2 = Tile.waterfall1;
 
+    // Dungeon floor tiles.
+
+    static dungeon_floor = [
+        new TilePiece(Piece.plate,                          NESColor.primary,       {}),
+        new TilePiece(Piece.tile,                           NESColor.primary,       {}),
+    ];
+    static dungeon_sand = [
+        new TilePiece(Piece.plate,                          NESColor.background,    {}),
+        new TilePiece(Piece.tile_round_dot,                 NESColor.primary,       {}),
+    ];
+    static dungeon_entrance = [
+        new TilePiece(Piece.brick_2_3rd_slope,              NESColor.black,         {rotateY: 270}),
+    ];
+    static dungeon_water = [
+        new TilePiece(Piece.tile,                           NESColor.secondary,     {}),
+    ];
+    static dungeon_block = [
+        new TilePiece(Piece.brick,                          NESColor.background,    {}),
+        new TilePiece(Piece.brick_2_3rd_slope_pyramid,      NESColor.primary,       {}),
+    ];
+    static dungeon_statue_looking_right = [
+        new TilePiece(Piece.brick_2_3rd,                    NESColor.primary,       {}),
+        new TilePiece(Piece.brick_2_3rd_half_cirle_side_stud, NESColor.secondary,   {rotateY: 270}),
+        new TilePiece(Piece.plate_round_dot,                NESColor.background,    {}),
+    ];
+    static dungeon_statue_looking_left = [
+        new TilePiece(Piece.brick_2_3rd,                    NESColor.primary,       {}),
+        new TilePiece(Piece.tile,                           NESColor.background,    {}),
+        new TilePiece(Piece.brick_2_3rd_half_cirle_side_stud, NESColor.secondary,   {rotateY: 90}),
+    ];
+    static dungeon_hole = [
+        new TilePiece(Piece.plate,                          NESColor.primary,       {}),
+        new TilePiece(Piece.tile,                           NESColor.black,         {}),
+    ];
+    static dungeon_text = [
+        new TilePiece(Piece.plate,                          NESColor.primary,       {}),
+        new TilePiece(Piece.tile_round_dot_with_hole,       NESColor.background,    {}),
+    ];
+
+    // Dungeon walls outer.
+
+    static makeWallOuter(isBase) {
+        const tile = [];
+        const options = isBase ? {} : {translateX: .5};
+        if (isBase) {
+            tile.push(new TilePiece(Piece.brick,            NESColor.primary,       {}));
+        } else {
+            tile.push(new TilePiece(Piece.plate,            NESColor.primary,       options));
+        }
+        tile.push(new TilePiece(Piece.brick,                NESColor.primary,       options));
+        return tile;
+    }
+
+    static makeWallOuterCap(side) {
+        const tile = [];
+        tile.push(new TilePiece(Piece.plate_center_stud,    NESColor.primary,       {translateX:  side * 0.5}));
+        tile.push(new TilePiece(Piece.brick_side_stud2,     NESColor.primary,       {translateX:  side * 0.5,                   rotateY: side *  90}));
+        tile.push(new TilePiece(Piece.tile2,                NESColor.primary,       {translateX: -side * 0.4, translateZ: -3.5, rotateZ: side * -90}));
+        tile.push(new TilePiece(Piece.plate_center_stud,    NESColor.primary,       {translateX:  side * 2.5, translateZ: -7}));
+        tile.push(new TilePiece(Piece.plate_center_stud2,   NESColor.primary,       {translateX:  side *   5, translateZ: -8}));
+        tile.push(new TilePiece(Piece.plate6,               NESColor.primary,       {translateX:  side *   4, translateZ: -8}));
+        return tile;
+    }
+
+    // Dungeon walls inner.
+
+    static makeWallInner(isBase) {
+        const tile = [];
+        if (isBase) {
+            tile.push(new TilePiece(Piece.brick_2_3rd,      NESColor.primary,       {}));
+        }
+        const options = isBase ? {} : {translateX: .5};
+        tile.push(new TilePiece(Piece.brick_2_3rd,          NESColor.background,    options));
+        tile.push(new TilePiece(Piece.tile,                 NESColor.primary,       options));
+        return tile;
+    }
+
+    static makeWallInnerCap(side, plateOptions) {
+        const tile = [];
+        tile.push(new TilePiece(Piece.brick_2_3rd,          NESColor.primary,       {}));
+        tile.push(new TilePiece(Piece.brick_side_stud,      NESColor.primary,       {rotateY: side * -90}));
+        tile.push(new TilePiece(Piece.plate,                NESColor.primary,       {}));
+        tile.push(new TilePiece(Piece.tile,                 NESColor.primary,       {translateX: side * 0.9, translateZ: -3.25, rotateZ: side * 90}));
+        tile.push(new TilePiece(Piece.plate_center_stud2,   NESColor.primary,       {translateX: side *   2, translateZ: -7}));
+        tile.push(new TilePiece(Piece.plate_center_stud2,   NESColor.primary,       {translateX: side *   5, translateZ: -8}));
+        tile.push(new TilePiece(Piece.plate6,               NESColor.primary,       {translateX: side *   4, translateZ: -8}));
+        return tile;
+    }
+
+    static wall_outer_ns    = Tile.makeWallOuter(false);
+    static wall_outer_ew    = Tile.makeWallOuter(true);
+
+    static wall_outer_cap_w = Tile.makeWallOuterCap( 1);
+    static wall_outer_cap_e = Tile.makeWallOuterCap(-1);
+
+    static wall_inner_ns    = Tile.makeWallInner(false);
+    static wall_inner_ew    = Tile.makeWallInner(true);
+
+    static wall_inner_cap_w = Tile.makeWallInnerCap( 1);
+    static wall_inner_cap_e = Tile.makeWallInnerCap(-1);
+
+    // Dungeon wall outer doors.
+
+    static makeWallOuterDoor(isBase, rotateY) {
+        const tile = [];
+        const translateX = isBase ? 0 : .5;
+        if (isBase) {
+            tile.push(new TilePiece(Piece.brick,            NESColor.primary,       {}));
+        } else {
+            tile.push(new TilePiece(Piece.plate_center_stud,NESColor.primary,       {translateX: translateX}));
+            tile.push(new TilePiece(Piece.brick_2_3rd,      NESColor.primary,       {translateX: translateX}));
+        }
+        tile.push(new TilePiece(Piece.brick_2_3rd,          NESColor.primary,       {translateX: translateX}));
+        tile.push(new TilePiece(Piece.plate_bar_side,       NESColor.primary,       {translateX: translateX, rotateY: rotateY}));
+        return tile;
+    }
+
+    static wall_outer_door_n = Tile.makeWallOuterDoor(false, 0);
+    static wall_outer_door_s = Tile.makeWallOuterDoor(false, 180);
+    static wall_outer_door_e = Tile.makeWallOuterDoor(true, 90);
+    static wall_outer_door_w = Tile.makeWallOuterDoor(true, 270);
+
+    // Dungeon wall inner doors.
+
+    static makeWallInnerDoorOpen(isBase) {
+        const tile = [];
+        const translateX = isBase ? 0 : .5;
+        if (isBase) {
+            tile.push(new TilePiece(Piece.plate,            NESColor.primary,       {}));
+        } else {
+            tile.push(new TilePiece(Piece.plate_center_stud,NESColor.primary,       {translateX: translateX}));
+        }
+        tile.push(new TilePiece(Piece.tile,                 NESColor.black,         {translateX: translateX}));
+        return tile;
+    }
+
+    static makeWallInnerDoorBlocked(isBase, direction, piece, rotatePiece) {
+        const tile = Tile.makeWallInnerDoorOpen(isBase);
+        const optionsClip = {
+            'n': {translateX:  0.5, translateY:  0.1, translateZ: .25, rotateY: 0, rotateX: 270, rotateZ: 180},
+            's': {translateX:  0.5, translateY: -0.1, translateZ: .25, rotateY: 0, rotateX: 270, rotateZ:   0},
+            'e': {translateX: -0.1, translateY:    0, translateZ: .25, rotateY: 0, rotateX: 270, rotateZ: 270},
+            'w': {translateX:  0.1, translateY:    0, translateZ: .25, rotateY: 0, rotateX: 270, rotateZ:  90},
+        };
+
+        tile.push(new TilePiece(Piece.plate_clip_horizontal_side, NESColor.black,   optionsClip[direction]));
+
+        const optionsDot = {
+            'n': {translateX:  0.5, translateY:  0.5, translateZ: -0.75, rotateX: 270,               rotateY: rotatePiece, rotateZ: 180},
+            's': {translateX:  0.5, translateY: -0.5, translateZ: -0.75, rotateX: 270,               rotateY: rotatePiece, rotateZ:   0},
+            'e': {translateX: -0.5, translateY:    0, translateZ: -0.75, rotateX: 270 + rotatePiece, rotateY:           0, rotateZ: 270},
+            'w': {translateX:  0.5, translateY:    0, translateZ: -0.75, rotateX: 270 + rotatePiece, rotateY:           0, rotateZ:  90},
+        };
+
+        tile.push(new TilePiece(piece,                      NESColor.background,    optionsDot[direction]));
+        return tile;
+    }
+
+    static makeWallInnerDoorLocked(isBase, direction) {
+        return Tile.makeWallInnerDoorBlocked(isBase, direction, Piece.plate_round_tabs, 45);
+    }
+
+    static makeWallInnerDoorBomb(isBase, direction) {
+        return Tile.makeWallInnerDoorBlocked(isBase, direction, Piece.tile, 0);
+    }
+
+    static makeWallInnerDoorShut(isBase, direction) {
+        return Tile.makeWallInnerDoorBlocked(isBase, direction, Piece.tile_half_circle, 0);
+    }
+
+    static wall_inner_door_solid_ns = [
+        new TilePiece(Piece.plate_center_stud,              NESColor.primary,       {translateX: .5}),
+        new TilePiece(Piece.brick,                          NESColor.background,    {translateX: .5}),
+        new TilePiece(Piece.tile,                           NESColor.primary,       {translateX: .5}),
+    ];
+    static wall_inner_door_solid_ew = Tile.wall_inner_ew;
+
+    static wall_inner_door_open_ns  = Tile.makeWallInnerDoorOpen(false);
+    static wall_inner_door_open_ew  = Tile.makeWallInnerDoorOpen(true);
+
+    static wall_inner_door_locked_n = Tile.makeWallInnerDoorLocked(false, 'n');
+    static wall_inner_door_locked_s = Tile.makeWallInnerDoorLocked(false, 's');
+    static wall_inner_door_locked_e = Tile.makeWallInnerDoorLocked(true, 'e');
+    static wall_inner_door_locked_w = Tile.makeWallInnerDoorLocked(true, 'w');
+
+    static wall_inner_door_bomb_n   = Tile.makeWallInnerDoorBomb(false, 'n');
+    static wall_inner_door_bomb_s   = Tile.makeWallInnerDoorBomb(false, 's');
+    static wall_inner_door_bomb_e   = Tile.makeWallInnerDoorBomb(true, 'e');
+    static wall_inner_door_bomb_w   = Tile.makeWallInnerDoorBomb(true, 'w');
+
+    static wall_inner_door_shut_n   = Tile.makeWallInnerDoorShut(false, 'n');
+    static wall_inner_door_shut_s   = Tile.makeWallInnerDoorShut(false, 's');
+    static wall_inner_door_shut_e   = Tile.makeWallInnerDoorShut(true, 'e');
+    static wall_inner_door_shut_w   = Tile.makeWallInnerDoorShut(true, 'w');
+
     constructor(basePieces, spritePieces) {
         // Replace top smooth with stud if adding a sprite.
         if (spritePieces) {
@@ -492,7 +695,9 @@ export class Tile {
             })];
         }
         for (const tilePiece of this.tilePieces) {
-            yield [elevation + tilePiece.piece.plateLevel, tilePiece];
+            if (null != tilePiece.piece.partNumber) {
+                yield [elevation + tilePiece.piece.plateLevel, tilePiece];
+            }
             elevation += tilePiece.piece.plateHeight;
         }
     }

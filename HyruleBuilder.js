@@ -2,9 +2,10 @@
 
 import {Tile} from "./HyrulePieces.js";
 import * as HyruleOverworld from "./HyruleOverworld.js";
+import * as HyruleUnderworld from "./HyruleUnderworld.js";
 
 /** Collect all pieces by part number and opacity to a list of all piece configurations. */
-export function getPieces(gapSize, showSprites, showElevation, showSamples) {
+export function getPieces(gapSize, showUnderworld, showSprites, showElevation, showSamples) {
 
     const mapColumnCount = 256;
     const mapRowCount = 88;
@@ -16,15 +17,15 @@ export function getPieces(gapSize, showSprites, showElevation, showSamples) {
     const pieces = {};
 
     function toPosition(position, translate, worldSize, screenSize) {
-        position = position + (translate ?? 0) - worldSize / 2;
-        return position * legoWidth + (legoWidth / 2) + (Math.floor(position / screenSize) + .5) * gapSize;
+        position -= worldSize / 2;
+        return (position + (translate ?? 0)) * legoWidth + (legoWidth / 2) + (Math.floor(position / screenSize) + .5) * gapSize;
     }
 
     function degreesToRadians(degrees) {
         return degrees / 180 * Math.PI;
     }
 
-    function addScreen(paletteData, screenTileDataGrid, gridX, gridY) {
+    function addScreen(gridX, gridY, paletteData, screenTileDataGrid) {
         // Most screens use one tile palette.  Some use a two tile border for one, and the inner tiles for another.
         const palettes = [paletteData[0], paletteData[1] ?? paletteData[0]];
         const screenName = String.fromCharCode(gridX + 65) + (gridY + 1);
@@ -53,7 +54,7 @@ export function getPieces(gapSize, showSprites, showElevation, showSamples) {
                         pieces[partNumber][opacity] ??= [];
                         pieces[partNumber][opacity].push({
                             positionX: toPosition(mapX, tilePiece.options.translateX, mapColumnCount, screenColumnCount),
-                            positionY: legoPlateHeight * plateLevel,
+                            positionY: legoPlateHeight * (plateLevel + (tilePiece.options.translateZ ?? 0)),
                             positionZ: toPosition(mapY, tilePiece.options.translateY, mapRowCount, screenRowCount),
                             rotationX: degreesToRadians((tilePiece.options.rotateX ?? 0) + 180),
                             rotationY: degreesToRadians(tilePiece.options.rotateY ?? 0),
@@ -76,14 +77,22 @@ export function getPieces(gapSize, showSprites, showElevation, showSamples) {
 
     for (const [gridY, mapColumnData] of HyruleOverworld.mapRowData.entries()) {
         for (const [gridX, screenData] of mapColumnData.entries()) {
-            addScreen(screenData[0], screenData[1], gridX, gridY);
+            addScreen(gridX, gridY, ...screenData);
+        }
+    }
+
+    if (showUnderworld) {
+        for (const [gridY, mapColumnData] of HyruleUnderworld.getMapRowData().entries()) {
+            for (const [gridX, screenData] of mapColumnData.entries()) {
+                addScreen(gridX, gridY + 9, ...screenData);
+            }
         }
     }
 
     if (showSamples) {
         for (const [gridY, mapColumnData] of HyruleOverworld.getSamples().entries()) {
             for (const [gridX, screenData] of mapColumnData.entries()) {
-                addScreen(screenData[0], screenData[1], gridX + 6, gridY + 9);
+                addScreen(gridX + 6, gridY - 2, ...screenData);
             }
         }
     }
