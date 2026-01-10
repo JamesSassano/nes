@@ -26,7 +26,7 @@
     import { LDrawConditionalLineMaterial } from 'three/addons/materials/LDrawConditionalLineMaterial.js';
     import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
     import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
-    import * as HyrulePieces from "./HyrulePieces.js";
+    import * as HyruleBuilder from "./HyruleBuilder.js";
     import * as PieceUtils from "./PieceUtils.js";
 
     /** Read URL parameter options. */
@@ -143,7 +143,7 @@
 
     function addPieces() {
 
-        const pieces = HyrulePieces.getPieces(options.showElevation, options.showSamples, options.gapSize);
+        const pieces = HyruleBuilder.getPieces(options.showElevation, options.showSamples, options.gapSize);
         const loadPendingPartNumbers = new Set(Object.keys(pieces));
         const meshMaterials = {};
         const colors = {};
