@@ -33,7 +33,7 @@ export class PieceInstances {
         });
     }
 
-    async getObjData(onProgress) {
+    async getObjData(yUp, onProgress) {
         const mtllib = {};
 
         const encoder = new TextEncoder();
@@ -74,7 +74,7 @@ export class PieceInstances {
             const pieceInstances = this.piecesByScreen[screenName]
                 .sort((a, b) => a.pieceName.localeCompare(b.pieceName));
 
-            const objContent = PieceInstances.createObjContent(pieceInstances, mtllib);
+            const objContent = PieceInstances.createObjContent(pieceInstances, mtllib, yUp);
             await addFile(`hyrule.${screenName}.obj`, objContent);
         }
 
@@ -86,7 +86,7 @@ export class PieceInstances {
         return await outputPromise;
     }
 
-    static createObjContent(pieceInstances, mtllib) {
+    static createObjContent(pieceInstances, mtllib, yUp) {
         const objOutput = ["mtllib hyrule.mtl\n"];
         const instanceMatrix4 = new THREE.Matrix4();
         const normalMatrix3 = new THREE.Matrix3();
@@ -119,9 +119,9 @@ d ${opacity}
 
             for (let i = 0; i < vertices.count; i++) {
                 vector3.fromBufferAttribute(vertices, i).applyMatrix4(instanceMatrix4).multiplyScalar(0.4);
-
-                // 3d printer change to: x, -z, y
-                const vLine = `v ${vector3.x.toFixed(6)} ${vector3.y.toFixed(6)} ${vector3.z.toFixed(6)} ${objColor}\n`;
+                const vLine = yUp
+                    ? `v ${vector3.x.toFixed(6)} ${vector3.y.toFixed(6)} ${vector3.z.toFixed(6)} ${objColor}\n`
+                    : `v ${vector3.x.toFixed(6)} ${(-vector3.z).toFixed(6)} ${vector3.y.toFixed(6)} ${objColor}\n`;
 
                 if (!vMap.has(vLine)) {
                     vMap.set(vLine, vMap.size);
@@ -129,8 +129,9 @@ d ${opacity}
                 const currentVIndex = vMap.get(vLine);
 
                 vector3.fromBufferAttribute(normals, i).applyMatrix3(normalMatrix3).normalize();
-
-                const vnLine = `vn ${vector3.x.toFixed(6)} ${vector3.y.toFixed(6)} ${vector3.z.toFixed(6)}\n`;
+                const vnLine = yUp
+                    ? `vn ${vector3.x.toFixed(6)} ${vector3.y.toFixed(6)} ${vector3.z.toFixed(6)}\n`
+                    : `vn ${vector3.x.toFixed(6)} ${(-vector3.z).toFixed(6)} ${vector3.y.toFixed(6)}\n`;
 
                 if (!vnMap.has(vnLine)) {
                     vnMap.set(vnLine, vnMap.size);

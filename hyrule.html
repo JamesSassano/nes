@@ -68,6 +68,7 @@
                 setValue(key, defaultValue, valueValidator, parseFloat);
 
             setBool("showGui", true);
+            setString("upAxis", "Y");
             setBool("showElevation", true);
             setBool("showSamples", false);
             setInt("gapSize", 2);
@@ -235,6 +236,11 @@
     if (options.showGui) {
         const gui = new GUI().close();
 
+        gui.add(options, 'upAxis', {
+            "Y up (Three.js)": "Y",
+            "Z up (3D Printer)": "Z"
+        }).name("OBJ Coordinate System");
+
         const guiDownloadDefaultName = "Download OBJ";
         const guiDownload = gui.add({downloadObj() {
             guiDownload.disable();
@@ -242,7 +248,7 @@
             setTimeout(async () => {
                 try {
                     const startTime = window.performance.now();
-                    const data = await pieceInstances.getObjData(async (screenName) => {
+                    const data = await pieceInstances.getObjData(options.upAxis === "Y", async (screenName) => {
                         guiDownload.name(`Working... ${screenName}`);
                         await new Promise(resolve => setTimeout(resolve, 0));
                     });
