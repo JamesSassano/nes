@@ -428,7 +428,7 @@ export class Tile {
         new TilePiece(Piece.plate_round_tabs,               Color.primary,      {rotateY: 45}),
     ];
 
-    static tile_heart = [
+    static floating_heart = [
         new TilePiece(Piece.plate_round_dot,                Color.white,        {opacity: Tile.clear_opacity}),
         new TilePiece(Piece.tile_heart,                     Color.red,          {rotateY: 45}),
     ];
@@ -439,10 +439,7 @@ export class Tile {
         new TilePiece(Piece.water_piece_under,              Color.secondary,    {opacity: Tile.water_opacity}),
         new TilePiece(Piece.tile,                           Color.primary,      {}),
     ];
-    static bridge_heart = [
-        new TilePiece(Piece.ground_piece_under,             Color.primary,      {}),
-        new TilePiece(Piece.water_piece_under,              Color.secondary,    {opacity: Tile.water_opacity}),
-        new TilePiece(Piece.plate,                          Color.primary,      {}),
+    static heart = [
         new TilePiece(Piece.tile_heart,                     Color.red,          {rotateY: 45}),
     ];
 

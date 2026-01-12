@@ -11627,10 +11627,10 @@ export const mapRowData = [
                     /* screen: J4, row:  3, col:  4 */ [ 0, Tile.ground],
                     /* screen: J4, row:  3, col:  5 */ [ 0, Tile.ground],
                     /* screen: J4, row:  3, col:  6 */ [ 0, Tile.ground],
-                    /* screen: J4, row:  3, col:  7 */ [ 0, Tile.ground, Tile.tile_heart],
+                    /* screen: J4, row:  3, col:  7 */ [ 0, Tile.ground, Tile.floating_heart],
                     /* screen: J4, row:  3, col:  8 */ [ 0, Tile.ground],
                     /* screen: J4, row:  3, col:  9 */ [ 0, Tile.ground],
-                    /* screen: J4, row:  3, col: 10 */ [ 0, Tile.ground, Tile.tile_heart],
+                    /* screen: J4, row:  3, col: 10 */ [ 0, Tile.ground, Tile.floating_heart],
                     /* screen: J4, row:  3, col: 11 */ [ 0, Tile.ground],
                     /* screen: J4, row:  3, col: 12 */ [ 0, Tile.ground],
                     /* screen: J4, row:  3, col: 13 */ [ 0, Tile.ground],
@@ -11643,14 +11643,14 @@ export const mapRowData = [
                     /* screen: J4, row:  4, col:  2 */ [ 0, Tile.ground],
                     /* screen: J4, row:  4, col:  3 */ [ 0, Tile.ground],
                     /* screen: J4, row:  4, col:  4 */ [ 0, Tile.ground],
-                    /* screen: J4, row:  4, col:  5 */ [ 0, Tile.ground, Tile.tile_heart],
+                    /* screen: J4, row:  4, col:  5 */ [ 0, Tile.ground, Tile.floating_heart],
                     /* screen: J4, row:  4, col:  6 */ [ 0, Tile.water_nw],
                     /* screen: J4, row:  4, col:  7 */ [ 0, Tile.water_n],
                     /* screen: J4, row:  4, col:  8 */ [ 0, Tile.water_n, Tile.fairy],
                     /* screen: J4, row:  4, col:  9 */ [ 0, Tile.water_n],
                     /* screen: J4, row:  4, col: 10 */ [ 0, Tile.water_n],
                     /* screen: J4, row:  4, col: 11 */ [ 0, Tile.water_ne],
-                    /* screen: J4, row:  4, col: 12 */ [ 0, Tile.ground, Tile.tile_heart],
+                    /* screen: J4, row:  4, col: 12 */ [ 0, Tile.ground, Tile.floating_heart],
                     /* screen: J4, row:  4, col: 13 */ [ 0, Tile.ground],
                     /* screen: J4, row:  4, col: 14 */ [ 0, Tile.ground],
                     /* screen: J4, row:  4, col: 15 */ [ 0, Tile.ground],
@@ -11679,14 +11679,14 @@ export const mapRowData = [
                     /* screen: J4, row:  6, col:  2 */ [ 0, Tile.ground],
                     /* screen: J4, row:  6, col:  3 */ [ 0, Tile.ground],
                     /* screen: J4, row:  6, col:  4 */ [ 0, Tile.ground],
-                    /* screen: J4, row:  6, col:  5 */ [ 0, Tile.ground, Tile.tile_heart],
+                    /* screen: J4, row:  6, col:  5 */ [ 0, Tile.ground, Tile.floating_heart],
                     /* screen: J4, row:  6, col:  6 */ [ 0, Tile.water_w],
                     /* screen: J4, row:  6, col:  7 */ [ 0, Tile.water_c],
                     /* screen: J4, row:  6, col:  8 */ [ 0, Tile.water_c],
                     /* screen: J4, row:  6, col:  9 */ [ 0, Tile.water_c],
                     /* screen: J4, row:  6, col: 10 */ [ 0, Tile.water_c],
                     /* screen: J4, row:  6, col: 11 */ [ 0, Tile.water_e],
-                    /* screen: J4, row:  6, col: 12 */ [ 0, Tile.ground, Tile.tile_heart],
+                    /* screen: J4, row:  6, col: 12 */ [ 0, Tile.ground, Tile.floating_heart],
                     /* screen: J4, row:  6, col: 13 */ [ 0, Tile.ground],
                     /* screen: J4, row:  6, col: 14 */ [ 0, Tile.ground],
                     /* screen: J4, row:  6, col: 15 */ [ 0, Tile.ground],
@@ -11717,10 +11717,10 @@ export const mapRowData = [
                     /* screen: J4, row:  8, col:  4 */ [ 0, Tile.ground],
                     /* screen: J4, row:  8, col:  5 */ [ 0, Tile.ground],
                     /* screen: J4, row:  8, col:  6 */ [ 0, Tile.ground],
-                    /* screen: J4, row:  8, col:  7 */ [ 0, Tile.ground, Tile.tile_heart],
+                    /* screen: J4, row:  8, col:  7 */ [ 0, Tile.ground, Tile.floating_heart],
                     /* screen: J4, row:  8, col:  8 */ [ 0, Tile.ground],
                     /* screen: J4, row:  8, col:  9 */ [ 0, Tile.ground],
-                    /* screen: J4, row:  8, col: 10 */ [ 0, Tile.ground, Tile.tile_heart],
+                    /* screen: J4, row:  8, col: 10 */ [ 0, Tile.ground, Tile.floating_heart],
                     /* screen: J4, row:  8, col: 11 */ [ 0, Tile.ground],
                     /* screen: J4, row:  8, col: 12 */ [ 0, Tile.ground],
                     /* screen: J4, row:  8, col: 13 */ [ 0, Tile.ground],
@@ -13659,10 +13659,10 @@ export const mapRowData = [
                     /* screen: D5, row:  3, col:  4 */ [ 0, Tile.ground],
                     /* screen: D5, row:  3, col:  5 */ [ 0, Tile.ground],
                     /* screen: D5, row:  3, col:  6 */ [ 0, Tile.ground],
-                    /* screen: D5, row:  3, col:  7 */ [ 0, Tile.ground, Tile.tile_heart],
+                    /* screen: D5, row:  3, col:  7 */ [ 0, Tile.ground, Tile.floating_heart],
                     /* screen: D5, row:  3, col:  8 */ [ 0, Tile.ground],
                     /* screen: D5, row:  3, col:  9 */ [ 0, Tile.ground],
-                    /* screen: D5, row:  3, col: 10 */ [ 0, Tile.ground, Tile.tile_heart],
+                    /* screen: D5, row:  3, col: 10 */ [ 0, Tile.ground, Tile.floating_heart],
                     /* screen: D5, row:  3, col: 11 */ [ 0, Tile.ground],
                     /* screen: D5, row:  3, col: 12 */ [ 0, Tile.ground],
                     /* screen: D5, row:  3, col: 13 */ [ 0, Tile.ground],
@@ -13675,14 +13675,14 @@ export const mapRowData = [
                     /* screen: D5, row:  4, col:  2 */ [ 0, Tile.ground],
                     /* screen: D5, row:  4, col:  3 */ [ 0, Tile.ground],
                     /* screen: D5, row:  4, col:  4 */ [ 0, Tile.ground],
-                    /* screen: D5, row:  4, col:  5 */ [ 0, Tile.ground, Tile.tile_heart],
+                    /* screen: D5, row:  4, col:  5 */ [ 0, Tile.ground, Tile.floating_heart],
                     /* screen: D5, row:  4, col:  6 */ [ 0, Tile.water_nw],
                     /* screen: D5, row:  4, col:  7 */ [ 0, Tile.water_n],
                     /* screen: D5, row:  4, col:  8 */ [ 0, Tile.water_n, Tile.fairy],
                     /* screen: D5, row:  4, col:  9 */ [ 0, Tile.water_n],
                     /* screen: D5, row:  4, col: 10 */ [ 0, Tile.water_n],
                     /* screen: D5, row:  4, col: 11 */ [ 0, Tile.water_ne],
-                    /* screen: D5, row:  4, col: 12 */ [ 0, Tile.ground, Tile.tile_heart],
+                    /* screen: D5, row:  4, col: 12 */ [ 0, Tile.ground, Tile.floating_heart],
                     /* screen: D5, row:  4, col: 13 */ [ 0, Tile.ground],
                     /* screen: D5, row:  4, col: 14 */ [ 0, Tile.ground],
                     /* screen: D5, row:  4, col: 15 */ [ 0, Tile.ground],
@@ -13711,14 +13711,14 @@ export const mapRowData = [
                     /* screen: D5, row:  6, col:  2 */ [ 0, Tile.ground],
                     /* screen: D5, row:  6, col:  3 */ [ 0, Tile.ground],
                     /* screen: D5, row:  6, col:  4 */ [ 0, Tile.ground],
-                    /* screen: D5, row:  6, col:  5 */ [ 0, Tile.ground, Tile.tile_heart],
+                    /* screen: D5, row:  6, col:  5 */ [ 0, Tile.ground, Tile.floating_heart],
                     /* screen: D5, row:  6, col:  6 */ [ 0, Tile.water_w],
                     /* screen: D5, row:  6, col:  7 */ [ 0, Tile.water_c],
                     /* screen: D5, row:  6, col:  8 */ [ 0, Tile.water_c],
                     /* screen: D5, row:  6, col:  9 */ [ 0, Tile.water_c],
                     /* screen: D5, row:  6, col: 10 */ [ 0, Tile.water_c],
                     /* screen: D5, row:  6, col: 11 */ [ 0, Tile.water_e],
-                    /* screen: D5, row:  6, col: 12 */ [ 0, Tile.ground, Tile.tile_heart],
+                    /* screen: D5, row:  6, col: 12 */ [ 0, Tile.ground, Tile.floating_heart],
                     /* screen: D5, row:  6, col: 13 */ [ 0, Tile.ground],
                     /* screen: D5, row:  6, col: 14 */ [ 0, Tile.ground],
                     /* screen: D5, row:  6, col: 15 */ [ 0, Tile.ground],
@@ -13749,10 +13749,10 @@ export const mapRowData = [
                     /* screen: D5, row:  8, col:  4 */ [ 0, Tile.ground],
                     /* screen: D5, row:  8, col:  5 */ [ 0, Tile.ground],
                     /* screen: D5, row:  8, col:  6 */ [ 0, Tile.ground],
-                    /* screen: D5, row:  8, col:  7 */ [ 0, Tile.ground, Tile.tile_heart],
+                    /* screen: D5, row:  8, col:  7 */ [ 0, Tile.ground, Tile.floating_heart],
                     /* screen: D5, row:  8, col:  8 */ [ 0, Tile.ground],
                     /* screen: D5, row:  8, col:  9 */ [ 0, Tile.ground],
-                    /* screen: D5, row:  8, col: 10 */ [ 0, Tile.ground, Tile.tile_heart],
+                    /* screen: D5, row:  8, col: 10 */ [ 0, Tile.ground, Tile.floating_heart],
                     /* screen: D5, row:  8, col: 11 */ [ 0, Tile.ground],
                     /* screen: D5, row:  8, col: 12 */ [ 0, Tile.ground],
                     /* screen: D5, row:  8, col: 13 */ [ 0, Tile.ground],
@@ -19405,7 +19405,7 @@ export const mapRowData = [
                     /* screen: P6, row:  6, col: 10 */ [ 0, Tile.water_w],
                     /* screen: P6, row:  6, col: 11 */ [ 0, Tile.bridge],
                     /* screen: P6, row:  6, col: 12 */ [ 0, Tile.water_c],
-                    /* screen: P6, row:  6, col: 13 */ [ 0, Tile.bridge_heart],
+                    /* screen: P6, row:  6, col: 13 */ [ 0, Tile.bridge, Tile.heart],
                     /* screen: P6, row:  6, col: 14 */ [ 0, Tile.water_c],
                     /* screen: P6, row:  6, col: 15 */ [ 0, Tile.water_c],
                     /* screen: P6, row:  6, col: 16 */ [ 0, Tile.water_c],
@@ -26004,3 +26004,145 @@ export const mapRowData = [
         ],
     ],
 ];
+
+export function getSamples() {
+    const sampleScreenRow = [];
+
+    // Add sample pieces for each palette.
+
+    const samplesDataGrid = Array.from({
+        0: [
+            null, Tile.rock_nw, Tile.rock_n, Tile.rock_ne, null, Tile.tree_nw, Tile.tree_n, Tile.tree_ne, null,
+            Tile.dungeon_nw, Tile.dungeon_n1, Tile.dungeon_n2, Tile.dungeon_ne,
+        ],
+        1: [
+            null, Tile.rock_sw, Tile.rock_s, Tile.rock_se, null, Tile.tree_sw, Tile.entrance_w, Tile.tree_se, null,
+            Tile.dungeon_sw, Tile.entrance_w, Tile.entrance_e, Tile.dungeon_se,
+        ],
+        5: [
+            Tile.water_nw, Tile.ground_water_nw, Tile.ground_water_ne, Tile.waterfall1, Tile.bridge, Tile.water_ne,
+        ],
+        6: [
+            Tile.water_sw, Tile.ground_water_sw, Tile.ground_water_se, Tile.water_c, Tile.bridge, Tile.water_se,
+            null,
+            Tile.bush, Tile.ground, Tile.ground_sand, Tile.rock_boulder, Tile.steps, Tile.tomb, Tile.armos_statue,
+        ],
+        // Alternate dungeon enterances.
+        14: Object.keys(Tile.dungeon_tops).map(dungeonTopName => Tile.makeDungeon(dungeonTopName)),
+        length: 15
+    }, (value) => (value ?? []).map(tile => tile ? [0, tile] : tile));
+    samplesDataGrid[ 5][ 4][2] = Tile.heart;
+
+    for (const [paletteIndex, palette] of [
+        Palette.forest,
+        Palette.mountain,
+        Palette.graveyard,
+    ].entries()) {
+        sampleScreenRow.push([[palette], samplesDataGrid]);
+    }
+
+    // Add sample enemies/sprites.
+
+    const spriteSampleGrid = [];
+    for (let x = 0; x < 15; x++) {
+        for (let y = 0; y < 11; y++) {
+            const base = (x >= 6 && x <=  9 && y >= 6)
+                ? Tile.water_c
+                :        (x >= 9 && x <= 11 && y <= 5)
+                    ? Tile.ground_sand
+                    : Tile.ground;
+            spriteSampleGrid[y] ??= [];
+            spriteSampleGrid[y][x] = [0, base];
+        }
+    }
+    spriteSampleGrid[ 0][ 9][2] = Tile.leever_blue_slim;
+    spriteSampleGrid[ 0][11][2] = Tile.leever_blue;
+    spriteSampleGrid[ 1][ 1][2] = Tile.octorok_blue_e;
+    spriteSampleGrid[ 1][ 4][2] = Tile.tektite_blue;
+    spriteSampleGrid[ 1][ 7][2] = Tile.moblin_blue;
+    spriteSampleGrid[ 1][10][2] = Tile.leever_blue_sunk1;
+    spriteSampleGrid[ 1][13][2] = Tile.lynel_blue;
+    spriteSampleGrid[ 2][ 9][2] = Tile.leever_blue_sunk2;
+    spriteSampleGrid[ 3][11][2] = Tile.leever_red;
+    spriteSampleGrid[ 4][ 1][2] = Tile.octorok_red_e;
+    spriteSampleGrid[ 4][ 4][2] = Tile.tektite_red;
+    spriteSampleGrid[ 4][ 7][2] = Tile.moblin_red;
+    spriteSampleGrid[ 4][10][2] = Tile.leever_red_sunk1;
+    spriteSampleGrid[ 4][13][2] = Tile.lynel_red;
+    spriteSampleGrid[ 5][ 9][2] = Tile.leever_red_sunk2;
+    spriteSampleGrid[ 5][11][2] = Tile.leever_red_slim;
+    spriteSampleGrid[ 7][ 1][2] = Tile.armos_red_awake;
+    spriteSampleGrid[ 7][ 4][2] = Tile.ghini;
+    spriteSampleGrid[ 7][ 7][2] = Tile.zora;
+    spriteSampleGrid[ 7][10][2] = Tile.peahat;
+    spriteSampleGrid[ 7][13][2] = Tile.rock;
+    spriteSampleGrid[ 9][ 6][2] = Tile.fairy;
+    spriteSampleGrid[ 9][ 9][2] = Tile.peahat_water;
+    spriteSampleGrid[ 9][11][2] = Tile.peahat_slim;
+    spriteSampleGrid[10][ 4][2] = Tile.link;
+
+    sampleScreenRow.push([[Palette.mountain], spriteSampleGrid]);
+
+    // Create a mini scene.
+
+    const mini = [
+        [
+            [0, Tile.rock_s],
+            [0, Tile.rock_s],
+            [0, Tile.rock_s],
+            [0, Tile.rock_s],
+            [0, Tile.rock_s],
+            [0, Tile.rock_s],
+            [0, Tile.water_c],
+        ],
+        [
+            [0, Tile.ground],
+            [0, Tile.ground],
+            [0, Tile.ground],
+            [0, Tile.ground],
+            [0, Tile.ground],
+            [0, Tile.rock_s],
+            [0, Tile.water_c],
+        ],
+        [
+            [0, Tile.ground],
+            [0, Tile.tree_nw],
+            [0, Tile.tree_n],
+            [0, Tile.tree_ne],
+            [0, Tile.ground],
+            [0, Tile.rock_s],
+            [0, Tile.water_c],
+        ],
+        [
+            [0, Tile.ground],
+            [0, Tile.tree_sw],
+            [0, Tile.entrance_w],
+            [0, Tile.tree_se],
+            [0, Tile.ground],
+            [0, Tile.rock_s],
+            [0, Tile.water_c],
+        ],
+        [
+            [0, Tile.ground],
+            [0, Tile.ground],
+            [0, Tile.ground],
+            [0, Tile.ground],
+            [0, Tile.ground],
+            [0, Tile.ground],
+            [0, Tile.bridge],
+        ],
+        [
+            [0, Tile.ground],
+            [0, Tile.ground],
+            [0, Tile.ground],
+            [0, Tile.ground],
+            [0, Tile.ground],
+            [0, Tile.rock_n],
+            [0, Tile.water_c],
+        ],
+    ];
+
+    sampleScreenRow.push([[Palette.mountain], mini]);
+
+    return [sampleScreenRow];
+}
