@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>NES to LDraw/Lego Palette</title>
+    <meta charset="utf-8">
+    <style>
+        body {
+            font-family: Verdana, sans-serif;
+            font-size: 10px;
+            background: #111;
+            color: #eee;
+        }
+        table {
+            border-spacing: 4px;
+            width: 100%;
+            table-layout: fixed;
+        }
+        th {
+            border: 1px solid #333;
+            padding: 10px;
+        }
+        td {
+            border: 1px solid #333;
+            height: 30px;
+            vertical-align: top;
+            text-align: center;
+            font-weight: bold;
+            border-radius: 4px;
+            padding: 1px;
+        }
+        .color-code { font-family: monospace; }
+
+        .ldraw-swatch {
+            margin: 4px;
+            height: 30px;
+            border: 1px solid rgba(0,0,0,0.2);
+            border-radius: 2px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .ldraw-info { font-size: 9px; line-height: 1.0; }
+
+        .alternative-ldraw-swatch {
+            min-width: 12px;
+            font-size: 7px;
+            border: 1px solid rgba(0,0,0,0.3);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 2px;
+        }
+
+        .alternative-ldraw-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2px;
+            justify-content: center;
+        }
+
+    </style>
+</head>
+<body>
+    <script type="module">
+        "use strict";
+        import {LDrawColors, Color} from './Colors.js';
+
+        const getHexColor = (color) => `#${color.colorInt.toString(16).toUpperCase().padStart(6, '0')}`;
+        const getHexCode = (color) => `0x${color.colorCode.toString(16).toUpperCase().padStart(2, '0')}`;
+        const getName = (color) => color.colorName.toLowerCase().replace(/_/g, ' ');
+
+        /** Sets the background and a contrasting foreground and returns the background hex string. */
+        const setElementColors = (element, color) => {
+            const r = (color.colorInt >> 16) & 0xff;
+            const g = (color.colorInt >> 8) & 0xff;
+            const b = color.colorInt & 0xff;
+            const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+            const foreground = brightness > 128 ? '#000' : '#fff';
+
+            const colorHex = getHexColor(color);
+            element.style.backgroundColor = colorHex;
+            element.style.color = foreground;
+            return colorHex;
+        };
+
+        const updateLDrawSwatch = (swatch, ldrawCode) => {
+            const ldrawColor = LDrawColors[ldrawCode];
+            const ldrawHex = setElementColors(swatch, ldrawColor);
+
+            swatch.innerHTML = `
+                <span class="ldraw-info">
+                    <span class="color-code">[${ldrawColor.colorCode}&nbsp;${ldrawHex}]</span><br>
+                    ${getName(ldrawColor)}
+                </span>
+            `;
+        };
+
+        const addHeader = (table, title) => {
+            const headerNames = [
+                "Neutrals", "Blue", "Violet", "Purple", "Pink", "Red", "Orange", "Tan",
+                "Brown", "Yellow", "Lime", "Green", "Cyan", "Neutrals", "Black", "Black"
+            ];
+
+            const sectionRow = document.createElement('tr');
+            const sectionCell = document.createElement('th');
+            sectionCell.colSpan = headerNames.length;
+            sectionCell.innerHTML = title;
+            sectionRow.appendChild(sectionCell);
+            table.appendChild(sectionRow);
+
+            const headerRow = document.createElement('tr');
+            for (const headerName of headerNames) {
+                const headerCell = document.createElement('th');
+                headerCell.innerHTML = headerName;
+                headerRow.appendChild(headerCell);
+            }
+            table.appendChild(headerRow);
+        };
+
+        const table = document.createElement('table');
+
+        addHeader(table, "NES Colors with LDraw swatch");
+
+        for (let i = 0; i < 4; ++i) {
+            const nesRow = document.createElement('tr');
+            for (let j = 0; j < 16; ++j) {
+                const nesCell = document.createElement('td');
+                const color = Color[i * 16 + j];
+                const nesHexColor = setElementColors(nesCell, color.nes);
+
+                const ldrawSwatch = document.createElement('span');
+                ldrawSwatch.className = "ldraw-swatch";
+                updateLDrawSwatch(ldrawSwatch, color.ldraw.colorCode);
+
+                const altContainer = document.createElement('span');
+                altContainer.className = "alternative-ldraw-container";
+
+                if (color.ldrawAlternativeCodes.length > 0) {
+                    [color.ldraw.colorCode, ...color.ldrawAlternativeCodes].forEach(alternativeLDrawCode => {
+                        const alternativeLDrawColor = LDrawColors[alternativeLDrawCode];
+                        const alternativeLDrawButton = document.createElement('span');
+                        setElementColors(alternativeLDrawButton, alternativeLDrawColor);
+                        alternativeLDrawButton.className = "alternative-ldraw-swatch";
+                        alternativeLDrawButton.innerText = alternativeLDrawCode;
+                        alternativeLDrawButton.title = getName(alternativeLDrawColor);
+                        alternativeLDrawButton.onclick = (ev) => {
+                            ev.stopPropagation();
+                            updateLDrawSwatch(ldrawSwatch, alternativeLDrawCode);
+                        };
+
+                        altContainer.appendChild(alternativeLDrawButton);
+                    });
+                }
+
+                nesCell.innerHTML = `
+                    <span class="color-code">[${getHexCode(color.nes)}&nbsp${nesHexColor}]</span><br>
+                    ${getName(color.nes)}
+                `;
+                nesCell.appendChild(ldrawSwatch);
+                nesCell.appendChild(altContainer);
+                nesRow.appendChild(nesCell);
+
+            }
+            table.appendChild(nesRow);
+        }
+
+        addHeader(table, "LDraw Colors");
+
+        const ldrawCodeTable = [
+            [null,   272,    23,    22,    26,   320,   216,  null,   308,  null,  null,   288,     3,     0,  null,  null],
+            [null,     1,   110,    85,     5,     4,   484,   128,     6,   180,   330,     2,    11,     8,  null,  null],
+            [null,   213,   112,    69, 10022,   508,   402,    92,    70,   424,    27,    10,   321,    72,  null,  null],
+            [null,   379,   219,   373,   351,   335,    25,    84,   422,    14,   115,   378,   322,     7,  null,  null],
+            [null,    73,    89,    30,    29,    12,   366,    19,   370,    18,   510,    74,   232,    71,  null,  null],
+            [null,   212,   220,   218,   295,   123,   462,   371,    86,   226,   326,    17,   118,   503,  null,  null],
+            [null,   313,    20,    31, 10017,   353,   121,    78,    28, 10015,   120,  null,   323,   151,  null,  null],
+            [null,     9,  null,  null,    13,   100,   509,   507,   423,   368,  null,  null,  null,    15,  null,  null],
+            [null,  null,  null,  null,    77,  null,   125,    68,   450,  null,  null,  null,  null,  null,  null,  null],
+            [null,  null,  null,  null,  null,  null,   191,   225,  null,  null,  null,  null,  null,  null,  null,  null],
+        ];
+
+        for (const ldrawCodeRow of ldrawCodeTable) {
+            const ldrawRow = document.createElement('tr');
+            for (const ldrawCode of ldrawCodeRow) {
+                const ldrawCell = document.createElement('td');
+                if (null !== ldrawCode) {
+                    const ldrawColor = LDrawColors[ldrawCode];
+                    const ldrawHex = setElementColors(ldrawCell, ldrawColor);
+                    ldrawCell.innerHTML = `
+                        <span class="color-code">[${ldrawCode}&nbsp;${ldrawHex}]</span>
+                        <br>${getName(ldrawColor)}`;
+                }
+                ldrawRow.appendChild(ldrawCell);
+            }
+            table.appendChild(ldrawRow);
+        }
+
+        document.body.appendChild(table);
+
+    </script>
+</body>
+</html>

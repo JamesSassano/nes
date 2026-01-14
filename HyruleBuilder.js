@@ -29,7 +29,9 @@ export function getPieces(gapSize, showSprites, showElevation, showSamples) {
         const palettes = [paletteData[0], paletteData[1] ?? paletteData[0]];
         const screenName = String.fromCharCode(gridX + 65) + (gridY + 1);
         for (const [screenY, screenRowTileData] of screenTileDataGrid.entries()) {
+            const screenYPosition = `${(screenY + 1).toString().padStart(2, "0")}`;
             for (const [screenX, screenTileData] of screenRowTileData.entries()) {
+                const screenXPosition = `${(screenX + 1).toString().padStart(2, "0")}`;
                 if (screenTileData) {
                     const palette = screenX > 1 && screenX < (screenColumnCount - 2)
                                 && screenY > 1 && screenY < (screenRowCount - 2) ? palettes[1] : palettes[0];
@@ -43,11 +45,7 @@ export function getPieces(gapSize, showSprites, showElevation, showSamples) {
                         const opacity = tilePiece.options.opacity ?? 1;
                         const pieceName = [
                             `${screenName}`,
-                            [
-                                `${(screenX + 1).toString().padStart(2, "0")}`,
-                                `${(screenY + 1).toString().padStart(2, "0")}`,
-                                `${plateLevel.toString().padStart(2, "0")}`,
-                            ].join(","),
+                            `${screenXPosition},${screenYPosition},${plateLevel.toString().padStart(2, "0")}`,
                             `${tilePiece.piece.partNumber}_${tilePiece.piece.name}`
                         ].join("_").replaceAll(" ", "_");
 

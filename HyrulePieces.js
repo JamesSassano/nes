@@ -1,5 +1,7 @@
 "use strict";
 
+import {Color} from "./Colors.js";
+
 export class Piece {
     static brick                        = new Piece( 3005, 3,  3, null,                     "brick");
     static brick_headlight              = new Piece( 4070, 3,  3, null,                     "brick_headlight");
@@ -46,41 +48,10 @@ export class Piece {
     }
 }
 
-export class Color {
-    static blue         = new Color(0x12, 0x2038EC,  23, 0x0E3E9A, "Dark_Blue_Violet");
-    static green        = new Color(0x1A, 0x00A800,  10, 0x58AB41, "Bright_Green");
-    static brown        = new Color(0x17, 0xC84C0C, 402, 0xCA4C0B, "Reddish_Orange");
-    static white        = new Color(0x20, 0xFCFCFC,  15, 0xF4F4F4, "White");
-    static red          = new Color(0x16, 0xD82800,   4, 0xB40000, "Red");
-    static black        = new Color(0x0D, 0x000000,   0, 0x1B2A34, "Black");
-    static tan          = new Color(0x37, 0xFCD8A8,  78, 0xFFC995, "Light_Nougat");
-    static gray         = new Color(0x00, 0x747474,  72, 0x646464, "Dark_Bluish_Grey");
-    static orange       = new Color(0x27, 0xFC9838, 121, 0xF89A39, "Light_Orange");
-    static lightgreen   = new Color(0x29, 0x80D010,  27, 0xA5CA18, "Lime");
-    static lightblue    = new Color(0x22, 0x5C94FC,  73, 0x7396C8, "Medium_Blue");
-    static bluegreen    = new Color(0x1C, 0x008088,   3, 0x069D9F, "Dark_Turquoise");
-
-    static primary      = "primary";
-    static secondary    = "secondary";
-    static background   = "background";
-
-    constructor(nesCode, nesInt, ldrawCode, ldrawInt, ldrawName) {
-        this.nes = {
-            colorCode: nesCode,
-            colorInt: nesInt,
-        };
-        this.ldraw = {
-            colorCode: ldrawCode,
-            colorInt: ldrawInt,
-            colorName: ldrawName,
-        };
-    }
-}
-
 export class Palette {
-    static forest    = new Palette(Color.green, Color.blue, Color.tan);
-    static mountain  = new Palette(Color.brown, Color.blue, Color.tan);
-    static graveyard = new Palette(Color.white, Color.blue, Color.gray);
+    static forest    = new Palette(Color.green, Color.blue, Color.peach);
+    static mountain  = new Palette(Color.brown, Color.blue, Color.peach);
+    static graveyard = new Palette(Color.white, Color.blue, Color.deep_gray);
 
     constructor(primary, secondary, background) {
         this.primary = primary;
@@ -168,7 +139,7 @@ export class Tile {
     static octorok_blue_n = Tile.makeOctorok(Color.blue, 180);
     static octorok_blue_s = Tile.makeOctorok(Color.blue, 0);
     static moblin_red = Tile.makeMoblin(Color.white, Color.red, Color.orange);
-    static moblin_blue = Tile.makeMoblin(Color.red, Color.black, Color.bluegreen);
+    static moblin_blue = Tile.makeMoblin(Color.red, Color.black, Color.teal);
     static leever_red = Tile.makeLeever(Color.red, false, 0);
     static leever_red_slim = Tile.makeLeever(Color.red, true, 0);
     static leever_red_sunk1 = Tile.makeLeever(Color.red, true, 1);
@@ -178,9 +149,9 @@ export class Tile {
     static leever_blue_sunk1 = Tile.makeLeever(Color.blue, true, 1);
     static leever_blue_sunk2 = Tile.makeLeever(Color.blue, true, 2);
     static lynel_red = Tile.makeLynel(Color.red, Color.orange);
-    static lynel_blue = Tile.makeLynel(Color.blue, Color.lightblue);
+    static lynel_blue = Tile.makeLynel(Color.blue, Color.steel_blue);
     static tektite_red = Tile.makeTektite(Color.red);
-    static tektite_blue = Tile.makeTektite(Color.lightblue);
+    static tektite_blue = Tile.makeTektite(Color.steel_blue);
     static peahat = Tile.makePeahat(false, false);
     static peahat_water = Tile.makePeahat(true, false);
     static peahat_slim = Tile.makePeahat(false, true);
@@ -190,7 +161,7 @@ export class Tile {
     static link = [
         new TilePiece(Piece.plate,                          Color.brown,        {}),
         new TilePiece(Piece.plate,                          Color.orange,       {}),
-        new TilePiece(Piece.tile,                           Color.lightgreen,   {}),
+        new TilePiece(Piece.tile,                           Color.chartreuse,   {}),
     ];
 
     static fairy = [
@@ -200,7 +171,7 @@ export class Tile {
     ];
 
     static zora = [
-        new TilePiece(Piece.plate,                          Color.bluegreen,    {}),
+        new TilePiece(Piece.plate,                          Color.teal,         {}),
         new TilePiece(Piece.plate_round_dot,                Color.red,          {}),
     ];
     static rock = [
