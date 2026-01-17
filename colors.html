@@ -67,7 +67,7 @@
 <body>
     <script type="module">
         "use strict";
-        import {LDrawColors, Color} from './Colors.js';
+        import {LDrawColors, NESColor} from './Colors.js';
 
         const getHexColor = (color) => `#${color.colorInt.toString(16).toUpperCase().padStart(6, '0')}`;
         const getHexCode = (color) => `0x${color.colorCode.toString(16).toUpperCase().padStart(2, '0')}`;
@@ -129,18 +129,18 @@
             const nesRow = document.createElement('tr');
             for (let j = 0; j < 16; ++j) {
                 const nesCell = document.createElement('td');
-                const color = Color[i * 16 + j];
-                const nesHexColor = setElementColors(nesCell, color.nes);
+                const nesColor = NESColor[i * 16 + j];
+                const nesHexColor = setElementColors(nesCell, nesColor);
 
                 const ldrawSwatch = document.createElement('span');
                 ldrawSwatch.className = "ldraw-swatch";
-                updateLDrawSwatch(ldrawSwatch, color.ldraw.colorCode);
+                updateLDrawSwatch(ldrawSwatch, nesColor.ldrawCode);
 
                 const altContainer = document.createElement('span');
                 altContainer.className = "alternative-ldraw-container";
 
-                if (color.ldrawAlternativeCodes.length > 0) {
-                    [color.ldraw.colorCode, ...color.ldrawAlternativeCodes].forEach(alternativeLDrawCode => {
+                if (nesColor.ldrawAlternativeCodes.length > 0) {
+                    [nesColor.ldrawCode, ...nesColor.ldrawAlternativeCodes].forEach(alternativeLDrawCode => {
                         const alternativeLDrawColor = LDrawColors[alternativeLDrawCode];
                         const alternativeLDrawButton = document.createElement('span');
                         setElementColors(alternativeLDrawButton, alternativeLDrawColor);
@@ -157,8 +157,8 @@
                 }
 
                 nesCell.innerHTML = `
-                    <span class="color-code">[${getHexCode(color.nes)}&nbsp${nesHexColor}]</span><br>
-                    ${getName(color.nes)}
+                    <span class="color-code">[${getHexCode(nesColor)}&nbsp${nesHexColor}]</span><br>
+                    ${getName(nesColor)}
                 `;
                 nesCell.appendChild(ldrawSwatch);
                 nesCell.appendChild(altContainer);

@@ -194,7 +194,7 @@
 
                             pieceInstancedMeshes.forEach(pieceInstancedMesh => {
                                 pieceInstancedMesh.setMatrixAt(pieceIndex, object3d.matrix);
-                                const paletteColor = pieceConfiguration.color[options.palette].colorInt;
+                                const paletteColor = pieceConfiguration.color.palettes[options.palette];
                                 const color = colors[paletteColor] ??= new THREE.Color(paletteColor);
                                 pieceInstancedMesh.setColorAt(pieceIndex, color);
 

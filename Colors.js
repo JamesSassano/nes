@@ -8,12 +8,6 @@ class BaseColor {
     }
 }
 
-class NesColor extends BaseColor {
-    constructor(colorCode, colorInt, colorName) {
-        super(colorCode, colorInt, colorName);
-    }
-}
-
 export class LDrawColors extends BaseColor {
     static {
         const colors = {
@@ -131,7 +125,7 @@ export class LDrawColors extends BaseColor {
     }
 };
 
-export class Color {
+export class NESColor extends BaseColor {
     static {
         const colors = {
             0x00: [0x747474, "deep_gray",       8, []],
@@ -204,8 +198,8 @@ export class Color {
         };
 
         for (const [nesCode, values] of Object.entries(colors)) {
-            this[nesCode] = new Color(Number(nesCode), ...values);
-            this[this[nesCode].nes.colorName] = this[nesCode];
+            this[nesCode] = new NESColor(Number(nesCode), ...values);
+            this[this[nesCode].colorName] = this[nesCode];
         }
 
         this["black"] = this[0x0D];
@@ -217,8 +211,13 @@ export class Color {
     static background   = "background";
 
     constructor(nesCode, nesInt, nesName, ldrawCode, ldrawAlternativeCodes) {
-        this.nes = new NesColor(nesCode, nesInt, nesName);
-        this.ldraw = LDrawColors[ldrawCode];
+        super(nesCode, nesInt, nesName);
+        this.ldrawCode = ldrawCode;
         this.ldrawAlternativeCodes = ldrawAlternativeCodes;
+
+        this.palettes = {
+            nes: nesInt,
+            ldraw: LDrawColors[ldrawCode].colorInt,
+        };
     }
 }

@@ -25,7 +25,7 @@ export class PieceInstances {
         const colors = {};
         Object.keys(this.piecesByScreen).forEach(screenName => {
             this.piecesByScreen[screenName].forEach(pieceInstance => {
-                const paletteColor = pieceInstance.color[palette].colorInt;
+                const paletteColor = pieceInstance.color.palettes[palette];
                 const color = colors[paletteColor] ??= new THREE.Color(paletteColor);
                 pieceInstance.pieceInstancedMesh.setColorAt(pieceInstance.pieceInstancedMeshIndex, color);
                 pieceInstance.pieceInstancedMesh.instanceColor.needsUpdate = true;
