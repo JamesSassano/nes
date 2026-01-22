@@ -18,6 +18,7 @@ export class Piece {
     static plate                        = new Piece( 3024, 1,  1, null,                     "plate");
     static plate_clip_top               = new Piece(15712, 1,  1, null,                     "plate_clip_top");
     static plate_round_dot              = new Piece( 6141, 1,  1, null,                     "plate_round_dot");
+    static plate_round_dot_with_hole    = new Piece(85861, 1,  1, Piece.plate_round_dot,    "plate_round_dot_with_hole");
     static plate_round_tabs             = new Piece(33291, 1,  1, null,                     "plate_round_tabs");
     static plate_center_stud            = new Piece(15573, 1,  1, null,                     "plate_center_stud");
     static plate_center_stud2           = new Piece(34103, 1,  1, null,                     "plate_center_stud2");
@@ -29,8 +30,16 @@ export class Piece {
     static tile_heart                   = new Piece(39739, 1,  1, null,                     "tile_heart");
     static tile_quarter_circle          = new Piece(25269, 1,  1, Piece.plate_round_dot,    "tile_quarter_circle");
     static tile_round_dot               = new Piece(35381, 1,  1, Piece.plate_round_dot,    "tile_round_dot");
-    static tile_round_dot_with_hole     = new Piece(85861, 1,  1, Piece.plate_round_dot,    "tile_round_dot_with_hole");
+    static tile_round_dot_pin_holder    = new Piece(31561, 1,  1, Piece.plate_round_dot,    "tile_round_dot_pin_holder");
     static tile2                        = new Piece(3069,  1,  1, null,                     "tile2");
+
+    static candle_flame                 = new Piece(37775, 3,  1, null,                     "candle_flame");
+    static bottle                       = new Piece(95228, 6,  6, null,                     "bottle");
+    static sword                        = new Piece(76764, 1,  1, null,                     "sword");
+    static bar_2l                       = new Piece(78258, 2,  1, null,                     "bar_2l");
+    static arrow                        = new Piece(18041, 8,  0, null,                     "arrow");
+    static bow                          = new Piece(95051, 9,  4, null,                     "bow");
+    static key                          = new Piece('40359a', 3,  1, null,                  "key");
 
     // Samples
     static brick_2_3rd_slope_triangle   = new Piece(35464, 2,  0, null,                     "brick_2_3rd_slope_triangle");
@@ -60,6 +69,8 @@ export class Palette {
     static forest    = new Palette(NESColor.green, NESColor.blue, NESColor.peach);
     static mountain  = new Palette(NESColor.brown, NESColor.blue, NESColor.peach);
     static graveyard = new Palette(NESColor.white, NESColor.blue, NESColor.deep_gray);
+    static text      = new Palette(NESColor.black, NESColor.deep_gray, NESColor.white);
+    static cave      = new Palette(NESColor.dark_red, NESColor.black, NESColor.black);
 
     constructor(primary, secondary, background) {
         this.primary = primary;
@@ -85,6 +96,29 @@ export class TilePiece {
 export class Tile {
     static water_opacity = 1;
     static clear_opacity = 0.5;
+
+    static transformTile(tile, options) {
+        return tile.map(tilePiece => {
+            const transformedOptions = {};
+            [
+                "translateX", "translateY", "translateZ",
+                "rotateX", "rotateY", "rotateZ",
+                "scaleX", "scaleY", "scaleZ",
+                "opacity",
+            ].forEach(option => {
+                const oldValue = tilePiece.options[option];
+                const newValue = options[option];
+                if (undefined !== oldValue || undefined !== newValue) {
+                    transformedOptions[option] = (oldValue || 0) + (newValue || 0);
+                }
+            });
+            return new TilePiece(tilePiece.piece, tilePiece.color, transformedOptions);
+        });
+    }
+
+    static transformCenter(tile) {
+        return Tile.transformTile(tile, {translateX: .5});
+    }
 
     static makeOctorok(color, rotation) {
         return [
@@ -147,6 +181,7 @@ export class Tile {
     static octorok_blue_n = Tile.makeOctorok(NESColor.blue, 180);
     static octorok_blue_s = Tile.makeOctorok(NESColor.blue, 0);
     static moblin_red = Tile.makeMoblin(NESColor.white, NESColor.red, NESColor.orange);
+    static moblin_red_center = Tile.transformCenter(Tile.moblin_red);
     static moblin_blue = Tile.makeMoblin(NESColor.red, NESColor.black, NESColor.teal);
     static leever_red = Tile.makeLeever(NESColor.red, false, 0);
     static leever_red_slim = Tile.makeLeever(NESColor.red, true, 0);
@@ -482,6 +517,17 @@ export class Tile {
         new TilePiece(Piece.plate,                          NESColor.primary,       {}),
         new TilePiece(Piece.tile,                           NESColor.primary,       {}),
     ];
+    static dungeon_floor_stud = [
+        new TilePiece(Piece.brick_2_3rd,                    NESColor.primary,       {}),
+    ];
+    static dungeon_floor_sub = [
+        new TilePiece(Piece.plate,                          NESColor.primary,       {}),
+    ];
+    static dungeon_floor_triangle = [
+        new TilePiece(Piece.brick_2_3rd,                    NESColor.primary,       {}),
+        new TilePiece(Piece.brick_2_3rd_slope_triangle,     NESColor.primary,       {}),
+    ];
+
     static dungeon_sand = [
         new TilePiece(Piece.plate,                          NESColor.background,    {}),
         new TilePiece(Piece.tile_round_dot,                 NESColor.primary,       {}),
@@ -510,9 +556,234 @@ export class Tile {
         new TilePiece(Piece.plate,                          NESColor.primary,       {}),
         new TilePiece(Piece.tile,                           NESColor.black,         {}),
     ];
-    static dungeon_text = [
+
+    static dungeon_jumper_1x2 = [
         new TilePiece(Piece.plate,                          NESColor.primary,       {}),
-        new TilePiece(Piece.tile_round_dot_with_hole,       NESColor.background,    {}),
+        new TilePiece(Piece.plate_center_stud,              NESColor.primary,       {translateX: .5}),
+    ];
+
+    static dungeon_text_character = [
+        new TilePiece(Piece.plate,                          NESColor.primary,       {}),
+        new TilePiece(Piece.plate_round_dot_with_hole,       NESColor.background,    {}),
+    ];
+    static dungeon_text_times = [
+        new TilePiece(Piece.plate,                          NESColor.primary,       {}),
+        new TilePiece(Piece.plate_round_tabs,               NESColor.background,    {rotateY: 45}),
+    ];
+    static dungeon_text_dash = [
+        new TilePiece(Piece.brick_2_3rd_slope_triangle,     NESColor.background,    {}),
+    ];
+    static dungeon_text_period = [
+        new TilePiece(Piece.plate,                          NESColor.primary,       {}),
+        new TilePiece(Piece.tile_round_dot,                 NESColor.background,    {}),
+    ];
+    static dungeon_text_comma = [
+        new TilePiece(Piece.plate,                          NESColor.primary,       {}),
+        new TilePiece(Piece.tile_quarter_circle,            NESColor.background,    {}),
+    ];
+    static dungeon_text_exclamation = [
+        new TilePiece(Piece.brick_2_3rd_slope_triangle,     NESColor.background,    {rotateY: 90}),
+    ];
+    static dungeon_text_question = [
+        new TilePiece(Piece.plate,                          NESColor.primary,       {}),
+        new TilePiece(Piece.plate_clip_top,                 NESColor.background,    {}),
+    ];
+    static dungeon_text_apostrophe = [
+        new TilePiece(Piece.plate,                          NESColor.primary,       {}),
+        new TilePiece(Piece.tile_round_dot_pin_holder,      NESColor.background,    {}),
+    ];
+
+    static old_man = [
+        new TilePiece(Piece.plate,                          NESColor.red,           {translateX: .5}),
+        new TilePiece(Piece.plate,                          NESColor.white,         {translateX: .5}),
+        new TilePiece(Piece.tile_round_dot,                 NESColor.orange,        {translateX: .5}),
+    ];
+
+    static old_woman = [
+        new TilePiece(Piece.plate,                          NESColor.red,           {translateX: .5}),
+        new TilePiece(Piece.plate,                          NESColor.orange,        {translateX: .5}),
+        new TilePiece(Piece.tile_half_circle,               NESColor.white,         {translateX: .5}),
+    ];
+
+    static keeper = [
+        new TilePiece(Piece.plate,                          NESColor.chartreuse,    {translateX: .5}),
+        new TilePiece(Piece.plate,                          NESColor.brown,         {translateX: .5}),
+        new TilePiece(Piece.tile,                           NESColor.orange,        {translateX: .5}),
+    ];
+
+    // Items.
+
+    static item_heart = [
+        new TilePiece(Piece.tile_heart,                     NESColor.red,           {rotateY: 45}),
+    ];
+    static item_heart_center = Tile.transformCenter(Tile.item_heart);
+
+    static item_heart_container = [
+        new TilePiece(Piece.tile,                           NESColor.orange,        {}),
+        new TilePiece(Piece.tile_heart,                     NESColor.red,           {rotateY: 45}),
+    ];
+    static item_heart_container_center = Tile.transformCenter(Tile.item_heart_container);
+
+    static item_triforce = [
+        new TilePiece(Piece.triangle,                       NESColor.orange,        {}),
+    ];
+
+    static item_rupee_orange = [
+        new TilePiece(Piece.plate_round_dot,                NESColor.orange,        {}),
+    ];
+    static item_rupee_orange_center = Tile.transformCenter(Tile.item_rupee_orange);
+
+    static item_rupee_blue = [
+        new TilePiece(Piece.plate_round_dot,                NESColor.steel_blue,    {}),
+    ];
+    static item_rupee_blue_center = Tile.transformCenter(Tile.item_rupee_blue);
+
+    static item_clock = [
+    ];
+    static item_road = [
+        new TilePiece(Piece.brick_2_3rd_slope,              NESColor.secondary,     {rotateY: 270}),
+    ];
+
+    // Items Inventory.
+
+    static item_boomerang = [
+    ];
+    static item_magical_boomerang = [
+    ];
+
+    static item_bomb = [
+        new TilePiece(Piece.plate_round_dot_with_hole,       NESColor.blue,         {}),
+        new TilePiece(Piece.plate_round_dot_with_hole,       NESColor.blue,         {}),
+        new TilePiece(Piece.bar_2l,                         NESColor.white,        {}),
+    ];
+    static item_bomb_center = Tile.transformCenter(Tile.item_bomb);
+
+    static item_bow = [
+    ];
+
+    static item_arrow = [
+        new TilePiece(Piece.arrow,                          NESColor.orange,        {}),
+    ];
+    static item_arrow_center = Tile.transformCenter(Tile.item_arrow);
+
+    static item_silver_arrow = [
+    ];
+    static item_candle_red = [
+        new TilePiece(Piece.tile_round_dot_pin_holder,      NESColor.white,         {}),
+        new TilePiece(Piece.candle_flame,                   NESColor.red,           {rotateY: 90}),
+    ];
+    static item_candle_blue = [
+        new TilePiece(Piece.tile_round_dot_pin_holder,      NESColor.white,         {}),
+        new TilePiece(Piece.candle_flame,                   NESColor.blue,          {rotateY: 90}),
+    ];
+    static item_candle_blue_center = Tile.transformCenter(Tile.item_candle_blue);
+
+    static item_flute = [ // recorder
+    ];
+    static item_bait = [ // food
+        new TilePiece(Piece.plate_round_dot,                NESColor.white,         {}),
+        new TilePiece(Piece.plate_round_dot,                NESColor.red  ,         {}),
+        new TilePiece(Piece.plate_round_dot,                NESColor.white,         {}),
+    ];
+    static item_bait_center = Tile.transformCenter(Tile.item_bait);
+
+    static item_letter = [
+        new TilePiece(Piece.tile,                           NESColor.white,         {}),
+        new TilePiece(Piece.plate,                          NESColor.blue,          {}),
+    ];
+    static item_letter_center = Tile.transformCenter(Tile.item_letter);
+
+    static item_life_potion_blue = [
+        //new TilePiece(Piece.bottle,                         NESColor.blue,          {}),
+        new TilePiece(Piece.plate_round_dot,                NESColor.blue,          {}),
+        new TilePiece(Piece.tile_round_dot_pin_holder,      NESColor.blue,          {}),
+    ];
+    static item_life_potion_blue_center = Tile.transformCenter(Tile.item_life_potion_blue);
+    static item_life_potion_red = [
+        //new TilePiece(Piece.bottle,                         NESColor.red,           {}),
+        new TilePiece(Piece.plate_round_dot,                NESColor.red,           {}),
+        new TilePiece(Piece.tile_round_dot_pin_holder,      NESColor.red,           {}),
+    ];
+    static item_life_potion_red_center = Tile.transformCenter(Tile.item_life_potion_red);
+
+
+    static item_magical_rod = [
+    ];
+    static item_book_of_magic = [
+        new TilePiece(Piece.tile,                           NESColor.white,         {}),
+        new TilePiece(Piece.plate,                          NESColor.red,           {}),
+    ];
+
+    // Items Equipment.
+
+    static item_sword = [ // wooden
+        new TilePiece(Piece.plate_clip_top,                 NESColor.primary,       {rotateY: 90}),
+        new TilePiece(Piece.sword,                          NESColor.brown,         {rotateZ: 270}),
+    ];
+    static item_white_sword = [
+        new TilePiece(Piece.plate_clip_top,                 NESColor.primary,       {rotateY: 90}),
+        new TilePiece(Piece.sword,                          NESColor.white,         {rotateZ: 270}),
+    ];
+    static item_magical_sword = [
+        new TilePiece(Piece.plate_clip_top,                 NESColor.primary,       {rotateY: 90}),
+        new TilePiece(Piece.sword,                          NESColor.red,           {rotateZ: 270}),
+    ];
+    static item_shield = [ // wooden, small
+        new TilePiece(Piece.plate,                          NESColor.orange,        {}),
+        new TilePiece(Piece.tile,                           NESColor.brown,         {}),
+    ];
+    static item_magical_shield = [
+        new TilePiece(Piece.plate,                          NESColor.orange,        {}),
+        new TilePiece(Piece.plate_round_dot_with_hole,      NESColor.brown,         {}),
+    ]
+    static item_magical_shield_center = Tile.transformCenter(Tile.item_magical_shield);
+
+    static item_ring_blue = [
+        new TilePiece(Piece.plate_round_dot_with_hole,      NESColor.blue,          {}),
+    ];
+    static item_ring_blue_center = Tile.transformCenter(Tile.item_ring_blue);
+    static item_ring_red = [
+        new TilePiece(Piece.plate_round_dot_with_hole,      NESColor.red,           {}),
+    ];
+    static item_power_bracelet = [
+        new TilePiece(Piece.plate_round_dot_with_hole,      NESColor.orange,        {}),
+    ];
+
+    // Items Navigation.
+
+    static item_map = [
+        new TilePiece(Piece.tile,                           NESColor.white,         {}),
+        new TilePiece(Piece.plate,                          NESColor.orange,        {}),
+    ];
+    static item_compass = [
+    ];
+    static item_key = [
+        new TilePiece(Piece.key,                            NESColor.orange,        {rotateX: 90, rotateZ: 90, translateZ: 5}),
+    ];
+    static item_key_center = Tile.transformCenter(Tile.item_key);
+
+    static item_magical_key = [
+    ];
+    static item_raft = [
+    ];
+    static item_stepladder = [
+    ];
+
+    // Cave walls.
+
+    static cave_wall_outer = [
+        new TilePiece(Piece.brick,                          NESColor.primary,       {}),
+        new TilePiece(Piece.brick,                          NESColor.primary,       {}),
+    ];
+
+    static cave_wall_inner = [
+        new TilePiece(Piece.brick_2_3rd,                    NESColor.primary,       {}),
+        new TilePiece(Piece.brick,                          NESColor.primary,       {}),
+    ];
+
+    static cave_entrance = [
+        new TilePiece(Piece.plate,                          NESColor.primary,       {}),
+        new TilePiece(Piece.tile,                           NESColor.black,         {}),
     ];
 
     // Dungeon walls outer.
@@ -701,4 +972,234 @@ export class Tile {
             elevation += tilePiece.piece.plateHeight;
         }
     }
+}
+
+export const Texts = Object.freeze({
+    "cave_item_take_this": [
+        ["IT'S DANGEROUS TO GO", "ALONE! TAKE THIS."],
+        ["o' ooo o o",           "oo! oo o."],
+    ],
+    "cave_item_master_using": [
+        ["MASTER USING IT AND", "YOU CAN HAVE THIS."],
+        ["ooo oo o o",          "o o oo o."],
+    ],
+    "cave_item_show_this": [
+        ["SHOW THIS TO THE", "OLD WOMAN."],
+        ["o oo o o",         "o oo."],
+    ],
+    "cave_take_any": [
+        ["TAKE ANY ONE YOU WANT."],
+        ["oo o o o o."],
+    ],
+    "cave_take_road": [
+        ["TAKE ANY ROAD YOU WANT."],
+        ["oo o oo o o."],
+    ],
+    "cave_door_repair": [
+        ["PAY ME FOR THE DOOR", "REPAIR CHARGE."],
+        ["o o o o oo",          "oo ooo."],
+    ],
+    "cave_secret_everybody": [
+        ["IT'S A SECRET", "TO EVERYBODY."],
+        ["o' o oo",       "o oooo."],
+    ],
+    "cave_secret_tree": [
+        ["SECRET IS IN THE TREE", "AT THE DEAD-END."],
+        ["oo o o o oo",           "o o o-o."],
+    ],
+    "cave_meet_grave": [
+        ["MEET THE OLD MAN", "AT THE GRAVE."],
+        ["oo o o o",         "o o oo."],
+    ],
+    "cave_up_up": [
+        ["GO UP,UP,", "THE MOUNTAIN AHEAD."],
+        ["o o,o",     "o oooo oo."],
+    ],
+    "cave_maze": [
+        ["GO NORTH,WEST,SOUTH,", "WEST TO THE FOREST", "OF MAZE."],
+        ["o oo,o,oo,",           "oo o o oo",          "o o."],
+    ],
+    "cave_pay_talk": [
+        ["PAY ME AND I'LL TALK."],
+        ["o o o .o o."],
+    ],
+    "cave_aint_enough": [
+        ["THIS AIN'T ENOUGH", "TO TALK."],
+        ["o o'o ooo",         "o o."],
+    ],
+    "cave_youre_rich": [
+        ["BOY, YOU'RE RICH!"],
+        ["o, o'o o!"],
+    ],
+    "cave_lets_play": [
+        ["LET'S PLAY MONEY", "MAKING GAME."],
+        ["o'o o oo",         "oo oo."],
+    ],
+    "cave_shop_expensive": [
+        ["BOY, THIS IS", "REALLY EXPENSIVE!"],
+        ["o, o o",       "ooo oooo!"],
+    ],
+    "cave_shop_buy_somethin": [
+        ["BUY SOMETHIN' WILL YA!"],
+        ["o ooo' o o!"],
+    ],
+    "cave_shop_buy_medicine": [
+        ["BUY MEDICINE BEFORE", "YOU GO."],
+        ["o oooo ooo",          "o o."],
+    ],
+    "dungeon_walk_waterfall": [
+        ["WALK INTO THE", "WATERFALL."],
+        ["oo oo o",       "oooo."],
+    ],
+    "dungeon_fairies_dont": [
+        ["THERE ARE SECRETS WHERE", "FAIRIES DON'T LIVE."],
+        ["oo o ooo ooo",            "ooo o' oo."],
+    ],
+    "dungeon_secret_arrow": [
+        ["SECRET POWER IS SAID", "TO BE IN THE ARROW."],
+        ["oo oo o oo",           "o o oo oo."],
+    ],
+    "dungeon_more_bombs": [
+        ["I BET YOU'D LIKE", "TO HAVE MORE BOMBS."],
+        ["o o o' o",         "o o oo oo."],
+    ],
+    "dungeon_dodongo_smoke": [
+        ["DODONGO DISLIKES SMOKE."],
+        ["ooo oooo oo."],
+    ],
+    "dungeon_sword_waterfall": [
+        ["DID YOU GET THE SWORD", "FROM THE OLD MAN ON", "TOP OF THE WATERFALL?"],
+        ["o o o o ooo",           "oo o o o o",          "o o o oooo?"],
+    ],
+    "dungeon_eastmost_secret": [
+        ["EASTMOST PENNINSULA", "IS THE SECRET."],
+        ["oooo ooooo",          "o o oo."],
+    ],
+    "dungeon_diggogger_hates": [
+        ["DIGDOGGER HATES", "CERTAIN KIND OF SOUND."],
+        ["oooo ooo",        "ooo o o oo."],
+    ],
+    "dungeon_gohma_eyes": [
+        ["AIM AT THE EYES", "OF GOHMA."],
+        ["o o o oo",        "o oo."],
+    ],
+    "dungeon_skull_secret": [
+        ["EYES OF SKULL", "HAS A SECRET."],
+        ["oo o oo",       "o o oo."],
+    ],
+    "dungeon_next_room": [
+        ["GO TO THE NEXT ROOM."],
+        ["o o o o o."],
+    ],
+    "dungeon_grumble": [
+        ["GRUMBLE,GRUMBLE..."],
+        ["ooo,ooo.."],
+    ],
+    "dungeon_10th_enemy": [
+        ["10TH ENEMY HAS THE BOMB."],
+        ["oo oo o o o."],
+    ],
+    "dungeon_spectacle_rock": [
+        ["SPECTACLE ROCK IS", "AN ENTRANCE TO DEATH."],
+        ["oooo oo o",         "o ooo o oo."],
+    ],
+    "dungeon_patra_map": [
+        ["PATRA HAS THE MAP."],
+        ["oo o o o."],
+    ],
+    "dungeon_tip_nose": [
+        ["THERE'S A SECRET IN", "THE TIP OF THE NOSE."],
+        ["oo' o oo o",          "o o o o o."],
+    ],
+    "dungeon_have_triforce": [
+        ["ONES WHO DOES NOT HAVE", "TRIFORCE CAN'T GO IN."],
+        ["oo o o o oo",            "ooo o' o o."],
+    ],
+});
+
+
+Object.entries(Texts).forEach(([key, [originalText, compressedText]]) => {
+    return; // Comment to compare original to compressed.
+    console.log(`\n--- ${key} ---`);
+    originalText.forEach((line, i) => {
+        console.log(line.match(/.{1,2}/g).map(chunk => `(${chunk.padEnd(2, ' ')})`).join(''));
+        console.log(compressedText[i].split("").map(character => `(${character} )`).join(''));
+    });
+});
+
+export function makeTextFloor(elevation, texts, sprites, items) {
+    const toTextTile = {
+        " ": Tile.dungeon_floor,
+        "o": Tile.dungeon_text_character,
+        "x": Tile.dungeon_text_times,
+        "-": Tile.dungeon_text_dash,
+        ".": Tile.dungeon_text_period,
+        ",": Tile.dungeon_text_comma,
+        "!": Tile.dungeon_text_exclamation,
+        "?": Tile.dungeon_text_question,
+        "'": Tile.dungeon_text_apostrophe,
+    }
+
+    const floor = Array(7).fill(0).map((_, screenY) =>
+        Array(12).fill(0).map((_, screenX) => [elevation, Tile.dungeon_floor]
+    ));
+
+    // Get the last compressed text.
+    texts = texts[texts.length - 1][1];
+
+    texts.forEach((text, rowIndex) => {
+        const startIndex = Math.floor((12 - text.length) / 2);
+        text.split('').forEach((textCharacter, columnIndex) => {
+            floor[rowIndex][startIndex + columnIndex] = [elevation, toTextTile[textCharacter]];
+        });
+    });
+
+    const candleRowIndex = Math.max(2, texts.length);
+    floor[candleRowIndex][2] = [elevation, Tile.dungeon_floor_sub, Tile.item_candle_red];
+    floor[candleRowIndex][9] = [elevation, Tile.dungeon_floor_sub, Tile.item_candle_red];
+    floor[candleRowIndex][5] = [elevation, Tile.dungeon_jumper_1x2, sprites[0]];
+    floor[candleRowIndex][6] = [elevation, Tile.dungeon_floor_sub];
+
+    // Rupee times sign.
+    if (items.length > 1 && items[0].length > 1) {
+        floor[5][0].push(Tile.item_rupee_orange);
+        floor[5][1] = [elevation, Tile.dungeon_text_times];
+    }
+
+    if (items && items.length > 0) {
+        const columnIndexes = {
+            1: [5],
+            2: [3, 7],
+            3: [2, 5, 8],
+        }[items.length];
+
+        items.forEach((itemConfig, itemIndex) => {
+            const itemStartColumn = columnIndexes[itemIndex];
+            const [item, value] = itemConfig;
+
+            // Add the item.
+            if (item === Tile.item_road) {
+                floor[4][itemStartColumn + 1] = [elevation, item];
+            } else if ([Tile.item_sword, Tile.item_white_sword, Tile.item_magical_sword].includes(item)) {
+                floor[4][7] = [elevation, Tile.dungeon_floor_stud, item];
+                // todo: Make conditional on adding 3d printer supports.
+                floor[4][4] = [elevation, Tile.dungeon_floor_triangle];
+                floor[4][5] = [elevation, Tile.dungeon_floor_triangle];
+                floor[4][6] = [elevation, Tile.dungeon_floor_triangle];
+            } else {
+                floor[4][itemStartColumn] = [elevation, Tile.dungeon_jumper_1x2, item];
+                floor[4][itemStartColumn + 1] = [elevation, Tile.dungeon_floor_sub];
+            }
+
+            // Add the cost text.
+            if (undefined !== value) {
+                const cost = value < 0 ? "-o" : value > 100 ? "oo" : " o";
+                cost.split("").forEach((costCharacter, costIndex) => {
+                    floor[5][itemStartColumn + costIndex] = [elevation, toTextTile[costCharacter]];
+                })
+            }
+        });
+    }
+
+    return floor;
 }

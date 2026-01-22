@@ -33,7 +33,7 @@ export class PieceInstances {
         });
     }
 
-    async getObjData(yUp, onProgress) {
+    async getObjData(mapName, yUp, onProgress) {
         const mtllib = {};
 
         const encoder = new TextEncoder();
@@ -75,7 +75,7 @@ export class PieceInstances {
                 .sort((a, b) => a.pieceName.localeCompare(b.pieceName));
 
             const objContent = PieceInstances.createObjContent(pieceInstances, mtllib, yUp);
-            await addFile(`hyrule.${screenName}.obj`, objContent);
+            await addFile(`hyrule-${mapName}.${screenName}.obj`, objContent);
         }
 
         await addFile(`hyrule.mtl`, Object.values(mtllib).join(""));

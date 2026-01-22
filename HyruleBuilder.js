@@ -2,13 +2,12 @@
 
 import {Tile} from "./HyrulePieces.js";
 import * as HyruleOverworld from "./HyruleOverworld.js";
+import * as HyruleCaves from "./HyruleCaves.js";
 import * as HyruleUnderworld from "./HyruleUnderworld.js";
 
 /** Collect all pieces by part number and opacity to a list of all piece configurations. */
-export function getPieces(gapSize, showUnderworld, showSprites, showElevation, showSamples) {
+export function getPieces(mapName, gapSize, showSprites, showElevation) {
 
-    const mapColumnCount = 256;
-    const mapRowCount = 88;
     const screenColumnCount = 16;
     const screenRowCount = 11;
     const legoWidth = 20;
@@ -25,7 +24,10 @@ export function getPieces(gapSize, showUnderworld, showSprites, showElevation, s
         return degrees / 180 * Math.PI;
     }
 
-    function addScreen(gridX, gridY, paletteData, screenTileDataGrid) {
+    function addScreen(gridColumnCount, gridRowCount, gridX, gridY, paletteData, screenTileDataGrid) {
+        const mapColumnCount = gridColumnCount * screenColumnCount;
+        const mapRowCount = gridRowCount * screenRowCount;
+
         // Most screens use one tile palette.  Some use a two tile border for one, and the inner tiles for another.
         const palettes = [paletteData[0], paletteData[1] ?? paletteData[0]];
         const screenName = String.fromCharCode(gridX + 65) + (gridY + 1);
@@ -75,25 +77,19 @@ export function getPieces(gapSize, showUnderworld, showSprites, showElevation, s
 
     // Add map pieces.
 
-    for (const [gridY, mapColumnData] of HyruleOverworld.mapRowData.entries()) {
+    const mapDataProviders = {
+        overworld:  () => HyruleOverworld.mapRowData,
+        caves:      () => HyruleCaves.getMapRowData(),
+        underworld: () => HyruleUnderworld.getMapRowData(),
+        samples:    () => HyruleOverworld.getSamples(),
+    }
+
+    const mapData = mapDataProviders[mapName]();
+    const gridColumnCount = mapData[0].length;
+    const gridRowCount = mapData.length;
+    for (const [gridY, mapColumnData] of mapData.entries()) {
         for (const [gridX, screenData] of mapColumnData.entries()) {
-            addScreen(gridX, gridY, ...screenData);
-        }
-    }
-
-    if (showUnderworld) {
-        for (const [gridY, mapColumnData] of HyruleUnderworld.getMapRowData().entries()) {
-            for (const [gridX, screenData] of mapColumnData.entries()) {
-                addScreen(gridX, gridY + 9, ...screenData);
-            }
-        }
-    }
-
-    if (showSamples) {
-        for (const [gridY, mapColumnData] of HyruleOverworld.getSamples().entries()) {
-            for (const [gridX, screenData] of mapColumnData.entries()) {
-                addScreen(gridX + 6, gridY - 2, ...screenData);
-            }
+            addScreen(gridColumnCount, gridRowCount, gridX, gridY, ...screenData);
         }
     }
 
