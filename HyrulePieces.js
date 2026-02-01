@@ -176,10 +176,10 @@ export class Tile {
     static octorok_red_w = Tile.makeOctorok(NESColor.red, 90);
     static octorok_red_n = Tile.makeOctorok(NESColor.red, 180);
     static octorok_red_s = Tile.makeOctorok(NESColor.red, 0);
-    static octorok_blue_e = Tile.makeOctorok(NESColor.blue, 270);
-    static octorok_blue_w = Tile.makeOctorok(NESColor.blue, 90);
-    static octorok_blue_n = Tile.makeOctorok(NESColor.blue, 180);
-    static octorok_blue_s = Tile.makeOctorok(NESColor.blue, 0);
+    static octorok_blue_e = Tile.makeOctorok(NESColor.navy, 270);
+    static octorok_blue_w = Tile.makeOctorok(NESColor.navy, 90);
+    static octorok_blue_n = Tile.makeOctorok(NESColor.navy, 180);
+    static octorok_blue_s = Tile.makeOctorok(NESColor.navy, 0);
     static moblin_red = Tile.makeMoblin(NESColor.white, NESColor.red, NESColor.orange);
     static moblin_red_center = Tile.transformCenter(Tile.moblin_red);
     static moblin_blue = Tile.makeMoblin(NESColor.red, NESColor.black, NESColor.teal);
@@ -187,12 +187,12 @@ export class Tile {
     static leever_red_slim = Tile.makeLeever(NESColor.red, true, 0);
     static leever_red_sunk1 = Tile.makeLeever(NESColor.red, true, 1);
     static leever_red_sunk2 = Tile.makeLeever(NESColor.red, true, 2);
-    static leever_blue = Tile.makeLeever(NESColor.blue, false, 0);
-    static leever_blue_slim = Tile.makeLeever(NESColor.blue, true, 0);
-    static leever_blue_sunk1 = Tile.makeLeever(NESColor.blue, true, 1);
-    static leever_blue_sunk2 = Tile.makeLeever(NESColor.blue, true, 2);
+    static leever_blue = Tile.makeLeever(NESColor.navy, false, 0);
+    static leever_blue_slim = Tile.makeLeever(NESColor.navy, true, 0);
+    static leever_blue_sunk1 = Tile.makeLeever(NESColor.navy, true, 1);
+    static leever_blue_sunk2 = Tile.makeLeever(NESColor.navy, true, 2);
     static lynel_red = Tile.makeLynel(NESColor.red, NESColor.orange);
-    static lynel_blue = Tile.makeLynel(NESColor.blue, NESColor.steel_blue);
+    static lynel_blue = Tile.makeLynel(NESColor.navy, NESColor.steel_blue);
     static tektite_red = Tile.makeTektite(NESColor.red);
     static tektite_blue = Tile.makeTektite(NESColor.steel_blue);
     static peahat = Tile.makePeahat(false, false);
@@ -222,7 +222,7 @@ export class Tile {
         new TilePiece(Piece.plate_round_dot,                NESColor.orange,        {}),
     ];
     static ghini = [
-        new TilePiece(Piece.plate_round_dot,                NESColor.blue,          {}),
+        new TilePiece(Piece.plate_round_dot,                NESColor.navy,          {}),
         new TilePiece(Piece.plate_round_dot,                NESColor.white,         {}),
     ];
     static armos_red_awake = [
@@ -442,19 +442,11 @@ export class Tile {
         new TilePiece(Piece.plate_round_tabs,               NESColor.primary,       {rotateY: 45}),
     ];
 
-    static floating_heart = [
-        new TilePiece(Piece.plate_round_dot,                NESColor.white,         {opacity: Tile.clear_opacity}),
-        new TilePiece(Piece.tile_heart,                     NESColor.red,           {rotateY: 45}),
-    ];
-
     // Water
     static bridge = [
         new TilePiece(Piece.ground_piece_under,             NESColor.primary,       {}),
         new TilePiece(Piece.water_piece_under,              NESColor.secondary,     {opacity: Tile.water_opacity}),
         new TilePiece(Piece.tile,                           NESColor.primary,       {}),
-    ];
-    static heart = [
-        new TilePiece(Piece.tile_heart,                     NESColor.red,           {rotateY: 45}),
     ];
 
     static ground_water_ne = [
@@ -619,10 +611,15 @@ export class Tile {
     static item_heart_center = Tile.transformCenter(Tile.item_heart);
 
     static item_heart_container = [
-        new TilePiece(Piece.tile,                           NESColor.orange,        {}),
+        new TilePiece(Piece.tile,                           NESColor.white,         {}),
         new TilePiece(Piece.tile_heart,                     NESColor.red,           {rotateY: 45}),
     ];
     static item_heart_container_center = Tile.transformCenter(Tile.item_heart_container);
+
+    static item_floating_heart = [
+        new TilePiece(Piece.plate_round_dot,                NESColor.white,         {opacity: Tile.clear_opacity}),
+        new TilePiece(Piece.tile_heart,                     NESColor.red,           {rotateY: 45}),
+    ];
 
     static item_triforce = [
         new TilePiece(Piece.triangle,                       NESColor.orange,        {}),
@@ -652,8 +649,8 @@ export class Tile {
     ];
 
     static item_bomb = [
-        new TilePiece(Piece.plate_round_dot_with_hole,       NESColor.blue,         {}),
-        new TilePiece(Piece.plate_round_dot_with_hole,       NESColor.blue,         {}),
+        new TilePiece(Piece.plate_round_dot_with_hole,      NESColor.navy,         {}),
+        new TilePiece(Piece.plate_round_dot_with_hole,      NESColor.navy,         {}),
         new TilePiece(Piece.bar_2l,                         NESColor.white,        {}),
     ];
     static item_bomb_center = Tile.transformCenter(Tile.item_bomb);
@@ -674,11 +671,11 @@ export class Tile {
     ];
     static item_candle_blue = [
         new TilePiece(Piece.tile_round_dot_pin_holder,      NESColor.white,         {}),
-        new TilePiece(Piece.candle_flame,                   NESColor.blue,          {rotateY: 90}),
+        new TilePiece(Piece.candle_flame,                   NESColor.navy,          {rotateY: 90}),
     ];
     static item_candle_blue_center = Tile.transformCenter(Tile.item_candle_blue);
 
-    static item_flute = [ // recorder
+    static item_recorder = [ // flute
     ];
     static item_bait = [ // food
         new TilePiece(Piece.plate_round_dot,                NESColor.white,         {}),
@@ -689,14 +686,14 @@ export class Tile {
 
     static item_letter = [
         new TilePiece(Piece.tile,                           NESColor.white,         {}),
-        new TilePiece(Piece.plate,                          NESColor.blue,          {}),
+        new TilePiece(Piece.plate,                          NESColor.steel_blue,    {}),
     ];
     static item_letter_center = Tile.transformCenter(Tile.item_letter);
 
     static item_life_potion_blue = [
-        //new TilePiece(Piece.bottle,                         NESColor.blue,          {}),
-        new TilePiece(Piece.plate_round_dot,                NESColor.blue,          {}),
-        new TilePiece(Piece.tile_round_dot_pin_holder,      NESColor.blue,          {}),
+        //new TilePiece(Piece.bottle,                         NESColor.navy,          {}),
+        new TilePiece(Piece.plate_round_dot,                NESColor.navy,          {}),
+        new TilePiece(Piece.tile_round_dot_pin_holder,      NESColor.navy,          {}),
     ];
     static item_life_potion_blue_center = Tile.transformCenter(Tile.item_life_potion_blue);
     static item_life_potion_red = [
@@ -729,17 +726,17 @@ export class Tile {
         new TilePiece(Piece.sword,                          NESColor.red,           {rotateZ: 270}),
     ];
     static item_shield = [ // wooden, small
-        new TilePiece(Piece.plate,                          NESColor.orange,        {}),
-        new TilePiece(Piece.tile,                           NESColor.brown,         {}),
+        new TilePiece(Piece.plate,                          NESColor.brown,         {}),
+        new TilePiece(Piece.plate_round_dot_with_hole,      NESColor.orange,        {}),
     ];
     static item_magical_shield = [
-        new TilePiece(Piece.plate,                          NESColor.orange,        {}),
-        new TilePiece(Piece.plate_round_dot_with_hole,      NESColor.brown,         {}),
+        new TilePiece(Piece.plate,                          NESColor.brown,         {}),
+        new TilePiece(Piece.plate_round_tabs,               NESColor.orange,        {}),
     ]
     static item_magical_shield_center = Tile.transformCenter(Tile.item_magical_shield);
 
     static item_ring_blue = [
-        new TilePiece(Piece.plate_round_dot_with_hole,      NESColor.blue,          {}),
+        new TilePiece(Piece.plate_round_dot_with_hole,      NESColor.navy,          {}),
     ];
     static item_ring_blue_center = Tile.transformCenter(Tile.item_ring_blue);
     static item_ring_red = [
