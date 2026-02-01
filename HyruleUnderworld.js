@@ -176,7 +176,7 @@ const roomTemplates = {
 
     0x11: [ // zig zag blocks
         "..B........B",
-        ".B........B.",
+        ".B...B....B.",
         "....B....B..",
         "...B....B...",
         "..B....B....",
@@ -496,12 +496,15 @@ class LevelData {
         this.name = name;
 
         const defaultPalette
-              = new Palette(colorMedium,    colorWater,     colorLight);
+              = new Palette(colorMedium,    colorDark,      colorLight);
 
         this.paletteTypes = {
-            defaultPalette: [defaultPalette],
+            defaultPalette: [
+                defaultPalette,
+                new Palette(colorMedium,    colorWater,     colorLight),
+            ],
             dark: [
-                new Palette(colorDark,      colorWater,     colorMedium),
+                new Palette(colorDark,      colorDark,      colorMedium),
                 new Palette(colorDark,      colorMedium,    colorWater),
             ],
             dim: [

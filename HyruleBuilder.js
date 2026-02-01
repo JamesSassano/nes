@@ -10,14 +10,14 @@ export function getPieces(mapName, gapSize, showSprites, showElevation) {
 
     const screenColumnCount = 16;
     const screenRowCount = 11;
-    const legoWidth = 20;
-    const legoPlateHeight = 8;
+    const pieceWidth = 20;
+    const plateHeight = 8;
 
     const pieces = {};
 
     function toPosition(position, translate, worldSize, screenSize) {
         position -= worldSize / 2;
-        return (position + (translate ?? 0)) * legoWidth + (legoWidth / 2) + (Math.floor(position / screenSize) + .5) * gapSize;
+        return (position + (translate ?? 0)) * pieceWidth + (pieceWidth / 2) + (Math.floor(position / screenSize) + .5) * gapSize;
     }
 
     function degreesToRadians(degrees) {
@@ -42,7 +42,7 @@ export function getPieces(mapName, gapSize, showSprites, showElevation) {
                     const mapY = gridY * screenRowCount + screenY;
                     const elevation = showElevation ? screenTileData[0] : 0;
                     const piecesByLevel = new Tile(screenTileData[1], showSprites ? screenTileData[2] : null)
-                        .getPieceLevelEntries(elevation, legoWidth, legoPlateHeight);
+                        .getPieceLevelEntries(elevation, pieceWidth, plateHeight);
                     for (const [plateLevel, tilePiece] of piecesByLevel) {
                         const partNumber = tilePiece.piece.partNumber;
                         const opacity = tilePiece.options.opacity ?? 1;
@@ -56,7 +56,7 @@ export function getPieces(mapName, gapSize, showSprites, showElevation) {
                         pieces[partNumber][opacity] ??= [];
                         pieces[partNumber][opacity].push({
                             positionX: toPosition(mapX, tilePiece.options.translateX, mapColumnCount, screenColumnCount),
-                            positionY: legoPlateHeight * (plateLevel + (tilePiece.options.translateZ ?? 0)),
+                            positionY: plateHeight * (plateLevel + (tilePiece.options.translateZ ?? 0)),
                             positionZ: toPosition(mapY, tilePiece.options.translateY, mapRowCount, screenRowCount),
                             rotationX: degreesToRadians((tilePiece.options.rotateX ?? 0) + 180),
                             rotationY: degreesToRadians(tilePiece.options.rotateY ?? 0),

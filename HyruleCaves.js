@@ -65,22 +65,22 @@ const caveTemplates = {
     ],
     "shop_1": [
         [Texts.cave_shop_expensive],
-        [Tile.keeper],
+        [Tile.merchant],
         [[Tile.item_key_center, 80], [Tile.item_ring_blue_center, 250], [Tile.item_bait_center, 60]],
     ],
     "shop_2": [
         [Texts.cave_shop_buy_somethin],
-        [Tile.keeper],
+        [Tile.merchant],
         [[Tile.item_magical_shield_center, 130], [Tile.item_bomb_center, 20], [Tile.item_arrow_center, 80]],
     ],
     "shop_3": [
         [Texts.cave_shop_expensive],
-        [Tile.keeper],
+        [Tile.merchant],
         [[Tile.item_magical_shield_center, 90], [Tile.item_bait_center, 100], [Tile.item_heart_center, 10]],
     ],
     "shop_4": [
         [Texts.cave_shop_buy_somethin],
-        [Tile.keeper],
+        [Tile.merchant],
         [[Tile.item_magical_shield_center, 160], [Tile.item_key_center, 100], [Tile.item_candle_blue_center, 60]],
     ],
     "lets_play": [
