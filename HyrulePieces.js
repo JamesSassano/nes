@@ -13,16 +13,32 @@ export class Piece {
     static brick_2_3rd_slope            = new Piece(54200, 2,  0, null,                     "brick_2_3rd_slope");
     static brick_2_3rd_slope_curved     = new Piece(49307, 2,  0, null,                     "brick_2_3rd_slope_curved");
     static brick_2_3rd_slope_pyramid    = new Piece(22388, 2,  0, null,                     "brick_2_3rd_slope_pyramid");
-    static brick_2_3rd_half_cirle_side_stud = new Piece(3386, 2,  2, null,                  "brick_2_3rd_half_cirle_side_stud");
+    static brick_2_3rd_slope_triangle   = new Piece(35464, 2,  0, null,                     "brick_2_3rd_slope_triangle");
+    static brick_2_3rd_convex_corner    = new Piece( 7826, 2,  0, null,                      "brick_2_3rd_convex_corner");
 
     static plate                        = new Piece( 3024, 1,  1, null,                     "plate");
     static plate_clip_top               = new Piece(15712, 1,  1, null,                     "plate_clip_top");
+    static plate_clip_top_edge          = new Piece( 2555, 1,  1, null,                     "plate_clip_top_edge");
+    static plate_clip_bottom            = new Piece( 5264, 1,  1, null,                     "plate_clip_bottom");
     static plate_round_dot              = new Piece( 6141, 1,  1, null,                     "plate_round_dot");
     static plate_round_dot_with_hole    = new Piece(85861, 1,  1, Piece.plate_round_dot,    "plate_round_dot_with_hole");
     static plate_round_tabs             = new Piece(33291, 1,  1, null,                     "plate_round_tabs");
     static plate_center_stud            = new Piece(15573, 1,  1, null,                     "plate_center_stud");
     static plate_center_stud2           = new Piece(34103, 1,  1, null,                     "plate_center_stud2");
-    static plate6                       = new Piece(3666,  1,  1, null,                     "plate6");
+    static plate2x2_center_stud         = new Piece(87580, 1,  1, null,                     "plate2x2_center_stud");
+    static plate6                       = new Piece( 3666, 1,  1, null,                     "plate6");
+    static plate1x2                     = new Piece( 3023, 1,  1, null,                     "plate1x2");
+    static plate2x2                     = new Piece( 3022, 1,  1, null,                     "plate2x2");
+    static plate_bracket_inverted       = new Piece(36840, 1,  1, null,                     "plate_bracket_inverted");
+    static plate_bar_side               = new Piece(26047, 1,  1, null,                     "plate_bar_side");
+    static plate_bar_double_side        = new Piece(78257, 1,  1, null,                     "plate_bar_double_side");
+    static plate_round_bar_side         = new Piece(32828, 1,  1, null,                     "plate_round_bar_side");
+    static plate1x2_round_half          = new Piece( 1745, 1,  1, null,                     "plate1x2_round_half");
+    static plate2x2_round               = new Piece(18674, 1,  1, null,                     "plate2x2_round");
+    static plate2x2_round_inverted_dish = new Piece( 4740, 1,  1, null,                     "plate2x2_round_inverted_dish");
+    static plate_light_attachment       = new Piece( 4081, 1,  1, null,                     "plate_light_attachment");
+    static plate_clip_vertical_side     = new Piece( 4085, 1,  1, null,                     "plate_clip_vertical_side");
+    static plate_clip_horizontal_side   = new Piece(61252, 1,  1, null,                     "plate_clip_horizontal_side");
 
     // Use 3070b for a groove.
     static tile                         = new Piece( 3070, 1,  1, Piece.plate,              "tile");
@@ -34,20 +50,10 @@ export class Piece {
     static tile2                        = new Piece( 3069, 1,  1, null,                     "tile2");
 
     static candle_flame                 = new Piece(37775, 3,  1, null,                     "candle_flame");
-    static bottle                       = new Piece(95228, 6,  6, null,                     "bottle");
     static sword                        = new Piece(76764, 1,  1, null,                     "sword");
-    static bar_2l                       = new Piece(78258, 2,  1, null,                     "bar_2l");
-    static arrow                        = new Piece(18041, 8,  0, null,                     "arrow");
-    static bow                          = new Piece(95051, 9,  4, null,                     "bow");
-    static key                          = new Piece('40359a', 3,  1, null,                  "key");
 
     // Samples
-    static brick_2_3rd_slope_triangle   = new Piece(35464, 2,  0, null,                     "brick_2_3rd_slope_triangle");
     static plate_swirl                  = new Piece(15470, 2,  0, null,                     "plate_swirl");
-    static plate_light_attachment       = new Piece( 4081, 1,  1, null,                     "plate_light_attachment");
-    static plate_bar_side               = new Piece(26047, 1,  1, null,                     "plate_bar_side");
-    static plate_clip_vertical_side     = new Piece( 4085, 1,  1, null,                     "plate_clip_vertical_side");
-    static plate_clip_horizontal_side   = new Piece(61252, 1,  1, null,                     "plate_clip_horizontal_side");
 
     static water_piece_under            = Piece.plate_round_dot;
     static water_piece_top              = Piece.plate_round_dot;
@@ -205,6 +211,12 @@ export class Tile {
         new TilePiece(Piece.plate,                          NESColor.brown,         {}),
         new TilePiece(Piece.plate,                          NESColor.orange,        {}),
         new TilePiece(Piece.tile,                           NESColor.chartreuse,    {}),
+    ];
+
+    static zelda_red = [
+        new TilePiece(Piece.plate,                          NESColor.red,           {}),
+        new TilePiece(Piece.plate_round_dot,                NESColor.orange,        {}),
+        new TilePiece(Piece.tile_half_circle,               NESColor.brown,         {}),
     ];
 
     static fairy = [
@@ -610,6 +622,306 @@ export class Tile {
         new TilePiece(Piece.tile,                           NESColor.orange,        {translateX: .5}),
     ];
 
+    // Dungeon enemies.
+
+    static makeDarknut(color1, color2) {
+        return [
+            new TilePiece(Piece.plate,                      color1,                 {}),
+            new TilePiece(Piece.plate,                      NESColor.white,         {}),
+            new TilePiece(Piece.plate_clip_top,             color2,                 {}),
+        ];
+    }
+
+    static makeGel(color) {
+        return [
+            new TilePiece(Piece.tile_round_dot_pin_holder,  color,                  {}),
+        ];
+    }
+
+    static makeGibdo(itemColor, tabs) {
+        return [
+            new TilePiece(Piece.plate_round_dot,            NESColor.white,         {}),
+            new TilePiece(tabs ? Piece.plate_round_tabs : Piece.plate_round_dot,
+                                                            itemColor || NESColor.steel_blue, {rotateY: 45}),
+            new TilePiece(Piece.plate_round_dot,            NESColor.white,         {}),
+        ];
+    }
+
+    static makeGoriya(color1, color2) {
+        return [
+            new TilePiece(Piece.plate,                      color1,                 {}),
+            new TilePiece(Piece.plate,                      color2,                 {}),
+            new TilePiece(Piece.tile_round_dot,             color1,                 {}),
+        ];
+    }
+
+    static makeKeese(color) {
+        return [
+            new TilePiece(Piece.tile,                       color,                  {}),
+            new TilePiece(Piece.tile_round_dot_pin_holder,  color,                  {}),
+        ];
+    }
+
+    static makeLanmola(color1, color2) {
+        return [
+            new TilePiece(Piece.plate_round_tabs,           color1,                 {rotateY: 45}),
+            new TilePiece(Piece.plate_round_dot_with_hole,  color2,                 {}),
+        ];
+    }
+    static makeLanmolaBody(color1, color2) {
+        return Tile.makeLanmola(color1, color2);
+    }
+    static makeLanmolaHead(color) {
+        return Tile.makeLanmola(NESColor.white, color);
+    }
+
+    static makeRope(rotation) {
+        return [
+            new TilePiece(Piece.plate_round_dot,            NESColor.white,         {}),
+            new TilePiece(Piece.plate_round_dot,            NESColor.red,           {}),
+            new TilePiece(Piece.tile_half_circle,           NESColor.orange,        {rotateY: rotation}),
+        ];
+    }
+
+    static makeStalfos(itemColor, tabs) {
+        return [
+            new TilePiece(Piece.plate,                      NESColor.white,         {}),
+            new TilePiece(tabs ? Piece.plate_round_tabs : Piece.plate_round_dot,
+                                                            itemColor || NESColor.white, {rotateY: 45}),
+            new TilePiece(Piece.tile_round_dot,             NESColor.white,         {}),
+        ];
+    }
+
+    static makeTrap(rotateBottom, rotateTop) {
+        return [
+            new TilePiece(Piece.plate_clip_vertical_side,   NESColor.white,         {rotateY: rotateBottom}),
+            new TilePiece(Piece.plate_clip_vertical_side,   NESColor.steel_blue,    {rotateY: rotateTop}),
+        ];
+    }
+
+    static makeWallmaster(translateX, rotateY) {
+        return [
+            new TilePiece(Piece.tile,                       NESColor.navy,          {translateX: translateX}),
+            new TilePiece(Piece.plate_clip_vertical_side,   NESColor.steel_blue,    {translateX: translateX, rotateY: rotateY}),
+        ];
+    }
+
+    static makeWizzrobe(color, rotation) {
+        const colors = {
+            red: [NESColor.red, NESColor.orange],
+            blue: [NESColor.navy, NESColor.steel_blue],
+        };
+        return [
+            new TilePiece(Piece.plate,                      colors[color][0],       {}),
+            new TilePiece(Piece.brick_2_3rd_convex_corner,  colors[color][1],       {rotateY: rotation}),
+        ];
+    }
+
+    static makeZol(color) {
+        return [
+            new TilePiece(Piece.plate,                      color,                  {}),
+            new TilePiece(Piece.plate_round_dot,            color,                  {}),
+        ];
+    }
+
+    static bubble = [
+        new TilePiece(Piece.plate_round_dot,                NESColor.steel_blue,    {}),
+        new TilePiece(Piece.plate_round_dot_with_hole,      NESColor.white,         {}),
+    ];
+
+    static darknut_red = Tile.makeDarknut(NESColor.red, NESColor.orange);
+    static darknut_blue = Tile.makeDarknut(NESColor.navy, NESColor.steel_blue);
+
+    static gel_black = Tile.makeGel(NESColor.black);
+    static gel_dark_slate = Tile.makeGel(NESColor.dark_slate);
+    static gel_navy = Tile.makeGel(NESColor.navy);
+
+    static gibdo = Tile.makeGibdo();
+    static gibdo_bomb = Tile.makeGibdo(NESColor.navy);
+    static gibdo_key = Tile.makeGibdo(NESColor.orange, true);
+
+    static goriya_red = Tile.makeGoriya(NESColor.orange, NESColor.red);
+    static goriya_blue = Tile.makeGoriya(NESColor.steel_blue, NESColor.navy);
+
+    static keese_red  = Tile.makeKeese(NESColor.red);
+    static keese_blue = Tile.makeKeese(NESColor.navy);
+
+    static lanmola_body_red  = Tile.makeLanmolaBody(NESColor.orange, NESColor.red);
+    static lanmola_head_red  = Tile.makeLanmolaHead(NESColor.orange);
+    static lanmola_body_blue = Tile.makeLanmolaBody(NESColor.steel_blue, NESColor.navy);
+    static lanmola_head_blue = Tile.makeLanmolaHead(NESColor.steel_blue);
+
+    static like_like = [
+        new TilePiece(Piece.plate_round_dot,                NESColor.orange,        {}),
+        new TilePiece(Piece.plate_round_dot,                NESColor.red,           {}),
+        new TilePiece(Piece.plate_round_dot_with_hole,      NESColor.orange,        {}),
+    ];
+
+    static moldorm = [
+        new TilePiece(Piece.plate_round_dot,                NESColor.red,           {}),
+        new TilePiece(Piece.plate_round_dot_with_hole,      NESColor.white,         {}),
+    ];
+
+    static patra_blue = [
+        new TilePiece(Piece.plate_round_dot,                NESColor.navy,          {}),
+        new TilePiece(Piece.plate_round_tabs,               NESColor.white,         {rotateY: 45}),
+        new TilePiece(Piece.tile_round_dot,                 NESColor.steel_blue,    {}),
+    ];
+
+    static patra_red = [
+        new TilePiece(Piece.plate_round_tabs,               NESColor.white,         {rotateY: 45}),
+        new TilePiece(Piece.tile_round_dot,                 NESColor.orange,        {}),
+    ];
+    static patra_red_center = Tile.transformCenter(Tile.patra_red);
+
+    static pols_voice = [
+        new TilePiece(Piece.plate,                          NESColor.chartreuse,    {}),
+        new TilePiece(Piece.plate_clip_top,                 NESColor.orange,        {}),
+    ];
+
+    static rope_e = Tile.makeRope(90);
+    static rope_w = Tile.makeRope(270);
+
+    static stalfos = Tile.makeStalfos();
+    static stalfos_key = Tile.makeStalfos(NESColor.orange, true);
+    static stalfos_compass = Tile.makeStalfos(NESColor.red, false);
+
+    static trap_nw = Tile.makeTrap(  0, -90);
+    static trap_ne = Tile.makeTrap(  0,  90);
+    static trap_sw = Tile.makeTrap(180, -90);
+    static trap_se = Tile.makeTrap(180,  90);
+    static trap_w  = Tile.makeTrap(-90, -90);
+    static trap_e  = Tile.makeTrap( 90,  90);
+
+    static vire = [
+        new TilePiece(Piece.tile,                           NESColor.navy,          {}),
+        new TilePiece(Piece.plate_clip_top_edge,            NESColor.steel_blue,    {}),
+    ];
+
+    static wallmaster_n = Tile.makeWallmaster(.5,   0);
+    static wallmaster_s = Tile.makeWallmaster(.5, 180);
+    static wallmaster_e = Tile.makeWallmaster( 0,  90);
+    static wallmaster_w = Tile.makeWallmaster( 0, -90);
+
+    static wizzrobe_red_n = Tile.makeWizzrobe('red', 270);
+    static wizzrobe_red_e = Tile.makeWizzrobe('red', 0);
+    static wizzrobe_red_w = Tile.makeWizzrobe('red', 90);
+    static wizzrobe_blue_n = Tile.makeWizzrobe('blue', 270);
+    static wizzrobe_blue_e = Tile.makeWizzrobe('blue', 0);
+    static wizzrobe_blue_w = Tile.makeWizzrobe('blue', 90);
+
+    static zol_black      = Tile.makeZol(NESColor.black);
+    static zol_dark_brown = Tile.makeZol(NESColor.dark_brown);
+    static zol_dark_green = Tile.makeZol(NESColor.dark_green);
+    static zol_evergreen  = Tile.makeZol(NESColor.evergreen);
+    static zol_deep_gray  = Tile.makeZol(NESColor.deep_gray);
+
+    // Dungeon bosses.
+
+    static makeDodongo(rotation) {
+        const  [btx, bty, stx, sty] = {
+            0: [  0,  .5,   0,   1],
+            1: [-.5,   0,  -1,   0],
+            2: [  0, -.5,   0,  -1],
+            3: [ .5,   0,   1,   0],
+        }[rotation];
+
+        return [
+            new TilePiece(Piece.plate1x2,                   NESColor.red,           {translateX: btx, translateY: bty, rotateY: (rotation - 1) * 90}),
+            new TilePiece(Piece.plate,                      NESColor.orange,        {}),
+            new TilePiece(Piece.tile_round_dot_pin_holder,  NESColor.white,         {}),
+            new TilePiece(Piece.brick_2_3rd_slope,          NESColor.orange,        {translateX: stx, translateY: sty, translateZ: -2, rotateY: rotation * 90}),
+        ];
+    }
+
+    static makeGleeok(headCount) {
+        const heads = {
+            2: [
+                new TilePiece(Piece.plate_center_stud,      NESColor.lime,          {                 translateY:  .5, translateZ: -2}),
+                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {                 translateY:  .5, translateZ: -2, rotateY: 80}),
+                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {                 translateY:  .5, translateZ: -2, rotateY: 105}),
+            ],
+            3: [
+                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {translateX: -.5, translateY:  .5, translateZ: -2, rotateY: 105}),
+                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {translateX:  .5, translateY:  .5, translateZ: -3, rotateY: 80}),
+                new TilePiece(Piece.plate_center_stud,      NESColor.lime,          {                 translateY:  .5, translateZ: -3}),
+                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {                 translateY:  .5, translateZ: -3, rotateY: 80}),
+            ],
+            4: [
+                new TilePiece(Piece.plate1x2,               NESColor.lime,          {                 translateY:  .5, translateZ: -2}),
+                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {translateX: -.5, translateY:  .5, translateZ: -2, rotateY: 80}),
+                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {translateX: -.5, translateY:  .5, translateZ: -2, rotateY: 105}),
+                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {translateX:  .5, translateY:  .5, translateZ: -4, rotateY: 80}),
+                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {translateX:  .5, translateY:  .5, translateZ: -4, rotateY: 105}),
+            ],
+        };
+
+        return [
+            new TilePiece(Piece.plate2x2,                   NESColor.lime,          {}),
+            new TilePiece(Piece.plate_center_stud,          NESColor.lime,          {translateY: -.5}),
+            new TilePiece(Piece.plate_clip_top_edge,        NESColor.dark_slate,    {translateY: -.5, rotateY: 90}),
+            new TilePiece(Piece.plate1x2,                   NESColor.dark_slate,    {translateY:  .5, translateZ: -2}),
+        ].concat(heads[headCount]);
+    }
+
+    static makeGohma(color1, color2) {
+        return [
+            new TilePiece(Piece.plate_round_dot,            color1,                 {}),
+            new TilePiece(Piece.plate_bar_double_side,      color1,                 {}),
+            new TilePiece(Piece.plate_round_dot,            color2,                 {}),
+            new TilePiece(Piece.tile_half_circle,           color1,                 {}),
+            new TilePiece(Piece.plate_clip_bottom,          NESColor.white,         {translateX: -1, translateZ: -4.5, rotateY: 90, rotateZ: 180}),
+            new TilePiece(Piece.plate_clip_bottom,          NESColor.white,         {translateX:  1, translateZ: -5.5, rotateY: 90, rotateZ: 180}),
+        ];
+    }
+
+    static aquamentus = [
+        new TilePiece(Piece.plate_bracket_inverted,         NESColor.chartreuse,    {rotateY: 90}),
+        new TilePiece(Piece.plate,                          NESColor.chartreuse,    {rotateY: 0}),
+        new TilePiece(Piece.tile,                           NESColor.dark_green,    {rotateY: 0}),
+        new TilePiece(Piece.plate_bracket_inverted,         NESColor.chartreuse,    {rotateX: 270, rotateZ: 270, translateX: -1.1, translateZ: -3}),
+        new TilePiece(Piece.tile,                           NESColor.white,         {rotateX: 270, rotateZ: 270, translateX: -1.5, translateZ: -4}),
+        new TilePiece(Piece.plate,                          NESColor.chartreuse,    {rotateX:   0, rotateZ:   0, translateX: -1.2, translateZ: -2.25}),
+        new TilePiece(Piece.tile_round_dot_pin_holder,      NESColor.white,         {rotateX:   0, rotateZ:   0, translateX: -1.2, translateZ: -2.25}),
+    ];
+
+    static dodongo_n = Tile.makeDodongo(0);
+    static dodongo_e = Tile.makeDodongo(1);
+    static dodongo_s = Tile.makeDodongo(2);
+    static dodongo_w = Tile.makeDodongo(3);
+
+    static manhandla = [
+        new TilePiece(Piece.plate_clip_vertical_side,       NESColor.steel_blue,    {rotateY: 0}),
+        new TilePiece(Piece.plate_clip_vertical_side,       NESColor.steel_blue,    {rotateY: 90}),
+        new TilePiece(Piece.plate_clip_vertical_side,       NESColor.steel_blue,    {rotateY: 270}),
+        new TilePiece(Piece.plate_clip_vertical_side,       NESColor.steel_blue,    {rotateY: 180}),
+    ];
+
+    static gleeok2 = Tile.makeGleeok(2);
+    static gleeok3 = Tile.makeGleeok(3);
+    static gleeok4 = Tile.makeGleeok(4);
+
+    static digdogger = [
+        new TilePiece(Piece.plate2x2_round,                 NESColor.red,           {}),
+        new TilePiece(Piece.plate2x2_round_inverted_dish,   NESColor.orange,        {}),
+        new TilePiece(Piece.tile_round_dot,                 NESColor.white,         {}),
+    ];
+
+    static gohma_red = Tile.makeGohma(NESColor.orange,      NESColor.red);
+    static gohma_blue = Tile.makeGohma(NESColor.steel_blue, NESColor.navy);
+
+    static ganon = [
+        new TilePiece(Piece.plate1x2,                       NESColor.cyan,          {translateY: -.5}),
+        new TilePiece(Piece.plate1x2,                       NESColor.pale_cyan,     {translateY: -.5}),
+        new TilePiece(Piece.plate_light_attachment,         NESColor.cyan,          {translateX: -.5, translateY: -.5}),
+        new TilePiece(Piece.plate_light_attachment,         NESColor.cyan,          {translateX:  .5, translateY: -.5, translateZ: -1}),
+        new TilePiece(Piece.plate1x2_round_half,            NESColor.red,           {translateX:   0, translateY: -.5, translateZ: -1}),
+        new TilePiece(Piece.plate_bar_side,                 NESColor.cyan,          {translateX:   0, translateY: -.5, translateZ: -1}),
+        new TilePiece(Piece.plate_clip_top,                 NESColor.cyan,          {translateX:   0, translateY: -.5, translateZ: -1}),
+        new TilePiece(Piece.brick_2_3rd_convex_corner,      NESColor.red,           {translateX: -.5, translateY:  .5, translateZ: -7}),
+        new TilePiece(Piece.brick_2_3rd_convex_corner,      NESColor.red,           {translateX:  .5, translateY:  .5, translateZ: -9, rotateY: 90}),
+    ];
+
     // Items.
 
     static item_heart = [
@@ -623,6 +935,12 @@ export class Tile {
     ];
     static item_heart_container_center = Tile.transformCenter(Tile.item_heart_container);
 
+    static item_floating_heart_container = [
+        new TilePiece(Piece.plate_round_dot,                NESColor.white,         {opacity: Tile.clear_opacity}),
+        new TilePiece(Piece.tile,                           NESColor.white,         {}),
+        new TilePiece(Piece.tile_heart,                     NESColor.red,           {rotateY: 45}),
+    ];
+
     static item_floating_heart = [
         new TilePiece(Piece.plate_round_dot,                NESColor.white,         {opacity: Tile.clear_opacity}),
         new TilePiece(Piece.tile_heart,                     NESColor.red,           {rotateY: 45}),
@@ -630,6 +948,12 @@ export class Tile {
 
     static item_triforce = [
         new TilePiece(Piece.brick_2_3rd_slope_triangle,     NESColor.orange,        {rotateY: 90}),
+    ];
+
+    static item_triforce_sand = [
+        new TilePiece(Piece.plate,                          NESColor.red,           {}),
+        new TilePiece(Piece.plate_round_dot,                NESColor.orange,        {}),
+        new TilePiece(Piece.tile,                           NESColor.orange,        {}),
     ];
 
     static item_rupee_orange = [
@@ -643,6 +967,8 @@ export class Tile {
     static item_rupee_blue_center = Tile.transformCenter(Tile.item_rupee_blue);
 
     static item_clock = [
+        new TilePiece(Piece.plate_round_tabs,               NESColor.red,           {rotateY: 45}),
+        new TilePiece(Piece.tile_round_dot,                 NESColor.white,         {}),
     ];
     static item_road = [
         new TilePiece(Piece.brick_2_3rd_slope,              NESColor.secondary,     {rotateY: 270}),
@@ -651,27 +977,36 @@ export class Tile {
     // Items Inventory.
 
     static item_boomerang = [
+        new TilePiece(Piece.plate_clip_top,                 NESColor.orange,        {rotateY: 90}),
     ];
     static item_magical_boomerang = [
+        new TilePiece(Piece.plate_clip_top,                 NESColor.steel_blue,    {rotateY: 90}),
     ];
 
     static item_bomb = [
-        new TilePiece(Piece.plate_round_dot_with_hole,      NESColor.navy,         {}),
-        new TilePiece(Piece.plate_round_dot_with_hole,      NESColor.navy,         {}),
-        new TilePiece(Piece.bar_2l,                         NESColor.white,        {}),
+        new TilePiece(Piece.plate_round_dot,                NESColor.navy,          {}),
+        new TilePiece(Piece.plate_round_dot,                NESColor.navy,          {}),
+        new TilePiece(Piece.tile_round_dot_pin_holder,      NESColor.white,         {}),
     ];
     static item_bomb_center = Tile.transformCenter(Tile.item_bomb);
 
     static item_bow = [
+        // TODO
     ];
 
-    static item_arrow = [
-        new TilePiece(Piece.arrow,                          NESColor.orange,        {}),
-    ];
+    static makeArrow(fletching, shaft, point) {
+        return [
+            new TilePiece(Piece.plate_round_tabs,           NESColor.brown,         {rotateY: 45}),
+            new TilePiece(Piece.plate_round_dot,            NESColor.chartreuse,    {}),
+            new TilePiece(Piece.plate_round_dot,            NESColor.chartreuse,    {}),
+            new TilePiece(Piece.tile_round_dot_pin_holder,  NESColor.orange,        {}),
+        ];
+    }
+
+    static item_arrow = Tile.makeArrow(NESColor.brown, NESColor.chartreuse, NESColor.orange);
     static item_arrow_center = Tile.transformCenter(Tile.item_arrow);
+    static item_silver_arrow = Tile.makeArrow(NESColor.white, NESColor.navy, NESColor.steel_blue);
 
-    static item_silver_arrow = [
-    ];
     static item_candle_red = [
         new TilePiece(Piece.tile_round_dot_pin_holder,      NESColor.white,         {}),
         new TilePiece(Piece.candle_flame,                   NESColor.red,           {rotateY: 90}),
@@ -683,6 +1018,9 @@ export class Tile {
     static item_candle_blue_center = Tile.transformCenter(Tile.item_candle_blue);
 
     static item_recorder = [ // flute
+        new TilePiece(Piece.plate_round_dot_with_hole,      NESColor.orange,        {}),
+        new TilePiece(Piece.plate_round_dot_with_hole,      NESColor.orange,        {}),
+        new TilePiece(Piece.plate_round_dot_with_hole,      NESColor.orange,        {}),
     ];
     static item_bait = [ // food
         new TilePiece(Piece.plate_round_dot,                NESColor.white,         {}),
@@ -698,19 +1036,18 @@ export class Tile {
     static item_letter_center = Tile.transformCenter(Tile.item_letter);
 
     static item_life_potion_blue = [
-        //new TilePiece(Piece.bottle,                         NESColor.navy,          {}),
         new TilePiece(Piece.plate_round_dot,                NESColor.navy,          {}),
         new TilePiece(Piece.tile_round_dot_pin_holder,      NESColor.navy,          {}),
     ];
     static item_life_potion_blue_center = Tile.transformCenter(Tile.item_life_potion_blue);
     static item_life_potion_red = [
-        //new TilePiece(Piece.bottle,                         NESColor.red,           {}),
         new TilePiece(Piece.plate_round_dot,                NESColor.red,           {}),
         new TilePiece(Piece.tile_round_dot_pin_holder,      NESColor.red,           {}),
     ];
     static item_life_potion_red_center = Tile.transformCenter(Tile.item_life_potion_red);
 
     static item_magical_rod = [
+        // TODO
     ];
     static item_book_of_magic = [
         new TilePiece(Piece.tile,                           NESColor.white,         {}),
@@ -759,17 +1096,25 @@ export class Tile {
         new TilePiece(Piece.plate,                          NESColor.orange,        {}),
     ];
     static item_compass = [
+        new TilePiece(Piece.tile_round_dot_pin_holder,      NESColor.red,           {}),
+        new TilePiece(Piece.plate_round_dot_with_hole,      NESColor.white,         {}),
     ];
     static item_key = [
-        new TilePiece(Piece.key,                            NESColor.orange,        {rotateX: 90, rotateZ: 90, translateZ: 5}),
+        new TilePiece(Piece.plate_round_tabs,               NESColor.orange,        {rotateY: 45}),
+        new TilePiece(Piece.plate_round_bar_side,           NESColor.orange,        {rotateX: 90, rotateY: 90, translateZ: 2.75, translateY: .1}),
     ];
     static item_key_center = Tile.transformCenter(Tile.item_key);
 
     static item_magical_key = [
+        new TilePiece(Piece.plate_round_tabs,               NESColor.orange,        {rotateY: 45}),
+        new TilePiece(Piece.plate_round_bar_side,           NESColor.orange,        {rotateX: 90, rotateY: 90, translateZ: 2.75, translateY: .1}),
+        new TilePiece(Piece.tile_round_dot,                 NESColor.red,        {rotateX: 90, rotateY: 90, translateZ: 1.75, translateY: .5}),
     ];
     static item_raft = [
+        // TODO
     ];
     static item_stepladder = [
+        // TODO
     ];
 
     // Cave walls.
