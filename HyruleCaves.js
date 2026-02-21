@@ -3,20 +3,23 @@
 import {NESColor} from "./Colors.js";
 import {Palette, Piece, TilePiece, Tile, Texts, makeTextFloor} from "./HyrulePieces.js";
 
+// todo: Make option.
+const showMinifigureItems = false;
+
 const caveTemplates = {
     "item_sword": [
         [Texts.cave_item_take_this],
         [Tile.old_man],
-        [[Tile.item_sword]],
+        [[showMinifigureItems ? Tile.item_sword_minfigure : Tile.item_sword_center]],
     ],
     "item_white_sword": [
         [Texts.cave_item_master_using],
         [Tile.old_man],
-        [[Tile.item_white_sword]]],
+        [[showMinifigureItems ? Tile.item_white_sword_minfigure : Tile.item_white_sword_center]]],
     "item_magical_sword": [
         [Texts.cave_item_master_using],
         [Tile.old_man],
-        [[Tile.item_magical_sword]],
+        [[showMinifigureItems ? Tile.item_magical_sword_minfigure : Tile.item_magical_sword_center]],
     ],
     "item_letter": [
         [Texts.cave_item_show_this],

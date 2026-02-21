@@ -85,10 +85,10 @@ export class PieceInstances {
                 .sort((a, b) => a.pieceName.localeCompare(b.pieceName));
 
             const objContent = PieceInstances.createObjContent(pieceInstances, mtllib, yUp);
-            await addFile(`hyrule-${mapName}.${screenName}.obj`, objContent);
+            await addFile(`hyrule-${mapName}/hyrule-${mapName}.${screenName}.obj`, objContent);
         }
 
-        await addFile(`hyrule.mtl`, Object.values(mtllib).join(""));
+        await addFile(`hyrule-${mapName}/hyrule.mtl`, Object.values(mtllib).join(""));
 
         await writer.write(new Uint8Array(1024));
         await writer.close();
@@ -281,7 +281,7 @@ export async function addPiecesToScene(pieces, scene,
             addToScene(modelItems, pieceConfigurationsByOpacity);
             loadTracker.loaded(partNumber);
         };
-    
+
         const partFile = `/ldraw/parts/${partNumber}.dat`;
         lDrawLoader.load(
             partFile,

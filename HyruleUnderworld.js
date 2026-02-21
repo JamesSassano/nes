@@ -554,6 +554,127 @@ const roomTexts = {
     "15,07": [[Texts.dungeon_have_triforce],   [Tile.old_man], []],
 };
 
+function makeBoxTile(rowIndex, tileElevation, tile) {
+    const pieceWidth = 20;
+    const plateHeight = 8;
+
+    return (rowIndex === 9 ? [] : [
+        new TilePiece(Piece.box, NESColor.primary, {
+            scaleX: pieceWidth / 2,
+            scaleY: plateHeight * (9 + tileElevation),
+            scaleZ: pieceWidth / 2,
+        })
+    ]).concat(tile);
+}
+
+function makePassageRoom(keeses) {
+    const rows = [
+        [
+             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s,
+        ],
+        [
+             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s,
+        ],
+        [
+             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s,
+        ],
+        [
+             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s,
+        ],
+        [
+             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s,
+        ],
+        [
+             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s,
+        ],
+        [
+             Tile.rock_s, Tile.rock_s, Tile.ground, Tile.steps,  Tile.ground, Tile.ground, Tile.ground, Tile.ground,
+             Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.steps,  Tile.ground, Tile.rock_s, Tile.rock_s,
+        ],
+        [
+             Tile.rock_s, Tile.rock_s, Tile.ground, Tile.steps,  Tile.ground, Tile.ground, Tile.ground, Tile.ground,
+             Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.steps,  Tile.ground, Tile.rock_s, Tile.rock_s,
+        ],
+        [
+             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+        ],
+        [
+             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+        ],
+    ].map((row, rowIndex) => row.map(tile => [
+        -rowIndex,
+        makeBoxTile(rowIndex, -rowIndex, tile)
+    ]));
+    keeses.forEach(keesePosition => {
+        rows[keesePosition[0]][keesePosition[1]][2] = Tile.keese_blue;
+    });
+    return [[new Palette(NESColor.light_gray, NESColor.dark_gray, NESColor.black)], rows];
+}
+
+function makeItemRoom(item, keeses) {
+    const rows = [
+        [
+             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+        ],
+        [
+             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+        ],
+        [
+             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.ground,
+             Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.rock_s, Tile.rock_s,
+        ],
+        [
+             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.ground,
+             Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.rock_s, Tile.rock_s,
+        ],
+        [
+             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.ground,
+             Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.rock_s, Tile.rock_s,
+        ],
+        [
+             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+        ],
+        [
+             Tile.rock_s, Tile.rock_s, Tile.ground, Tile.steps,  Tile.ground, Tile.ground, Tile.ground, Tile.ground,
+             Tile.ground, Tile.ground, Tile.ground, Tile.steps,  Tile.ground, Tile.ground, Tile.rock_s, Tile.rock_s,
+        ],
+        [
+             Tile.rock_s, Tile.rock_s, Tile.ground, Tile.steps,  Tile.ground, Tile.ground, Tile.ground, Tile.ground,
+             Tile.ground, Tile.ground, Tile.ground, Tile.steps,  Tile.ground, Tile.ground, Tile.rock_s, Tile.rock_s,
+        ],
+        [
+             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+        ],
+        [
+             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+        ],
+    ].map((row, rowIndex) => row.map((tile, columnIndex) => {
+        const elevation = ((rowIndex === 2 || rowIndex === 3) && tile === Tile.ground) ? -4 : -rowIndex;
+        return [
+            elevation,
+            makeBoxTile(rowIndex, elevation, tile),
+            (rowIndex === 3 && columnIndex === 8) ? item : null
+        ];
+    }));
+    keeses.forEach(keesePosition => {
+        rows[keesePosition[0]][keesePosition[1]][2] = Tile.keese_blue;
+    });
+    return [[new Palette(NESColor.light_gray, NESColor.dark_gray, NESColor.black)], rows];
+}
+
 export function getMapRowData() {
     function makeRoom(position, levelNumber, roomTemplateIndex, doorN, doorE, doorS, doorW, paletteType, sprites) {
         const texts = roomTexts[position];
@@ -1533,7 +1654,7 @@ export function getMapRowData() {
                 [5,  5, Tile.wizzrobe_blue_e],
                 [6,  6, Tile.wizzrobe_red_n],
                 [6, 13, Tile.bubble, base2x1],
-                [7, 13, Tile.bubble, base2x1],
+                [8, 13, Tile.bubble],
             ]),
             /* room: 09,09 */ makeRoom("09,09", 7, 0x26, "solid",  "bomb",   "bomb",   "solid",  null  , [
                 [3,  7, Tile.item_rupee_orange, base1x2],
@@ -1633,7 +1754,7 @@ export function getMapRowData() {
                 [5,  8, Tile.item_rupee_blue],
 
                 [6,  6, Tile.lanmola_body_red, base1x2],
-                [6,  7, Tile.lanmola_body_red, base1x2],
+                [7,  7, Tile.lanmola_body_red],
                 [7,  8, Tile.lanmola_body_red],
                 [7,  9, Tile.lanmola_head_red],
             ]),
@@ -2407,6 +2528,25 @@ export function getMapRowData() {
                 [7, 11, Tile.bubble],
                 [7, 12, Tile.zol_deep_gray],
             ]),
+        ],
+        [],
+        [
+            [[], []],
+            makePassageRoom(                        [[0,  9], [2,  4], [5, 13], [7,  2]]),
+            [[], []],
+            makeItemRoom(Tile.item_bow,             [[0,  5], [2,  8], [6, 12], [9, 14]]),
+            makeItemRoom(Tile.item_raft,            [[1, 15], [3,  1], [5,  4], [7, 10]]),
+            makeItemRoom(Tile.item_stepladder,      [[2, 13], [4,  0], [8,  9], [9,  6]]),
+            makeItemRoom(Tile.item_recorder,        [[0, 11], [3, 14], [5,  2], [7,  7]]),
+            makeItemRoom(Tile.item_magical_rod,     [[1,  3], [4,  5], [6,  8], [8, 12]]),
+            makeItemRoom(Tile.item_candle_red,      [[2, 10], [5, 15], [7,  1], [9,  0]]),
+            makeItemRoom(Tile.item_magical_key,     [[0,  4], [1,  9], [3,  6], [8, 13]]),
+            makeItemRoom(Tile.item_book_of_magic,   [[2, 11], [4, 14], [5,  7], [6,  2]]),
+            makeItemRoom(Tile.item_silver_arrow,    [[0,  3], [3, 12], [7,  5], [9,  8]]),
+            makeItemRoom(Tile.item_ring_red,        [[1,  0], [4,  6], [6, 10], [8, 15]]),
+            [[], []],
+            makePassageRoom(                        [[1,  7], [3,  0], [8, 11], [9, 14]]),
+            [[], []],
         ],
     ];
 }

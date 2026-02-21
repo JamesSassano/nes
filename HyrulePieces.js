@@ -5,6 +5,7 @@ import {NESColor} from "./Colors.js";
 export class Piece {
     static brick                        = new Piece( 3005, 3,  3, null,                     "brick");
     static brick_headlight              = new Piece( 4070, 3,  3, null,                     "brick_headlight");
+    static brick_slope_curved           = new Piece( 7126, 3,  3, null,                     "brick_slope_curved");
     static brick_side_stud              = new Piece(87087, 3,  3, null,                     "brick_side_stud");
     static brick_side_stud2             = new Piece(32952, 5,  5, null,                     "brick_side_stud2");
     static inverted_cone                = new Piece(11610, 3,  3, null,                     "inverted_cone");
@@ -60,7 +61,7 @@ export class Piece {
     static ground_piece_under           = Piece.plate;
     static ground_piece_top             = Piece.tile;
 
-    static box                          = new Piece('../p/box5', 1,  1, null,               "box5");
+    static box                          = new Piece('../p/box5', 0,  0, null,               "box5");
 
     constructor(partNumber, plateHeight, plateLevel, studReplacement, name) {
         this.partNumber = partNumber;
@@ -991,15 +992,16 @@ export class Tile {
     static item_bomb_center = Tile.transformCenter(Tile.item_bomb);
 
     static item_bow = [
-        // TODO
+        new TilePiece(Piece.plate_round_dot,                NESColor.chartreuse,    {}),
+        new TilePiece(Piece.brick_slope_curved,             NESColor.brown,         {rotateY: 270}),
     ];
 
     static makeArrow(fletching, shaft, point) {
         return [
-            new TilePiece(Piece.plate_round_tabs,           NESColor.brown,         {rotateY: 45}),
-            new TilePiece(Piece.plate_round_dot,            NESColor.chartreuse,    {}),
-            new TilePiece(Piece.plate_round_dot,            NESColor.chartreuse,    {}),
-            new TilePiece(Piece.tile_round_dot_pin_holder,  NESColor.orange,        {}),
+            new TilePiece(Piece.plate_round_tabs,           fletching,              {rotateY: 45}),
+            new TilePiece(Piece.plate_round_dot,            shaft,                  {}),
+            new TilePiece(Piece.plate_round_dot,            shaft,                  {}),
+            new TilePiece(Piece.tile_round_dot_pin_holder,  point,                  {}),
         ];
     }
 
@@ -1021,6 +1023,7 @@ export class Tile {
         new TilePiece(Piece.plate_round_dot_with_hole,      NESColor.orange,        {}),
         new TilePiece(Piece.plate_round_dot_with_hole,      NESColor.orange,        {}),
         new TilePiece(Piece.plate_round_dot_with_hole,      NESColor.orange,        {}),
+        new TilePiece(Piece.plate_round_dot_with_hole,      NESColor.red,           {}),
     ];
     static item_bait = [ // food
         new TilePiece(Piece.plate_round_dot,                NESColor.white,         {}),
@@ -1047,7 +1050,10 @@ export class Tile {
     static item_life_potion_red_center = Tile.transformCenter(Tile.item_life_potion_red);
 
     static item_magical_rod = [
-        // TODO
+        new TilePiece(Piece.plate_round_dot,                NESColor.steel_blue,    {}),
+        new TilePiece(Piece.plate_round_dot,                NESColor.steel_blue,    {}),
+        new TilePiece(Piece.plate_round_dot,                NESColor.white,         {}),
+        new TilePiece(Piece.plate,                          NESColor.navy,          {rotateY: 45}),
     ];
     static item_book_of_magic = [
         new TilePiece(Piece.tile,                           NESColor.white,         {}),
@@ -1056,18 +1062,36 @@ export class Tile {
 
     // Items Equipment.
 
-    static item_sword = [ // wooden
+    static makeSword(grip, guard, blade) {
+        return [
+            new TilePiece(Piece.plate_round_dot,            grip,                   {}),
+            new TilePiece(Piece.plate_round_tabs,           guard,                  {rotateY: 45}),
+            new TilePiece(Piece.plate_round_dot,            blade,                  {}),
+            new TilePiece(Piece.tile_round_dot_pin_holder,  blade,                  {}),
+        ];
+    }
+
+    static item_sword         = Tile.makeSword(NESColor.orange,     NESColor.chartreuse, NESColor.brown);
+    static item_white_sword   = Tile.makeSword(NESColor.steel_blue, NESColor.navy,       NESColor.white);
+    static item_magical_sword = Tile.makeSword(NESColor.orange,     NESColor.red,        NESColor.white);
+
+    static item_sword_center         = Tile.transformCenter(Tile.item_sword);
+    static item_white_sword_center   = Tile.transformCenter(Tile.item_white_sword);
+    static item_magical_sword_center = Tile.transformCenter(Tile.item_magical_sword);
+
+    static item_sword_minfigure = [ // wooden
         new TilePiece(Piece.plate_clip_top,                 NESColor.primary,       {rotateY: 90}),
         new TilePiece(Piece.sword,                          NESColor.brown,         {rotateZ: 270}),
     ];
-    static item_white_sword = [
+    static item_white_sword_minfigure = [
         new TilePiece(Piece.plate_clip_top,                 NESColor.primary,       {rotateY: 90}),
         new TilePiece(Piece.sword,                          NESColor.white,         {rotateZ: 270}),
     ];
-    static item_magical_sword = [
+    static item_magical_sword_minfigure = [
         new TilePiece(Piece.plate_clip_top,                 NESColor.primary,       {rotateY: 90}),
         new TilePiece(Piece.sword,                          NESColor.red,           {rotateZ: 270}),
     ];
+
     static item_shield = [ // wooden, small
         new TilePiece(Piece.plate,                          NESColor.brown,         {}),
         new TilePiece(Piece.plate_round_dot_with_hole,      NESColor.orange,        {}),
@@ -1108,13 +1132,18 @@ export class Tile {
     static item_magical_key = [
         new TilePiece(Piece.plate_round_tabs,               NESColor.orange,        {rotateY: 45}),
         new TilePiece(Piece.plate_round_bar_side,           NESColor.orange,        {rotateX: 90, rotateY: 90, translateZ: 2.75, translateY: .1}),
-        new TilePiece(Piece.tile_round_dot,                 NESColor.red,        {rotateX: 90, rotateY: 90, translateZ: 1.75, translateY: .5}),
+        new TilePiece(Piece.tile_round_dot,                 NESColor.red,           {rotateX: 90, rotateY: 90, translateZ: 1.75, translateY: .5}),
     ];
     static item_raft = [
-        // TODO
+        new TilePiece(Piece.tile_round_dot,                 NESColor.brown,         {}),
+        new TilePiece(Piece.tile,                           NESColor.chartreuse,    {}),
+        new TilePiece(Piece.plate_round_dot,                NESColor.brown,         {}),
     ];
     static item_stepladder = [
-        // TODO
+        new TilePiece(Piece.tile_round_dot,                 NESColor.orange,        {}),
+        new TilePiece(Piece.tile,                           NESColor.brown,         {}),
+        new TilePiece(Piece.tile_round_dot,                 NESColor.orange,        {}),
+        new TilePiece(Piece.tile,                           NESColor.brown,         {}),
     ];
 
     // Cave walls.
@@ -1529,7 +1558,11 @@ export function makeTextFloor(elevation, texts, sprites, items) {
             // Add the item.
             if (item === Tile.item_road) {
                 floor[4][itemStartColumn + 1] = [elevation, item];
-            } else if ([Tile.item_sword, Tile.item_white_sword, Tile.item_magical_sword].includes(item)) {
+            } else if ([
+                Tile.item_sword_minfigure,
+                Tile.item_white_sword_minfigure,
+                Tile.item_magical_sword_minfigure
+            ].includes(item)) {
                 floor[4][7] = [elevation, Tile.dungeon_floor_stud, item];
                 // todo: Make conditional on adding 3d printer supports.
                 floor[4][4] = [elevation, Tile.dungeon_floor_triangle];
