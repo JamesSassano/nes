@@ -254,6 +254,7 @@ export async function addPiecesToScene(pieces, scene,
                     pieceInstancedMesh.setColorAt(pieceIndex, color);
 
                     pieceInstances.add(pieceConfiguration, pieceInstancedMesh, pieceIndex);
+                    pieceInstancedMesh.matrixAutoUpdate = false
                 });
                 pieceLineInstances.forEach(pieceLineInstance =>
                     pieceLineInstance[pieceIndex].applyMatrix4(object3d.matrix));

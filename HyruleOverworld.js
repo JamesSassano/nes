@@ -24276,7 +24276,7 @@ export const mapRowData = [
                     /* screen: H8, row:  6, col:  5 */ [ 0, Tile.ground],
                     /* screen: H8, row:  6, col:  6 */ [ 0, Tile.ground],
                     /* screen: H8, row:  6, col:  7 */ [ 0, Tile.ground],
-                    /* screen: H8, row:  6, col:  8 */ [ 0, Tile.ground, Tile.link],
+                    /* screen: H8, row:  6, col:  8 */ [ 0, Tile.ground, Tile.link_green],
                     /* screen: H8, row:  6, col:  9 */ [ 0, Tile.ground],
                     /* screen: H8, row:  6, col: 10 */ [ 0, Tile.ground],
                     /* screen: H8, row:  6, col: 11 */ [ 0, Tile.ground],

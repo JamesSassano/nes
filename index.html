@@ -115,13 +115,15 @@ body {
         return window.innerHeight - 40;
     }
 
+    const maxDistance = 10_000_000;
     const renderer = new THREE.WebGLRenderer({antialias: options.antialias});
-    const camera = new THREE.PerspectiveCamera(options.cameraFov, viewWidth() / viewHeight(), 1, 10000);
+    const camera = new THREE.PerspectiveCamera(options.cameraFov, viewWidth() / viewHeight(), 1, maxDistance);
     const controls = new OrbitControls(camera, renderer.domElement);
     const scene = new THREE.Scene();
 
     camera.position.set(options.cameraPositionX, options.cameraPositionY, options.cameraPositionZ);
     controls.target.set(options.cameraTargetX, options.cameraTargetY, options.cameraTargetZ);
+    controls.maxDistance = maxDistance;
     renderer.setClearColor(options.clearColor);
     renderer.setSize(viewWidth(), viewHeight());
     renderer.setAnimationLoop(function() {

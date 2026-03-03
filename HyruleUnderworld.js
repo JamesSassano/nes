@@ -570,44 +570,44 @@ function makeBoxTile(rowIndex, tileElevation, tile) {
 function makePassageRoom(keeses) {
     const rows = [
         [
-             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s,
         ],
         [
-             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s,
         ],
         [
-             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s,
         ],
         [
-             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s,
         ],
         [
-             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s,
         ],
         [
-             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s,
         ],
         [
-             Tile.rock_s, Tile.rock_s, Tile.ground, Tile.steps,  Tile.ground, Tile.ground, Tile.ground, Tile.ground,
-             Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.steps,  Tile.ground, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.ground, Tile.steps,  Tile.ground, Tile.ground, Tile.ground, Tile.ground,
+            Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.steps,  Tile.ground, Tile.rock_s, Tile.rock_s,
         ],
         [
-             Tile.rock_s, Tile.rock_s, Tile.ground, Tile.steps,  Tile.ground, Tile.ground, Tile.ground, Tile.ground,
-             Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.steps,  Tile.ground, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.ground, Tile.steps,  Tile.ground, Tile.ground, Tile.ground, Tile.ground,
+            Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.steps,  Tile.ground, Tile.rock_s, Tile.rock_s,
         ],
         [
-             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
         ],
         [
-             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
         ],
     ].map((row, rowIndex) => row.map(tile => [
         -rowIndex,
@@ -622,44 +622,44 @@ function makePassageRoom(keeses) {
 function makeItemRoom(item, keeses) {
     const rows = [
         [
-             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
         ],
         [
-             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
         ],
         [
-             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.ground,
-             Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.ground,
+            Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.rock_s, Tile.rock_s,
         ],
         [
-             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.ground,
-             Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.ground,
+            Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.rock_s, Tile.rock_s,
         ],
         [
-             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.ground,
-             Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.ground,
+            Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.rock_s, Tile.rock_s,
         ],
         [
-             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
         ],
         [
-             Tile.rock_s, Tile.rock_s, Tile.ground, Tile.steps,  Tile.ground, Tile.ground, Tile.ground, Tile.ground,
-             Tile.ground, Tile.ground, Tile.ground, Tile.steps,  Tile.ground, Tile.ground, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.ground, Tile.steps,  Tile.ground, Tile.ground, Tile.ground, Tile.ground,
+            Tile.ground, Tile.ground, Tile.ground, Tile.steps,  Tile.ground, Tile.ground, Tile.rock_s, Tile.rock_s,
         ],
         [
-             Tile.rock_s, Tile.rock_s, Tile.ground, Tile.steps,  Tile.ground, Tile.ground, Tile.ground, Tile.ground,
-             Tile.ground, Tile.ground, Tile.ground, Tile.steps,  Tile.ground, Tile.ground, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.ground, Tile.steps,  Tile.ground, Tile.ground, Tile.ground, Tile.ground,
+            Tile.ground, Tile.ground, Tile.ground, Tile.steps,  Tile.ground, Tile.ground, Tile.rock_s, Tile.rock_s,
         ],
         [
-             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
         ],
         [
-             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
+            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
         ],
     ].map((row, rowIndex) => row.map((tile, columnIndex) => {
         const elevation = ((rowIndex === 2 || rowIndex === 3) && tile === Tile.ground) ? -4 : -rowIndex;
@@ -742,44 +742,58 @@ export function getMapRowData() {
                             roomData[row][column][1] = roomData[row][column][1].slice(0, -1);
                         }
                     }
-                    roomData[rowIndex][columnIndex][1].push(baseOptions.newTilePiece(color));
+                    if (baseOptions.newTilePiece) {
+                        roomData[rowIndex][columnIndex][1].push(baseOptions.newTilePiece(color));
+                    }
                 }
                 // Special flame replacement to create a hole to allow the flame to go all the way down.
                 // (Flame with baseOptions is already a jumper with a hole).
                 else if (sprite === Tile.dungeon_flame && !baseOptions) {
                     roomData[rowIndex][columnIndex][1] = Tile.dungeon_floor_stud;
                 }
-                roomData[rowIndex][columnIndex].push(Tile.transformTile(sprite, baseOptions || {}));
+                roomData[rowIndex][columnIndex].push(Tile.transformTile(sprite, baseOptions?.spriteTransformOptions || {}));
             }
         }
 
         return [levelDataMap[levelNumber].getRoomPaletts(paletteType), roomData];
     }
 
+    const drop1x1 = {
+        rows: 1,
+        columns: 1,
+        newTilePiece: null,
+        spriteTransformOptions: null
+    };
+    const wall1x2 = {
+        rows: 1,
+        columns: 2,
+        newTilePiece: color => new TilePiece(Piece.plate_center_stud, color, {translateX: 1}),
+        spriteTransformOptions: {translateX: 1},
+    };
     const base1x2 = {
         rows: 1,
         columns: 2,
         newTilePiece: color => new TilePiece(Piece.plate_center_stud, color, {translateX: .5}),
-        translateX: .5,
+        spriteTransformOptions: {translateX: .5},
     };
     const base2x1 = {
         rows: 2,
         columns: 1,
         newTilePiece: color => new TilePiece(Piece.plate_center_stud, color, {translateY: .5, rotateY: 90}),
-        translateY: .5,
+        spriteTransformOptions: {translateY: .5},
     };
     const base2x2_center = {
         rows: 2,
         columns: 2,
         newTilePiece: color => new TilePiece(Piece.plate2x2_center_stud, color, {translateX: .5, translateY: .5}),
-        translateX: .5, translateY: .5
+        spriteTransformOptions: {translateX: .5, translateY: .5},
     };
 
     const base2x2_studs = {
         rows: 2,
         columns: 2,
         newTilePiece: color => new TilePiece(Piece.plate2x2, color, {translateX: .5, translateY: .5}),
-        translateX: .5, translateY: .5
+        spriteTransformOptions: {translateX: .5, translateY: .5},
     };
 
     return [
@@ -829,12 +843,12 @@ export function getMapRowData() {
                 [8, 13, Tile.wizzrobe_red_n],
             ]),
             /* room: 01,11 */ makeRoom("01,11", 6, 0x0A, "solid",  "bomb",   "shut",   "bomb",   null  , [
-                [3,  2, Tile.bubble],
+                [3,  2, Tile.bubble_blue],
                 [3,  7, Tile.like_like, base2x1],
                 [4,  5, Tile.zol_dark_brown, base1x2],
                 [6,  5, Tile.zol_dark_brown],
                 [6,  7, Tile.like_like],
-                [7,  3, Tile.bubble, base2x1],
+                [7,  3, Tile.bubble_blue, base2x1],
             ]),
             /* room: 01,12 */ makeRoom("01,12", 6, 0x26, "solid",  "solid",  "open",   "bomb",   "text", [
             ]),
@@ -900,10 +914,10 @@ export function getMapRowData() {
             /* room: 02,10 */ makeRoom("02,10", 6, 0x13, "locked", "open",   "locked", "open",   null  , [
                 [3,  5, Tile.zol_dark_brown],
                 [3,  8, Tile.like_like],
-                [4, 11, Tile.bubble, base2x1],
+                [4, 11, Tile.bubble_blue, base2x1],
                 [4, 13, Tile.zol_dark_brown],
                 [5,  8, Tile.item_map],
-                [6, 11, Tile.bubble, base2x1],
+                [6, 11, Tile.bubble_blue, base2x1],
                 [8,  4, Tile.like_like],
             ]),
             /* room: 02,11 */ makeRoom("02,11", 6, 0x18, "open",   "open",   "solid",  "open",   "dark", [
@@ -921,7 +935,7 @@ export function getMapRowData() {
                 [5,  4, Tile.wizzrobe_red_e],
                 [5, 10, Tile.like_like, base2x1],
                 [5, 13, Tile.wizzrobe_red_e],
-                [6,  5, Tile.bubble, base2x1],
+                [6,  5, Tile.bubble_blue, base2x1],
                 [6,  7, Tile.wizzrobe_blue_w],
                 [7, 12, Tile.like_like, base1x2],
             ]),
@@ -930,12 +944,12 @@ export function getMapRowData() {
                 [5,  8, Tile.item_heart_container],
             ]),
             /* room: 02,14 */ makeRoom("02,14", 6, 0x1B, "solid",  "solid",  "open",   "solid",  null  , [
-                [2,  7, Tile.bubble, base2x1],
+                [2,  7, Tile.bubble_blue, base2x1],
                 [5,  4, Tile.like_like],
                 [5,  9, Tile.like_like, base2x1],
                 [5, 10, Tile.zol_dark_brown, base2x1],
                 [7,  4, Tile.zol_dark_brown],
-                [7,  6, Tile.bubble],
+                [7,  6, Tile.bubble_blue],
             ]),
             /* room: 02,15 */ makeRoom("02,15", 2, 0x0D, "shut",   "bomb",   "shut",   "solid",  null  , [
                 [2,  6, Tile.goriya_red],
@@ -980,11 +994,11 @@ export function getMapRowData() {
                 [4,  5, Tile.digdogger, base2x2_center],
             ]),
             /* room: 03,06 */ makeRoom("03,06", 5, 0x07, "bomb",   "open",   "solid",  "locked", null  , [
-                [2, 10, Tile.pols_voice],
-                [4,  2, Tile.pols_voice],
-                [4,  5, Tile.pols_voice],
-                [6,  6, Tile.pols_voice, base1x2],
-                [8, 10, Tile.pols_voice],
+                [2, 10, Tile.pols_voice_orange_green],
+                [4,  2, Tile.pols_voice_orange_green],
+                [4,  5, Tile.pols_voice_orange_green],
+                [6,  6, Tile.pols_voice_orange_green, base1x2],
+                [8, 10, Tile.pols_voice_orange_green],
             ]),
             /* room: 03,07 */ makeRoom("03,07", 5, 0x14, "solid",  "locked", "solid",  "open",   null  , [
                 [2, 10, Tile.gibdo],
@@ -998,8 +1012,8 @@ export function getMapRowData() {
                 [4,  4, Tile.gibdo, base2x1],
                 [4,  6, Tile.gibdo, base1x2],
                 [4,  9, Tile.keese_blue, base1x2],
-                [4, 11, Tile.pols_voice],
-                [4, 13, Tile.pols_voice],
+                [4, 11, Tile.pols_voice_orange_green],
+                [4, 13, Tile.pols_voice_orange_green],
                 [6,  8, Tile.item_key],
                 [7, 11, Tile.keese_blue, base1x2], // todo: base over water.
             ]),
@@ -1044,11 +1058,11 @@ export function getMapRowData() {
             ]),
             /* room: 03,14 */ makeRoom("03,14", 6, 0x13, "open",   "solid",  "solid",  "open",   "dark", [
                 [3,  4, Tile.vire, base2x1],
-                [4,  2, Tile.bubble, base1x2],
+                [4,  2, Tile.bubble_blue, base1x2],
                 [4,  6, Tile.vire],
                 [5,  8, Tile.item_key],
                 [6,  9, Tile.vire],
-                [7,  9, Tile.bubble, base2x1],
+                [7,  9, Tile.bubble_blue, base2x1],
             ]),
             /* room: 03,15 */ makeRoom("03,15", 2, 0x1D, "shut",   "locked", "open",   "solid",  null  , [
                 [2,  4, Tile.rope_w, base1x2],
@@ -1070,9 +1084,9 @@ export function getMapRowData() {
             ]),
         ], [
             /* room: 04,01 */ makeRoom("04,01", 4, 0x18, "locked", "locked", "open",   "solid",  "dark", [
-                [2, 13, Tile.bubble, base2x1],
+                [2, 13, Tile.bubble_blue, base2x1],
                 [3,  5, Tile.vire],
-                [3,  7, Tile.bubble],
+                [3,  7, Tile.bubble_blue],
                 [5,  3, Tile.vire],
                 [6, 10, Tile.vire],
             ]),
@@ -1085,11 +1099,11 @@ export function getMapRowData() {
             ]),
             /* room: 04,03 */ makeRoom("04,03", 4, 0x0A, "solid",  "solid",  "solid",  "open",   null  , [
                 [2,  5, Tile.zol_black, base2x1],
-                [2, 10, Tile.bubble],
+                [2, 10, Tile.bubble_blue],
                 [4,  8, Tile.like_like, base1x2],
                 [5, 13, Tile.zol_black, base2x1],
                 [7,  5, Tile.like_like],
-                [8, 12, Tile.bubble, base1x2],
+                [8, 12, Tile.bubble_blue, base1x2],
             ]),
             /* room: 04,04 */ makeRoom("04,04", 1, 0x17, "locked", "solid",  "open",   "solid",  null  , [
                 [3,  3, Tile.stalfos, base1x2],
@@ -1123,7 +1137,7 @@ export function getMapRowData() {
                 [2, 12, Tile.like_like, base2x1],
                 [3,  9, Tile.like_like, base2x1],
                 [6,  8, Tile.wizzrobe_blue_w, base1x2],
-                [7,  2, Tile.bubble, base2x1],
+                [7,  2, Tile.bubble_blue, base2x1],
                 [8,  5, Tile.wizzrobe_red_e],
                 [8, 10, Tile.wizzrobe_red_w],
             ]),
@@ -1140,7 +1154,7 @@ export function getMapRowData() {
                 [5,  5, Tile.wizzrobe_red_w],
                 [5,  8, Tile.like_like],
                 [5, 13, Tile.wizzrobe_red_e],
-                [6,  9, Tile.bubble, base1x2],
+                [6,  9, Tile.bubble_blue, base1x2],
                 [7,  3, Tile.wizzrobe_blue_e, base2x1],
                 [7,  4, Tile.wizzrobe_blue_e, base1x2],
             ]),
@@ -1211,7 +1225,7 @@ export function getMapRowData() {
             ]),
             /* room: 05,05 */ makeRoom("05,05", 1, 0x02, "solid",  "open",   "bomb",   "locked", null  , [
                 [2,  9, Tile.goriya_red],
-                [3,  8, Tile.item_boomerang],
+                [3,  8, Tile.item_boomerang, drop1x1],
                 [3, 11, Tile.goriya_red],
                 [6,  9, Tile.goriya_red],
             ]),
@@ -1245,12 +1259,12 @@ export function getMapRowData() {
                 [2, 11, Tile.zol_evergreen],
                 [3,  4, Tile.keese_blue],
                 [3,  9, Tile.zol_evergreen],
-                [4,  2, Tile.bubble],
+                [4,  2, Tile.bubble_blue],
                 [4, 11, Tile.keese_blue],
                 [5,  8, Tile.item_key],
                 [5,  9, Tile.keese_blue],
-                [5, 10, Tile.bubble, base1x2],
-                [7,  9, Tile.bubble, base1x2],
+                [5, 10, Tile.bubble_blue, base1x2],
+                [7,  9, Tile.bubble_blue, base1x2],
             ]),
             /* room: 05,11 */ makeRoom("05,11", 3, 0x0F, "solid",  "locked", "open",   "open",   null  , [
                 [2,  5, Tile.keese_blue],
@@ -1289,7 +1303,7 @@ export function getMapRowData() {
             ]),
             /* room: 05,16 */ makeRoom("05,16", 2, 0x24, "bomb",   "solid",  "bomb",   "open",   "dim" , [
                 [3, 11, Tile.goriya_blue, base1x2],
-                [5,  8, Tile.item_magical_boomerang],
+                [5,  8, Tile.item_magical_boomerang, drop1x1],
                 [5, 13, Tile.goriya_blue],
                 [7, 12, Tile.goriya_blue],
             ]),
@@ -1404,13 +1418,13 @@ export function getMapRowData() {
             /* room: 06,14 */ makeRoom("06,14", 3, 0x1E, "shut",   "solid",  "solid",  "shut",   null  , [
                 [2,  2, Tile.item_rupee_blue],
                 [2, 11, Tile.keese_blue, base2x1],
-                [5, 10, Tile.bubble],
+                [5, 10, Tile.bubble_blue],
                 [6,  9, Tile.keese_blue],
                 [6, 12, Tile.zol_evergreen, base2x1],
-                [6, 13, Tile.bubble],
+                [6, 13, Tile.bubble_blue],
                 [7,  4, Tile.keese_blue, base2x1],
                 [7,  9, Tile.zol_evergreen],
-                [7, 11, Tile.bubble],
+                [7, 11, Tile.bubble_blue],
             ]),
             /* room: 06,15 */ makeRoom("06,15", 2, 0x1F, "open",   "locked", "open",   "solid",  null  , [
                 [2, 10, Tile.goriya_red, base1x2],
@@ -1559,12 +1573,12 @@ export function getMapRowData() {
             /* room: 08,07 */ makeRoom("08,07", 5, 0x21, "open",   "open",   "open",   "solid",  null  , [
             ]),
             /* room: 08,08 */ makeRoom("08,08", 5, 0x1D, "bomb",   "solid",  "solid",  "open",   null  , [
-                [2,  4, Tile.pols_voice],
-                [3, 10, Tile.pols_voice, base1x2],
-                [5,  9, Tile.pols_voice],
-                [5, 12, Tile.pols_voice, base1x2],
+                [2,  4, Tile.pols_voice_orange_green],
+                [3, 10, Tile.pols_voice_orange_green, base1x2],
+                [5,  9, Tile.pols_voice_orange_green],
+                [5, 12, Tile.pols_voice_orange_green, base1x2],
                 [6,  8, Tile.item_key],
-                [6, 12, Tile.pols_voice, base2x1],
+                [6, 12, Tile.pols_voice_orange_green, base2x1],
             ]),
             /* room: 08,09 */ makeRoom("08,09", 6, 0x1F, "open",   "locked", "solid",  "solid",  null  , [
                 [5,  3, Tile.wizzrobe_red_w],
@@ -1608,23 +1622,23 @@ export function getMapRowData() {
         ], [
             /* room: 09,01 */ [[], []],
             /* room: 09,02 */ makeRoom("09,02", 9, 0x13, "solid",  "locked", "shut",   "solid",  "dark", [
-                [2,  5, Tile.bubble],
+                [2,  5, Tile.bubble_blue],
                 [3,  2, Tile.keese_blue, base1x2],
                 [3,  7, Tile.zol_black],
                 [4,  5, Tile.keese_blue],
                 [4,  9, Tile.zol_black, base2x1],
-                [6,  2, Tile.bubble, base2x1],
+                [6,  2, Tile.bubble_blue, base2x1],
                 [7,  8, Tile.keese_blue],
-                [7,  9, Tile.bubble],
+                [7,  9, Tile.bubble_blue],
             ]),
             /* room: 09,03 */ makeRoom("09,03", 9, 0x26, "solid",  "solid",  "open",   "locked", "text", [
             ]),
             /* room: 09,04 */ makeRoom("09,04", 9, 0x1A, "solid",  "bomb",   "solid",  "solid",  null  , [
                 [2, 10, Tile.like_like, base2x1],
-                [3,  4, Tile.bubble, base2x1],
+                [3,  4, Tile.bubble_blue, base2x1],
                 [3,  5, Tile.zol_black, base2x1],
                 [5,  5, Tile.like_like],
-                [6,  2, Tile.bubble, base1x2],
+                [6,  2, Tile.bubble_blue, base1x2],
                 [7,  3, Tile.zol_black, base1x2],
             ]),
             /* room: 09,05 */ makeRoom("09,05", 9, 0x1A, "solid",  "solid",  "solid",  "bomb",   null  , [
@@ -1648,13 +1662,13 @@ export function getMapRowData() {
             ]),
             /* room: 09,08 */ makeRoom("09,08", 9, 0x1A, "solid",  "solid",  "bomb",   "solid",  null  , [
                 [2,  2, Tile.wizzrobe_red_e],
-                [2,  5, Tile.bubble, base2x1],
+                [2,  5, Tile.bubble_blue, base2x1],
                 [2,  6, Tile.wizzrobe_blue_w],
                 [3,  6, Tile.wizzrobe_blue_e, base2x1],
                 [5,  5, Tile.wizzrobe_blue_e],
                 [6,  6, Tile.wizzrobe_red_n],
-                [6, 13, Tile.bubble, base2x1],
-                [8, 13, Tile.bubble],
+                [6, 13, Tile.bubble_blue, base2x1],
+                [8, 13, Tile.bubble_blue],
             ]),
             /* room: 09,09 */ makeRoom("09,09", 7, 0x26, "solid",  "bomb",   "bomb",   "solid",  null  , [
                 [3,  7, Tile.item_rupee_orange, base1x2],
@@ -1705,11 +1719,11 @@ export function getMapRowData() {
             ]),
             /* room: 09,14 */ makeRoom("09,14", 7, 0x08, "solid",  "solid",  "solid",  "bomb",   null  , [
                 [1,  6, Tile.wallmaster_n],
-                [2, 11, Tile.bubble, base1x2],
+                [2, 11, Tile.bubble_blue, base1x2],
                 [4,  1, Tile.wallmaster_w],
-                [4,  5, Tile.bubble, base1x2],
+                [4,  5, Tile.bubble_blue, base1x2],
                 [7, 14, Tile.wallmaster_e],
-                [7,  2, Tile.bubble, base2x1],
+                [7,  2, Tile.bubble_blue, base2x1],
                 [9,  3, Tile.wallmaster_s],
                 [9,  9, Tile.wallmaster_s],
             ]),
@@ -1724,13 +1738,13 @@ export function getMapRowData() {
             /* room: 09,16 */ [[], []],
         ], [
             /* room: 10,01 */ makeRoom("10,01", 9, 0x08, "solid",  "solid",  "bomb",   "solid",  null  , [
-                [2,  3, Tile.bubble, base1x2],
+                [2,  3, Tile.bubble_blue, base1x2],
                 [2,  7, Tile.wizzrobe_blue_w, base1x2],
                 [4,  7, Tile.wizzrobe_red_e],
                 [4,  8, Tile.wizzrobe_blue_e],
                 [5,  6, Tile.wizzrobe_blue_w],
-                [6,  3, Tile.bubble, base1x2],
-                [6,  6, Tile.bubble, base1x2],
+                [6,  3, Tile.bubble_blue, base1x2],
+                [6,  6, Tile.bubble_blue, base1x2],
                 [7,  2, Tile.wizzrobe_red_e],
             ]),
             /* room: 10,02 */ makeRoom("10,02", 9, 0x25, "open",   "solid",  "shut",   "solid",  null  , [
@@ -1761,9 +1775,9 @@ export function getMapRowData() {
             /* room: 10,04 */ makeRoom("10,04", 9, 0x00, "solid",  "solid",  "locked", "locked", "dark", [
                 [2,  6, Tile.zol_black],
                 [2,  7, Tile.like_like, base2x1],
-                [2, 10, Tile.bubble, base1x2],
+                [2, 10, Tile.bubble_blue, base1x2],
                 [3,  4, Tile.zol_black],
-                [3, 13, Tile.bubble, base2x1],
+                [3, 13, Tile.bubble_blue, base2x1],
                 [5,  7, Tile.like_like, base2x1],
             ]),
             /* room: 10,05 */ makeRoom("10,05", 9, 0x1c, "solid",  "locked", "open",   "solid",  null  , [
@@ -1795,7 +1809,7 @@ export function getMapRowData() {
                 [2,   9, Tile.like_like, base1x2],
                 [3,   7, Tile.wizzrobe_red_e],
                 [4,   9, Tile.like_like],
-                [4,  10, Tile.bubble],
+                [4,  10, Tile.bubble_blue],
                 [6,   5, Tile.like_like, base1x2],
                 [6,   9, Tile.wizzrobe_blue_w],
                 [7,   7, Tile.wizzrobe_red_w],
@@ -1803,8 +1817,8 @@ export function getMapRowData() {
             /* room: 10,09 */ makeRoom("10,09", 7, 0x16, "bomb",   "locked", "open",   "solid",  "dark", [
                 [2,  7, Tile.keese_blue],
                 [3, 10, Tile.goriya_blue, base1x2],
-                [3, 12, Tile.bubble, base2x1],
-                [4,  7, Tile.bubble],
+                [3, 12, Tile.bubble_blue, base2x1],
+                [4,  7, Tile.bubble_blue],
                 [4,  8, Tile.keese_blue],
                 [5,  7, Tile.goriya_blue, base2x1],
                 [5,  8, Tile.item_map],
@@ -1840,21 +1854,21 @@ export function getMapRowData() {
                 [4, 10, Tile.digdogger],
             ]),
             /* room: 10,14 */ makeRoom("10,14", 8, 0x11, "solid",  "bomb",   "open",   "solid",  null  , [
-                [3,  4, Tile.pols_voice, base1x2],
-                [3, 11, Tile.pols_voice],
-                [4,  7, Tile.pols_voice],
+                [3,  4, Tile.pols_voice_orange_blue, base1x2],
+                [3, 11, Tile.pols_voice_orange_blue],
+                [4,  7, Tile.pols_voice_orange_blue],
                 [5,  8, Tile.item_bomb],
-                [6,  6, Tile.pols_voice],
-                [6, 12, Tile.pols_voice],
+                [6,  6, Tile.pols_voice_orange_blue],
+                [6, 12, Tile.pols_voice_orange_blue],
             ]),
             /* room: 10,15 */ makeRoom("10,15", 8, 0x24, "shut",   "shut",   "locked", "bomb",   null  , [
                 [3,  7, Tile.gohma_blue],
             ]),
             /* room: 10,16 */ makeRoom("10,16", 8, 0x1A, "solid",  "solid",  "solid",  "open",   null  , [
                 [2,  7, Tile.darknut_red, base1x2],
-                [3,  6, Tile.pols_voice],
+                [3,  6, Tile.pols_voice_orange_blue],
                 [4,  8, Tile.darknut_red],
-                [5, 12, Tile.pols_voice],
+                [5, 12, Tile.pols_voice_orange_blue],
                 [7, 13, Tile.darknut_blue, base2x1],
                 [8,  8, Tile.darknut_blue, base1x2],
             ]),
@@ -1868,8 +1882,8 @@ export function getMapRowData() {
             ]),
             /* room: 11,02 */ makeRoom("11,02", 9, 0x25, "open",   "bomb",   "shut",   "solid",  null  , [
                 [4, 11, Tile.patra_blue],
-                [1, 11, Tile.patra_red_center],
-                [1, 13, Tile.patra_red_center],
+                [1, 10, Tile.patra_red, wall1x2],
+                [1, 12, Tile.patra_red, wall1x2],
                 [2,  9, Tile.patra_red],
                 [4, 14, Tile.patra_red],
                 [4,  8, Tile.patra_red],
@@ -1879,11 +1893,11 @@ export function getMapRowData() {
             ]),
             /* room: 11,03 */ makeRoom("11,03", 9, 0x1D, "locked", "locked", "solid",  "bomb",   null  , [
                 [3,  2, Tile.zol_black],
-                [3,  9, Tile.bubble, base2x1],
+                [3,  9, Tile.bubble_blue, base2x1],
                 [4,  6, Tile.like_like],
                 [5,  3, Tile.zol_black],
                 [6,  3, Tile.like_like],
-                [7,  8, Tile.bubble, base1x2],
+                [7,  8, Tile.bubble_blue, base1x2],
             ]),
             /* room: 11,04 */ makeRoom("11,04", 9, 0x12, "locked", "bomb",   "locked", "locked", null  , [
                 [2,  2, Tile.gel_black],
@@ -1905,11 +1919,11 @@ export function getMapRowData() {
             ]),
             /* room: 11,06 */ makeRoom("11,06", 9, 0x0E, "bomb",   "locked", "bomb",   "solid",  null  , [
                 [3,  5, Tile.like_like],
-                [3, 13, Tile.bubble, base2x1],
+                [3, 13, Tile.bubble_blue, base2x1],
                 [5,  8, Tile.item_bomb],
                 [6,  5, Tile.like_like],
                 [6, 12, Tile.zol_black],
-                [7,  8, Tile.bubble, base2x1],
+                [7,  8, Tile.bubble_blue, base2x1],
                 [7, 10, Tile.zol_black, base2x1],
             ]),
             /* room: 11,07 */ makeRoom("11,07", 9, 0x03, "open",   "bomb",   "locked", "locked", null  , [
@@ -1991,7 +2005,7 @@ export function getMapRowData() {
                 [6,  5, Tile.like_like],
                 [6,  9, Tile.wizzrobe_blue_w],
                 [7,  9, Tile.wizzrobe_red_w],
-                [8,  6, Tile.bubble],
+                [8,  6, Tile.bubble_blue],
             ]),
             /* room: 12,03 */ makeRoom("12,03", 9, 0x27, "solid",  "solid",  "shut",   "solid",  "dim" , [
                 [4, 7, Tile.zelda_red, base2x2_center],
@@ -2030,14 +2044,14 @@ export function getMapRowData() {
                 [5,  9, Tile.wizzrobe_red_w],
             ]),
             /* room: 12,07 */ makeRoom("12,07", 9, 0x00, "locked", "bomb",   "solid",  "solid",  null  , [
-                [2,  4, Tile.bubble],
+                [2,  4, Tile.bubble_blue],
                 [2,  8, Tile.keese_blue, base1x2],
-                [4,  5, Tile.bubble],
+                [4,  5, Tile.bubble_blue],
                 [4,  6, Tile.zol_black],
                 [5,  4, Tile.zol_black, base2x1],
                 [5,  7, Tile.keese_blue, base2x1],
                 [6,  5, Tile.keese_blue, base1x2],
-                [8,  2, Tile.bubble],
+                [8,  2, Tile.bubble_blue],
             ]),
             /* room: 12,08 */ makeRoom("12,08", 9, 0x23, "bomb",   "solid",  "open",   "bomb",   "dim" , [
                 [2,  7, Tile.vire, base2x1],
@@ -2087,12 +2101,12 @@ export function getMapRowData() {
                 [6,   2, Tile.darknut_blue, base1x2],
             ]),
             /* room: 12,16 */ makeRoom("12,16", 8, 0x1B, "solid",  "solid",  "solid",  "shut",   null  , [
-                [2,   3, Tile.bubble, base1x2],
+                [2,   3, Tile.bubble_blue, base1x2],
                 [2,   6, Tile.gibdo],
                 [2,   8, Tile.gibdo, base1x2],
                 [3,   8, Tile.darknut_blue],
                 [4,   4, Tile.gibdo],
-                [4,   9, Tile.bubble],
+                [4,   9, Tile.bubble_blue],
                 [5,   5, Tile.darknut_red],
                 [5,   8, Tile.item_bomb],
                 [6,   9, Tile.darknut_red, base2x1],
@@ -2131,7 +2145,7 @@ export function getMapRowData() {
                 [8, 10, Tile.wizzrobe_red_n],
             ]),
             /* room: 13,06 */ makeRoom("13,06", 9, 0x00, "solid",  "open",   "bomb",   "open",   null  , [
-                [2,  6, Tile.bubble, base1x2],
+                [2,  6, Tile.bubble_blue, base1x2],
                 [2, 11, Tile.wizzrobe_blue_e, base2x1],
                 [3,  8, Tile.wizzrobe_blue_w],
                 [4, 10, Tile.like_like, base2x1],
@@ -2149,13 +2163,13 @@ export function getMapRowData() {
                 [6,  9, Tile.wizzrobe_blue_w],
             ]),
             /* room: 13,08 */ makeRoom("13,08", 9, 0x1E, "open",   "solid",  "open",   "solid",  null  , [
-                [2,  7, Tile.bubble, base1x2],
-                [2, 11, Tile.bubble, base1x2],
+                [2,  7, Tile.bubble_blue, base1x2],
+                [2, 11, Tile.bubble_blue, base1x2],
                 [2, 13, Tile.item_key],
                 [3,  5, Tile.wizzrobe_blue_e],
                 [4,  5, Tile.wizzrobe_red_e],
                 [4, 13, Tile.wizzrobe_red_w],
-                [5,  3, Tile.bubble, base1x2],
+                [5,  3, Tile.bubble_blue, base1x2],
                 [7, 13, Tile.wizzrobe_blue_e, base2x1],
             ]),
             /* room: 13,09 */ makeRoom("13,09", 7, 0x26, "solid",  "solid",  "locked", "solid",  "text", [
@@ -2164,10 +2178,10 @@ export function getMapRowData() {
                 [2,  5, Tile.keese_blue],
                 [2, 10, Tile.goriya_blue, base1x2],
                 [3,  3, Tile.keese_blue],
-                [3,  5, Tile.bubble],
+                [3,  5, Tile.bubble_blue],
                 [3, 12, Tile.keese_blue],
                 [5,  8, Tile.goriya_blue],
-                [6,  6, Tile.bubble],
+                [6,  6, Tile.bubble_blue],
                 [6,  9, Tile.goriya_blue, base1x2],
             ]),
             /* room: 13,11 */ [[], []],
@@ -2181,15 +2195,15 @@ export function getMapRowData() {
                 [7,  8, Tile.darknut_red, base1x2],
             ]),
             /* room: 13,13 */ makeRoom("13,13", 8, 0x1C, "bomb",   "solid",  "solid",  "shut",   null  , [
-                [2,  2, Tile.pols_voice],
+                [2,  2, Tile.pols_voice_orange_blue],
                 [2, 13, Tile.item_key],
-                [4,  4, Tile.pols_voice, base2x1],
-                [4, 13, Tile.pols_voice, base2x1],
-                [6, 10, Tile.pols_voice],
-                [6, 13, Tile.pols_voice, base2x1],
-                [8,  2, Tile.pols_voice, base1x2],
-                [8,  7, Tile.pols_voice],
-                [8, 12, Tile.pols_voice, base1x2],
+                [4,  4, Tile.pols_voice_orange_blue, base2x1],
+                [4, 13, Tile.pols_voice_orange_blue, base2x1],
+                [6, 10, Tile.pols_voice_orange_blue],
+                [6, 13, Tile.pols_voice_orange_blue, base2x1],
+                [8,  2, Tile.pols_voice_orange_blue, base1x2],
+                [8,  7, Tile.pols_voice_orange_blue],
+                [8, 12, Tile.pols_voice_orange_blue, base1x2],
             ]),
             /* room: 13,14 */ makeRoom("13,14", 8, 0x25, "shut",   "locked", "open",   "solid",  null  , [
                 [4,  8, Tile.gohma_blue],
@@ -2198,12 +2212,12 @@ export function getMapRowData() {
                 [2,  6, Tile.gibdo],
                 [2,  9, Tile.darknut_blue, base1x2],
                 [3,  2, Tile.gibdo],
-                [4,  6, Tile.bubble, base1x2],
+                [4,  6, Tile.bubble_blue, base1x2],
                 [4, 12, Tile.darknut_red],
                 [5,  8, Tile.item_rupee_blue],
                 [5,  9, Tile.darknut_red, base2x1],
                 [7,  5, Tile.gibdo],
-                [7,  7, Tile.bubble, base1x2],
+                [7,  7, Tile.bubble_blue, base1x2],
             ]),
             /* room: 13,16 */ [[], []],
         ], [
@@ -2234,7 +2248,7 @@ export function getMapRowData() {
                 [7,  7, Tile.patra_red],
             ]),
             /* room: 14,04 */ makeRoom("14,04", 9, 0x23, "bomb",   "solid",  "locked", "solid",  null  , [
-                [2,  5, Tile.bubble, base1x2],
+                [2,  5, Tile.bubble_blue, base1x2],
                 [3,  2, Tile.wizzrobe_red_e],
                 [3,  4, Tile.wizzrobe_blue_w],
                 [3,  7, Tile.like_like, base2x1],
@@ -2263,10 +2277,10 @@ export function getMapRowData() {
             /* room: 14,07 */ makeRoom("14,07", 9, 0x19, "open",   "solid",  "open",   "bomb",   null  , [
                 [4,  7, Tile.zol_black, base2x1],
                 [4, 10, Tile.like_like, base2x1],
-                [5,  6, Tile.bubble],
+                [5,  6, Tile.bubble_blue],
                 [5,  8, Tile.item_key],
                 [6,  8, Tile.zol_black, base1x2],
-                [8,  6, Tile.bubble, base1x2],
+                [8,  6, Tile.bubble_blue, base1x2],
                 [8, 10, Tile.like_like, base1x2],
             ]),
             /* room: 14,08 */ makeRoom("14,08", 9, 0x14, "open",   "solid",  "solid",  "solid",  "dark", [
@@ -2310,8 +2324,8 @@ export function getMapRowData() {
                 [5, 11, Tile.darknut_red],
             ]),
             /* room: 14,14 */ makeRoom("14,14", 8, 0x11, "open",   "open",   "solid",  "open",   "dark", [
-                [3,  4, Tile.pols_voice, base1x2],
-                [4,  9, Tile.pols_voice, base1x2],
+                [3,  4, Tile.pols_voice_orange_blue, base1x2],
+                [4,  9, Tile.pols_voice_orange_blue, base1x2],
                 [5,  2, Tile.gibdo],
                 [5,  8, Tile.item_key],
                 [5, 12, Tile.keese_blue, base2x1],
@@ -2327,15 +2341,15 @@ export function getMapRowData() {
                 [6,  5, Tile.darknut_blue, base1x2],
             ]),
             /* room: 14,16 */ makeRoom("14,16", 8, 0x18, "solid",  "solid",  "solid",  "locked", "dark", [
-                [2,  2, Tile.pols_voice, base2x1],
-                [2,  3, Tile.pols_voice],
-                [2,  8, Tile.pols_voice],
-                [2, 11, Tile.pols_voice],
-                [4, 10, Tile.pols_voice, base1x2],
-                [4, 12, Tile.pols_voice],
-                [5,  3, Tile.pols_voice],
+                [2,  2, Tile.pols_voice_orange_blue, base2x1],
+                [2,  3, Tile.pols_voice_orange_blue],
+                [2,  8, Tile.pols_voice_orange_blue],
+                [2, 11, Tile.pols_voice_orange_blue],
+                [4, 10, Tile.pols_voice_orange_blue, base1x2],
+                [4, 12, Tile.pols_voice_orange_blue],
+                [5,  3, Tile.pols_voice_orange_blue],
                 [5,  8, Tile.item_compass],
-                [7,  7, Tile.pols_voice, base2x1],
+                [7,  7, Tile.pols_voice_orange_blue, base2x1],
             ]),
         ], [
             /* room: 15,01 */ [[], []],
@@ -2370,7 +2384,7 @@ export function getMapRowData() {
             ]),
             /* room: 15,05 */ makeRoom("15,05", 9, 0x1F, "open",   "open",   "solid",  "solid",  null  , [
                 [3,  5, Tile.like_like, base1x2],
-                [4,  4, Tile.bubble, base1x2],
+                [4,  4, Tile.bubble_blue, base1x2],
                 [4,  9, Tile.wizzrobe_blue_e],
                 [5,  9, Tile.wizzrobe_red_e],
                 [5, 12, Tile.wizzrobe_red_e],
@@ -2379,14 +2393,14 @@ export function getMapRowData() {
                 [7, 10, Tile.like_like, base2x1],
             ]),
             /* room: 15,06 */ makeRoom("15,06", 9, 0x18, "bomb",   "open",   "solid",  "open",   "dark", [
-                [2,  7, Tile.bubble],
+                [2,  7, Tile.bubble_blue],
                 [2, 13, Tile.wizzrobe_red_e],
                 [3,  9, Tile.wizzrobe_blue_e],
                 [4, 12, Tile.wizzrobe_blue_n],
                 [6,  9, Tile.wizzrobe_red_e],
                 [6, 12, Tile.wizzrobe_blue_e],
-                [7, 13, Tile.bubble, base2x1],
-                [8,  8, Tile.bubble],
+                [7, 13, Tile.bubble_blue, base2x1],
+                [8,  8, Tile.bubble_blue],
             ]),
             /* room: 15,07 */ makeRoom("15,07", 9, 0x26, "shut",   "solid",  "open",   "shut",   "text", [
             ]),
@@ -2455,12 +2469,12 @@ export function getMapRowData() {
             /* room: 16,04 */ makeRoom("16,04", 9, 0x1F, "locked", "locked", "solid",  "solid",  null  , [
                 [2,  9, Tile.wizzrobe_blue_e],
                 [2, 10, Tile.wizzrobe_blue_e],
-                [2, 11, Tile.bubble],
+                [2, 11, Tile.bubble_blue],
                 [5,  9, Tile.wizzrobe_red_e],
                 [5, 10, Tile.wizzrobe_red_e],
-                [7,  2, Tile.bubble, base2x1],
+                [7,  2, Tile.bubble_blue, base2x1],
                 [8,  4, Tile.wizzrobe_blue_e, base1x2],
-                [8,  7, Tile.bubble, base1x2],
+                [8,  7, Tile.bubble_blue, base1x2],
             ]),
             /* room: 16,05 */ makeRoom("16,05", 9, 0x1A, "solid",  "solid",  "solid",  "locked", null  , [
                 [2,  4, Tile.lanmola_body_blue],
@@ -2507,9 +2521,9 @@ export function getMapRowData() {
                 [4,  2, Tile.darknut_blue, base1x2],
                 [5,  3, Tile.darknut_red, base2x1],
                 [5,  5, Tile.gibdo],
-                [6,  3, Tile.bubble, base2x1],
+                [7,  3, Tile.bubble_blue],
                 [7, 10, Tile.gibdo],
-                [7, 12, Tile.bubble],
+                [7, 12, Tile.bubble_blue],
             ]),
             /* room: 16,14 */ makeRoom("16,14", 8, 0x23, "solid",  "open",   "solid",  "shut",   null  , [
                 [5,  8, Tile.item_rupee_blue],
@@ -2521,11 +2535,11 @@ export function getMapRowData() {
                 [2,  7, Tile.keese_blue, base1x2],
                 [3,  6, Tile.keese_blue],
                 [4, 12, Tile.zol_deep_gray],
-                [5,  6, Tile.bubble],
+                [5,  6, Tile.bubble_blue],
                 [5,  8, Tile.item_key],
-                [6,  7, Tile.bubble],
+                [6,  7, Tile.bubble_blue],
                 [7,  9, Tile.keese_blue],
-                [7, 11, Tile.bubble],
+                [7, 11, Tile.bubble_blue],
                 [7, 12, Tile.zol_deep_gray],
             ]),
         ],
@@ -2540,10 +2554,10 @@ export function getMapRowData() {
             makeItemRoom(Tile.item_recorder,        [[0, 11], [3, 14], [5,  2], [7,  7]]),
             makeItemRoom(Tile.item_magical_rod,     [[1,  3], [4,  5], [6,  8], [8, 12]]),
             makeItemRoom(Tile.item_candle_red,      [[2, 10], [5, 15], [7,  1], [9,  0]]),
-            makeItemRoom(Tile.item_magical_key,     [[0,  4], [1,  9], [3,  6], [8, 13]]),
             makeItemRoom(Tile.item_book_of_magic,   [[2, 11], [4, 14], [5,  7], [6,  2]]),
-            makeItemRoom(Tile.item_silver_arrow,    [[0,  3], [3, 12], [7,  5], [9,  8]]),
+            makeItemRoom(Tile.item_magical_key,     [[0,  4], [1,  9], [3,  6], [8, 13]]),
             makeItemRoom(Tile.item_ring_red,        [[1,  0], [4,  6], [6, 10], [8, 15]]),
+            makeItemRoom(Tile.item_silver_arrow,    [[0,  3], [3, 12], [7,  5], [9,  8]]),
             [[], []],
             makePassageRoom(                        [[1,  7], [3,  0], [8, 11], [9, 14]]),
             [[], []],
