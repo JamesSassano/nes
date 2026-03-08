@@ -1,6 +1,6 @@
 "use strict";
 
-import {Palette, Tile} from "./HyrulePieces.js";
+import {Palette, Piece, TilePiece, Tile} from "./HyrulePieces.js";
 import * as HyruleDungeons from "./HyruleDungeons.js";
 import * as HyruleCaves from "./HyruleCaves.js";
 
@@ -391,4 +391,30 @@ export function getMiniMapRowData() {
             [[Palette.mountain],  mini],
         ],
     ];
+}
+
+export function getRotationMapRowData() {
+    return [[[
+        [Palette.mountain],
+        [
+            // Symetric pieces that can be rotated to orient the logo on the stud.
+            [
+                [0, [new TilePiece(Piece.brick_1x1x5, 'primary', {})]],
+                [0, [new TilePiece(Piece.brick_1x1x3, 'primary', {})]],
+                [0, [new TilePiece(Piece.brick, 'primary', {})]],
+                [0, [new TilePiece(Piece.plate, 'primary', {})]],
+                [0, [new TilePiece(Piece.plate_round_dot, 'primary', {})]],
+                [0, [new TilePiece(Piece.plate2x2, 'primary', {translateX: .5, translateY: .5})]],
+            ],
+            // Ldraw and Studio differ on the initial rotation.
+            [
+                [0, [new TilePiece(Piece.brick_2_3rd_convex_corner, 'primary', {rotateY: 180})]],
+                [0, [new TilePiece(Piece.brick_2_3rd_convex_corner, 'primary', {rotateY: 270})]],
+            ],
+            [
+                [0, [new TilePiece(Piece.brick_2_3rd_convex_corner, 'primary', {rotateY: 90})]],
+                [0, [new TilePiece(Piece.brick_2_3rd_convex_corner, 'primary', {rotateY: 0})]],
+            ],
+        ]
+    ]]];
 }

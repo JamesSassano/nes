@@ -3,70 +3,82 @@
 import {NESColor} from "./Colors.js";
 
 export class Piece {
-    static brick                        = new Piece( 3005, 3,  3, null,                     "brick");
-    static brick_headlight              = new Piece( 4070, 3,  3, null,                     "brick_headlight");
-    static brick_slope_curved           = new Piece( 7126, 3,  3, null,                     "brick_slope_curved");
-    static brick_side_stud              = new Piece(87087, 3,  3, null,                     "brick_side_stud");
-    static brick_4_side_studs           = new Piece( 4733, 3,  3, null,                     "brick_4_side_studs");
-    static brick_side_stud2             = new Piece(32952, 5,  5, null,                     "brick_side_stud2");
-    static inverted_cone                = new Piece(11610, 3,  3, null,                     "inverted_cone");
-    static brick_2_3rd                  = new Piece(86996, 2,  2, null,                     "brick_2_3rd");
-    static brick_2_3rd_round_tabs       = new Piece(33286, 2,  2, null,                     "brick_2_3rd_round_tabs");
-    static brick_2_3rd_slope            = new Piece(54200, 2,  0, null,                     "brick_2_3rd_slope");
-    static brick_2_3rd_slope_curved     = new Piece(49307, 2,  0, null,                     "brick_2_3rd_slope_curved");
-    static brick_2_3rd_slope_pyramid    = new Piece(22388, 2,  0, null,                     "brick_2_3rd_slope_pyramid");
-    static brick_2_3rd_slope_triangle   = new Piece(35464, 2,  0, null,                     "brick_2_3rd_slope_triangle");
-    static brick_2_3rd_convex_corner    = new Piece( 7826, 2,  0, null,                     "brick_2_3rd_convex_corner");
-    static brick_1x1x5                  = new Piece('2453b', 15, 15, null,                  "brick_1x1x5");
-    static brick_1x1x3                  = new Piece(14716, 9,  9, null,                     "brick_1x1x3");
+    static brick                        = new Piece( "3005",  3,  3,   0, 270, null,                  "brick");
+    static brick_headlight              = new Piece( "4070",  3,  3,   0,   0, null,                  "brick_headlight");
+    static brick_slope_curved           = new Piece( "7126",  3,  3,   0,   0, null,                  "brick_slope_curved");
+    static brick_side_stud              = new Piece("87087",  3,  3,   0,   0, null,                  "brick_side_stud");
+    static brick_4_side_studs           = new Piece( "4733",  3,  3,   0,   0, null,                  "brick_4_side_studs");
+    static brick_side_stud2             = new Piece("32952",  5,  5,   0,   0, null,                  "brick_side_stud2");
+    static inverted_cone                = new Piece("11610",  3,  3,   0,   0, null,                  "inverted_cone");
+    static brick_2_3rd                  = new Piece("86996",  2,  2,   0,   0, null,                  "brick_2_3rd");
+    static brick_2_3rd_round_tabs       = new Piece("33286",  2,  2,   0,   0, null,                  "brick_2_3rd_round_tabs");
+    static brick_2_3rd_slope            = new Piece("54200",  2,  0,   0,   0, null,                  "brick_2_3rd_slope");
+    static brick_2_3rd_slope_curved     = new Piece("49307",  2,  0,   0,   0, null,                  "brick_2_3rd_slope_curved");
+    static brick_2_3rd_slope_pyramid    = new Piece("22388",  2,  0,   0,   0, null,                  "brick_2_3rd_slope_pyramid");
+    static brick_2_3rd_slope_triangle   = new Piece("35464",  2,  0,   0,   0, null,                  "brick_2_3rd_slope_triangle");
+    static brick_2_3rd_convex_corner    = new Piece( "7826",  2,  0,   0,  90, null,                  "brick_2_3rd_convex_corner");
+    static brick_1x1x5                  = new Piece("2453b", 15, 15,  90, 270, null,                  "brick_1x1x5");
+    static brick_1x1x3                  = new Piece("14716",  9,  9,  90, 270, null,                  "brick_1x1x3");
 
-    static plate                        = new Piece( 3024, 1,  1, null,                     "plate");
-    static plate_clip_top               = new Piece(15712, 1,  1, null,                     "plate_clip_top");
-    static plate_clip_top_edge          = new Piece( 2555, 1,  1, null,                     "plate_clip_top_edge");
-    static plate_clip_bottom            = new Piece( 5264, 1,  1, null,                     "plate_clip_bottom");
-    static plate_round_dot              = new Piece( 6141, 1,  1, null,                     "plate_round_dot");
-    static plate_round_dot_with_hole    = new Piece(85861, 1,  1, Piece.plate_round_dot,    "plate_round_dot_with_hole");
-    static plate_round_tabs             = new Piece(33291, 1,  1, null,                     "plate_round_tabs");
-    static plate_center_stud            = new Piece(15573, 1,  1, null,                     "plate_center_stud");
-    static plate_center_stud2           = new Piece(34103, 1,  1, null,                     "plate_center_stud2");
-    static plate2x2_center_stud         = new Piece(87580, 1,  1, null,                     "plate2x2_center_stud");
-    static plate6                       = new Piece( 3666, 1,  1, null,                     "plate6");
-    static plate1x2                     = new Piece( 3023, 1,  1, null,                     "plate1x2");
-    static plate2x2                     = new Piece( 3022, 1,  1, null,                     "plate2x2");
-    static plate_bracket_inverted       = new Piece(36840, 1,  1, null,                     "plate_bracket_inverted");
-    static plate_bar_side               = new Piece(26047, 1,  1, null,                     "plate_bar_side");
-    static plate_bar_double_side        = new Piece(78257, 1,  1, null,                     "plate_bar_double_side");
-    static plate_round_bar_side         = new Piece(32828, 1,  1, null,                     "plate_round_bar_side");
-    static plate1x2_round_half          = new Piece( 1745, 1,  1, null,                     "plate1x2_round_half");
-    static plate2x2_round               = new Piece(18674, 1,  1, null,                     "plate2x2_round");
-    static plate2x2_round_inverted_dish = new Piece( 4740, 1,  1, null,                     "plate2x2_round_inverted_dish");
-    static plate_light_attachment       = new Piece( 4081, 1,  1, null,                     "plate_light_attachment");
-    static plate_clip_vertical_side     = new Piece( 4085, 1,  1, null,                     "plate_clip_vertical_side");
-    static plate_clip_horizontal_side   = new Piece(61252, 1,  1, null,                     "plate_clip_horizontal_side");
+    static plate                        = new Piece( "3024",  1,  1,   0, 270, null,                  "plate");
+    static plate_clip_top               = new Piece("15712",  1,  1,   0,   0, null,                  "plate_clip_top");
+    static plate_clip_top_edge          = new Piece( "2555",  1,  1,   0,   0, null,                  "plate_clip_top_edge");
+    static plate_clip_bottom            = new Piece( "5264",  1,  1,   0,   0, null,                  "plate_clip_bottom");
+    static plate_round_dot              = new Piece( "6141",  1,  1,  90, 270, null,                  "plate_round_dot");
+    static plate_round_dot_with_hole    = new Piece("85861",  1,  1,   0,   0, Piece.plate_round_dot, "plate_round_dot_with_hole");
+    static plate_round_tabs             = new Piece("33291",  1,  1,   0,   0, null,                  "plate_round_tabs");
+    static plate_center_stud            = new Piece("15573",  1,  1,   0,   0, null,                  "plate_center_stud");
+    static plate_center_stud2           = new Piece("34103",  1,  1,   0,   0, null,                  "plate_center_stud2");
+    static plate2x2_center_stud         = new Piece("87580",  1,  1,   0,   0, null,                  "plate2x2_center_stud");
+    static plate6                       = new Piece( "3666",  1,  1,   0,   0, null,                  "plate6");
+    static plate1x2                     = new Piece( "3023",  1,  1,   0,   0, null,                  "plate1x2");
+    static plate2x2                     = new Piece( "3022",  1,  1,  90, 270, null,                  "plate2x2");
+    static plate_bracket_inverted       = new Piece("36840",  1,  1,   0,   0, null,                  "plate_bracket_inverted");
+    static plate_bar_side               = new Piece("26047",  1,  1,   0,   0, null,                  "plate_bar_side");
+    static plate_bar_double_side        = new Piece("78257",  1,  1,   0,   0, null,                  "plate_bar_double_side");
+    static plate_round_bar_side         = new Piece("32828",  1,  1,   0,   0, null,                  "plate_round_bar_side");
+    static plate1x2_round_half          = new Piece( "1745",  1,  1,   0,   0, null,                  "plate1x2_round_half");
+    static plate2x2_round               = new Piece("18674",  1,  1,   0,   0, null,                  "plate2x2_round");
+    static plate2x2_round_inverted_dish = new Piece( "4740",  1,  1,   0,   0, null,                  "plate2x2_round_inverted_dish");
+    static plate_light_attachment       = new Piece( "4081",  1,  1,   0,   0, null,                  "plate_light_attachment");
+    static plate_clip_vertical_side     = new Piece( "4085",  1,  1,   0,   0, null,                  "plate_clip_vertical_side");
+    static plate_clip_horizontal_side   = new Piece("61252",  1,  1,   0,   0, null,                  "plate_clip_horizontal_side");
 
-    static tile                         = new Piece('3070a', 1,  1, Piece.plate,            "tile");
-    static tile_groove                  = new Piece('3070b', 1,  1, Piece.plate,            "tile_groove");
-    static tile_half_circle             = new Piece(24246, 1,  1, Piece.plate_round_dot,    "tile_half_circle");
-    static tile_heart                   = new Piece(39739, 1,  1, null,                     "tile_heart");
-    static tile_quarter_circle          = new Piece(25269, 1,  1, Piece.plate_round_dot,    "tile_quarter_circle");
-    static tile_round_dot               = new Piece(98138, 1,  1, Piece.plate_round_dot,    "tile_round_dot");
-    static tile_round_dot_pin_holder    = new Piece(20482, 1,  1, Piece.plate_round_dot,    "tile_round_dot_pin_holder");
-    static tile2                        = new Piece( 3069, 1,  1, null,                     "tile2");
+    static tile                         = new Piece("3070a",  1,  1,   0,   0, Piece.plate,           "tile");
+    static tile_groove                  = new Piece("3070b",  1,  1,   0,   0, Piece.plate,           "tile_groove");
+    static tile_half_circle             = new Piece("24246",  1,  1,   0,   0, Piece.plate_round_dot, "tile_half_circle");
+    static tile_heart                   = new Piece("39739",  1,  1,   0,   0, null,                  "tile_heart");
+    static tile_quarter_circle          = new Piece("25269",  1,  1,   0,   0, Piece.plate_round_dot, "tile_quarter_circle");
+    static tile_round_dot               = new Piece("98138",  1,  1,   0,   0, Piece.plate_round_dot, "tile_round_dot");
+    static tile_round_dot_pin_holder    = new Piece("20482",  1,  1,   0,   0, Piece.plate_round_dot, "tile_round_dot_pin_holder");
+    static tile2                        = new Piece( "3069",  1,  1,   0,   0, null,                  "tile2");
 
-    static candle_flame                 = new Piece(37775, 3,  1, null,                     "candle_flame");
-    static sword                        = new Piece(76764, 1,  1, null,                     "sword");
+    static candle_flame                 = new Piece("37775",  3,  1,   0,   0, null,                  "candle_flame");
+    static sword                        = new Piece("76764",  1,  1,   0,   0, null,                  "sword");
 
     static water_piece_under            = Piece.plate_round_dot;
     static water_piece_top              = Piece.plate_round_dot;
     static ground_piece_under           = Piece.plate;
     static ground_piece_top             = Piece.tile;
 
-    constructor(partNumber, plateHeight, plateLevel, studReplacement, name) {
+    constructor(partNumber, plateHeight, plateLevel, ldrawRotation, studioRotation, studReplacement, name) {
         this.partNumber = partNumber;
         this.plateHeight = plateHeight;
         this.plateLevel = plateLevel;
+        this.ldrawRotation = ldrawRotation;
+        this.studioRotation = studioRotation;
         this.studReplacement = studReplacement;
         this.name = name;
+    }
+
+    getLdrName(palette) {
+        const partNumberMap = {
+            'studio': {
+                '7826': 'bl_7826',
+            },
+        };
+
+        return partNumberMap[palette]?.[this.partNumber] ?? this.partNumber;
     }
 }
 
@@ -1064,7 +1076,7 @@ export class Tile {
         new TilePiece(Piece.plate_round_dot,                NESColor.steel_blue,    {}),
         new TilePiece(Piece.plate_round_dot,                NESColor.steel_blue,    {}),
         new TilePiece(Piece.plate_round_dot,                NESColor.white,         {}),
-        new TilePiece(Piece.plate,                          NESColor.navy,          {rotateY: 45}),
+        new TilePiece(Piece.plate,                          NESColor.navy,          {rotateY: 315}),
     ];
     static item_book_of_magic = [
         new TilePiece(Piece.plate_bracket_inverted,         NESColor.red,           {rotateY: 270}),

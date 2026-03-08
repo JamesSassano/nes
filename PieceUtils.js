@@ -23,6 +23,7 @@ export class PieceInstances {
         const screenName = pieceConfiguration.screenName;
         this.piecesByScreen[screenName] ??= [];
         this.piecesByScreen[screenName].push({
+            piece: pieceConfiguration.piece,
             pieceName: pieceConfiguration.pieceName,
             color: pieceConfiguration.color,
             opacity: pieceConfiguration.opacity,
@@ -35,7 +36,7 @@ export class PieceInstances {
         const colors = {};
         Object.keys(this.piecesByScreen).forEach(screenName => {
             this.piecesByScreen[screenName].forEach(pieceInstance => {
-                const paletteColor = pieceInstance.color.palettes[palette];
+                const paletteColor = pieceInstance.color.getPaletteColor(palette).colorInt;
                 const color = colors[paletteColor] ??= new THREE.Color(paletteColor);
                 pieceInstance.pieceInstancedMesh.setColorAt(pieceInstance.pieceInstancedMeshIndex, color);
                 pieceInstance.pieceInstancedMesh.instanceColor.needsUpdate = true;
@@ -43,7 +44,7 @@ export class PieceInstances {
         });
     }
 
-    async getObjData(mapName, yUp, onProgress) {
+    async getObjData(fileBaseName, yUp, onProgress) {
         const mtllib = {};
 
         const encoder = new TextEncoder();
@@ -84,11 +85,11 @@ export class PieceInstances {
             const pieceInstances = this.piecesByScreen[screenName]
                 .sort((a, b) => a.pieceName.localeCompare(b.pieceName));
 
-            const objContent = PieceInstances.createObjContent(pieceInstances, mtllib, yUp);
-            await addFile(`hyrule-${mapName}/hyrule-${mapName}.${screenName}.obj`, objContent);
+            const objContent = PieceInstances.createObjContent(fileBaseName, pieceInstances, mtllib, yUp);
+            await addFile(`${fileBaseName}/${fileBaseName}.${screenName}.obj`, objContent);
         }
 
-        await addFile(`hyrule-${mapName}/hyrule.mtl`, Object.values(mtllib).join(""));
+        await addFile(`${fileBaseName}/${fileBaseName}.mtl`, Object.values(mtllib).join(""));
 
         await writer.write(new Uint8Array(1024));
         await writer.close();
@@ -96,8 +97,72 @@ export class PieceInstances {
         return await outputPromise;
     }
 
-    static createObjContent(pieceInstances, mtllib, yUp) {
-        const objOutput = [`${objComment}\nmtllib hyrule.mtl\n`];
+    async getLdrData(fileBaseName, palette, onProgress) {
+        const instanceMatrix4 = new THREE.Matrix4();
+        const lines = [`0 FILE ${fileBaseName}.ldr`];
+        for (const screenName of Object.keys(this.piecesByScreen).sort()
+            //.filter(screenName => ["H4"].includes(screenName))
+            //.filter(screenName => ["C13"].includes(screenName))
+        ) {
+            await onProgress(screenName);
+
+            const pieceInstances = this.piecesByScreen[screenName]
+                .sort((a, b) => a.pieceName.localeCompare(b.pieceName));
+
+            for (const pieceInstance of pieceInstances) {
+                pieceInstance.pieceInstancedMesh.getMatrixAt(pieceInstance.pieceInstancedMeshIndex, instanceMatrix4);
+                const paletteColor = pieceInstance.color.getPaletteColor(palette);
+                const color = ['ldraw', 'studio'].includes(palette)
+                        ? paletteColor.colorCode
+                        : `0x2${paletteColor.colorInt.toString(16).padStart(6, '0').toUpperCase()}`;
+
+                const matrix = instanceMatrix4.elements;
+                if ('studio' === palette) {
+                    const rotate = (pieceInstance.piece.studioRotation + pieceInstance.piece.ldrawRotation) % 360;
+                    if (rotate > 0) {
+                        const x0 = matrix[0], x1 = matrix[1], x2 = matrix[2];
+                        const z0 = matrix[8], z1 = matrix[9], z2 = matrix[10];
+
+                        if (rotate === 90) {
+                            matrix[0] =  z0; matrix[1] =  z1; matrix[ 2] =  z2;
+                            matrix[8] = -x0; matrix[9] = -x1; matrix[10] = -x2;
+                        }
+                        else if (rotate === 180) {
+                            matrix[0] = -x0; matrix[1] = -x1; matrix[ 2] = -x2;
+                            matrix[8] = -z0; matrix[9] = -z1; matrix[10] = -z2;
+                        }
+                        else if (rotate === 270) {
+                            matrix[0] = -z0; matrix[1] = -z1; matrix[ 2] = -z2;
+                            matrix[8] =  x0; matrix[9] =  x1; matrix[10] =  x2;
+                        } else {
+                            throw Error(`Unexpected rotation ${rotate}`);
+                        }
+                    }
+                }
+
+                const x = ( matrix[12]).toFixed(3);
+                const y = (-matrix[13]).toFixed(3);
+                const z = (-matrix[14]).toFixed(3);
+                const a = ( matrix[ 0]).toFixed(4);
+                const b = ( matrix[ 4]).toFixed(4);
+                const c = ( matrix[ 8]).toFixed(4);
+                const d = (-matrix[ 1]).toFixed(4);
+                const e = (-matrix[ 5]).toFixed(4);
+                const f = (-matrix[ 9]).toFixed(4);
+                const g = (-matrix[ 2]).toFixed(4);
+                const h = (-matrix[ 6]).toFixed(4);
+                const i = (-matrix[10]).toFixed(4);
+
+                const partName = pieceInstance.piece.getLdrName(palette);
+                lines.push(`1 ${color} ${x} ${y} ${z} ${a} ${b} ${c} ${d} ${e} ${f} ${g} ${h} ${i} ${partName}.dat`);
+            }
+        }
+        lines.push("");
+        return lines.join("\n");
+    }
+
+    static createObjContent(fileBaseName, pieceInstances, mtllib, yUp) {
+        const objOutput = [`${objComment}\nmtllib ${fileBaseName}.mtl\n`];
         const instanceMatrix4 = new THREE.Matrix4();
         const normalMatrix3 = new THREE.Matrix3();
         const vector3 = new THREE.Vector3();
@@ -249,7 +314,7 @@ export async function addPiecesToScene(pieces, scene,
 
                 pieceInstancedMeshes.forEach(pieceInstancedMesh => {
                     pieceInstancedMesh.setMatrixAt(pieceIndex, object3d.matrix);
-                    const paletteColor = pieceConfiguration.color.palettes[optionsPalette];
+                    const paletteColor = pieceConfiguration.color.getPaletteColor(optionsPalette).colorInt;
                     const color = colors[paletteColor] ??= new THREE.Color(paletteColor);
                     pieceInstancedMesh.setColorAt(pieceIndex, color);
 

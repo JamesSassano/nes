@@ -67,7 +67,7 @@
 <body>
     <script type="module">
         "use strict";
-        import {LDrawColors, NESColor} from './Colors.js';
+        import {LDrawColors, StudioColors, NESColor} from './Colors.js';
 
         const getHexColor = (color) => `#${color.colorInt.toString(16).toUpperCase().padStart(6, '0')}`;
         const getHexCode = (color) => `0x${color.colorCode.toString(16).toUpperCase().padStart(2, '0')}`;
@@ -87,8 +87,8 @@
             return colorHex;
         };
 
-        const updateLDrawSwatch = (swatch, ldrawCode) => {
-            const ldrawColor = LDrawColors[ldrawCode];
+        const updateLDrawSwatch = (colors, swatch, ldrawCode) => {
+            const ldrawColor = colors[ldrawCode];
             const ldrawHex = setElementColors(swatch, ldrawColor);
 
             swatch.innerHTML = `
@@ -134,10 +134,17 @@
 
                 const ldrawSwatch = document.createElement('span');
                 ldrawSwatch.className = "ldraw-swatch";
-                updateLDrawSwatch(ldrawSwatch, nesColor.ldrawCode);
+                updateLDrawSwatch(LDrawColors, ldrawSwatch, nesColor.ldrawCode);
 
-                const altContainer = document.createElement('span');
-                altContainer.className = "alternative-ldraw-container";
+                const ldrawAltContainer = document.createElement('span');
+                ldrawAltContainer.className = "alternative-ldraw-container";
+
+                const studioSwatch = document.createElement('span');
+                studioSwatch.className = "ldraw-swatch";
+                updateLDrawSwatch(StudioColors, studioSwatch, nesColor.studioCode);
+
+                const studioAltContainer = document.createElement('span');
+                studioAltContainer.className = "alternative-ldraw-container";
 
                 if (nesColor.ldrawAlternativeCodes.length > 0) {
                     [nesColor.ldrawCode, ...nesColor.ldrawAlternativeCodes].forEach(alternativeLDrawCode => {
@@ -149,10 +156,27 @@
                         alternativeLDrawButton.title = getName(alternativeLDrawColor);
                         alternativeLDrawButton.onclick = (ev) => {
                             ev.stopPropagation();
-                            updateLDrawSwatch(ldrawSwatch, alternativeLDrawCode);
+                            updateLDrawSwatch(LDrawColors, ldrawSwatch, alternativeLDrawCode);
                         };
 
-                        altContainer.appendChild(alternativeLDrawButton);
+                        ldrawAltContainer.appendChild(alternativeLDrawButton);
+                    });
+                }
+
+                if (nesColor.studioAlternativeCodes.length > 0) {
+                    [nesColor.studioCode, ...nesColor.studioAlternativeCodes].forEach(alternativeStudioCode => {
+                        const alternativeStudioColor = StudioColors[alternativeStudioCode];
+                        const alternativeStudioButton = document.createElement('span');
+                        setElementColors(alternativeStudioButton, alternativeStudioColor);
+                        alternativeStudioButton.className = "alternative-ldraw-swatch";
+                        alternativeStudioButton.innerText = alternativeStudioCode;
+                        alternativeStudioButton.title = getName(alternativeStudioColor);
+                        alternativeStudioButton.onclick = (ev) => {
+                            ev.stopPropagation();
+                            updateLDrawSwatch(StudioColors, studioSwatch, alternativeStudioCode);
+                        };
+
+                        studioAltContainer.appendChild(alternativeStudioButton);
                     });
                 }
 
@@ -161,42 +185,80 @@
                     ${getName(nesColor)}
                 `;
                 nesCell.appendChild(ldrawSwatch);
-                nesCell.appendChild(altContainer);
+                nesCell.appendChild(ldrawAltContainer);
+                nesCell.appendChild(studioSwatch);
+                nesCell.appendChild(studioAltContainer);
                 nesRow.appendChild(nesCell);
 
             }
             table.appendChild(nesRow);
         }
 
-        addHeader(table, "LDraw Colors");
-
         const ldrawCodeTable = [
-            [null,   272,    23,    22,    26,   320,   216,  null,   308,  null,  null,   288,     3,     0,  null,  null],
-            [null,     1,   110,    85,     5,     4,   484,   128,     6,   180,   330,     2,    11,     8,  null,  null],
-            [null,   213,   112,    69, 10022,   508,   402,    92,    70,   424,    27,    10,   321,    72,  null,  null],
-            [null,   379,   219,   373,   351,   335,    25,    84,   422,    14,   115,   378,   322,     7,  null,  null],
-            [null,    73,    89,    30,    29,    12,   366,    19,   370,    18,   510,    74,   232,    71,  null,  null],
-            [null,   212,   220,   218,   295,   123,   462,   371,    86,   226,   326,    17,   118,   503,  null,  null],
-            [null,   313,    20,    31, 10017,   353,   121,    78,    28, 10015,   120,  null,   323,   151,  null,  null],
-            [null,     9,  null,  null,    13,   100,   509,   507,   423,   368,  null,  null,  null,    15,  null,  null],
-            [null,  null,  null,  null,    77,  null,   125,    68,   450,  null,  null,  null,  null,  null,  null,  null],
-            [null,  null,  null,  null,  null,  null,   191,   225,  null,  null,  null,  null,  null,  null,  null,  null],
+            [null,  null,   23,     85,    26,   320,   484,   128,   308,  null,  null,  null,  null,  null,  null, null],
+            [null,   272,  110,     22,     5,   216,   402,    84,     6,  null,  null,  null,  null,     0,  null, null],
+            [null,     1,   89,     69, 10022,     4,   366,    92,    70,   180,  null,   288,     3,     8,  null, null],
+            [null,   213,  219,    431,   351,   335,    25,   371,   423,   424,   330,     2,   321,    72,  null, null],
+            [null,   379,  112,    373,   430, 10017,   508,   509,   370,    14,    27,   378,    11,     7,  null, null],
+            [null,    73,  220,    218,   295,   123,   462,   225,    86,    18,   115,    10,   322,    71,  null, null],
+            [null,   212,   20,     30,    29,    12,   121,    19,   422,   226,  null,    74,   232,   503,  null, null],
+            [null,     9, null,     31,    13,   353,   125,    68,    28, 10015,   120,    17,   118,   151,  null, null],
+            [null,   313, null,   null,    77,   100,   191,    78,   450,   368,   326,   510,   323,    15,  null, null]
         ];
 
-        for (const ldrawCodeRow of ldrawCodeTable) {
-            const ldrawRow = document.createElement('tr');
-            for (const ldrawCode of ldrawCodeRow) {
-                const ldrawCell = document.createElement('td');
-                if (null !== ldrawCode) {
-                    const ldrawColor = LDrawColors[ldrawCode];
-                    const ldrawHex = setElementColors(ldrawCell, ldrawColor);
-                    ldrawCell.innerHTML = `
-                        <span class="color-code">[${ldrawCode}&nbsp;${ldrawHex}]</span>
-                        <br>${getName(ldrawColor)}`;
+        const studioCodeTable = [
+            [null, null,  null,  null,  null,  null,   null,  484,   308,  null,  null,  null,    3,  null,   null,  null],
+            [null,  272,    85,    22,    26,   320, 100167,  128,    70,  null,  null,  null,  321,     0,   null,  null],
+            [null,   23,   110,   373,     5,   216,    509,   28,     6,   424,   330,   288,   11,     8,   null,  null],
+            [null,    1,   431,    69,   351,     4,    508,   92,   423,100003,   115,     2,  313,    72,   null,  null],
+            [null,  379,    89,   219,   430,   335,     25,  371,    86,   191,    27,    10,  232,     7,   null,  null],
+            [null,   73,   112,    30,    13,    12,    366,   84,   370,    14,   120,   378,  322,    71,   null,  null],
+            [null,  212,    20,   218,   295,100007,    507,   19,   422,    18,  null,    74, null,   503,   null,  null],
+            [null,    9,  null,    31,    29,   353,    462,   68,   450,   226,100009,    17,  118,   151,   null,  null],
+            [null, null,  null,  null,    77,   100,    125,   78,  null,   368,   326,   510,  323,    15,   null,  null]
+        ];
+
+        const getOklch = (rgbInt) => {
+            const linearize = c => c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+            const linearR = linearize(((rgbInt >> 16) & 0xff) / 255);
+            const linearG = linearize(((rgbInt >>  8) & 0xff) / 255);
+            const linearB = linearize(( rgbInt        & 0xff) / 255);
+            const lCone = Math.cbrt(0.4122214708 * linearR + 0.5363320963 * linearG + 0.0514459440 * linearB);
+            const mCone = Math.cbrt(0.2119034982 * linearR + 0.6806995451 * linearG + 0.1073990560 * linearB);
+            const sCone = Math.cbrt(0.0883024619 * linearR + 0.2817188376 * linearG + 0.6299787005 * linearB);
+            const L = 0.2104542553 * lCone + 0.7936177850 * mCone - 0.0040720468 * sCone;
+            const a = 1.9779984951 * lCone - 2.4285922050 * mCone + 0.4505937099 * sCone;
+            const b = 0.0259040371 * lCone + 0.7827717662 * mCone - 0.8086757660 * sCone;
+            const C = Math.sqrt(a * a + b * b);
+            const h = ((Math.atan2(b, a) * 180 / Math.PI) + 360) % 360;
+            return {L, C, h, a, b};
+        };
+
+        for (const [name, colors, codeTable] of [
+            ["LDraw", LDrawColors, ldrawCodeTable],
+            ["Studio", StudioColors, studioCodeTable],
+        ]) {
+            addHeader(table, `${name} Colors`);
+
+            for (const ldrawCodeRow of codeTable) {
+                const ldrawRow = document.createElement('tr');
+                for (const ldrawCode of ldrawCodeRow) {
+                    const ldrawCell = document.createElement('td');
+                    if (null !== ldrawCode) {
+                        const ldrawColor = colors[ldrawCode];
+                        const ldrawHex = setElementColors(ldrawCell, ldrawColor);
+                        const oklch = getOklch(ldrawColor.colorInt);
+                        const hue = oklch.h.toFixed(0);
+                        const lightness = oklch.L.toFixed(2);
+                        ldrawCell.innerHTML = `
+                            <span class="color-code">[${ldrawCode}&nbsp;${ldrawHex}]</span>
+                            <br>${getName(ldrawColor)}
+                            <br><span style="font-size: 8px; opacity: 0.8;">H: ${hue}, L: ${lightness}</span>`;
+                    }
+                    ldrawRow.appendChild(ldrawCell);
                 }
-                ldrawRow.appendChild(ldrawCell);
+                table.appendChild(ldrawRow);
             }
-            table.appendChild(ldrawRow);
         }
 
         document.body.appendChild(table);

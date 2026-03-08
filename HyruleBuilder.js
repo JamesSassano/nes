@@ -8,6 +8,7 @@ const mapDataProviders = {
     dungeons:   async () => (await import('./HyruleDungeons.js')).getMapRowData(),
     samples:    async () => (await import('./HyruleSamples.js')).getMapRowData(),
     mini:       async () => (await import('./HyruleSamples.js')).getMiniMapRowData(),
+    rotations:  async () => (await import('./HyruleSamples.js')).getRotationMapRowData(),
 }
 
 export function getMapNames() {
@@ -68,7 +69,7 @@ export async function getPieces(mapName, gapSize, showSprites, showElevation) {
                             positionY: plateHeight * (plateLevel + (tilePiece.options.translateZ ?? 0)),
                             positionZ: toPosition(mapY, tilePiece.options.translateY, mapRowCount, screenRowCount),
                             rotationX: degreesToRadians((tilePiece.options.rotateX ?? 0) + 180),
-                            rotationY: degreesToRadians(tilePiece.options.rotateY ?? 0),
+                            rotationY: degreesToRadians((tilePiece.options.rotateY ?? 0) + tilePiece.piece.ldrawRotation),
                             rotationZ: degreesToRadians(tilePiece.options.rotateZ ?? 0),
                             scaleX: tilePiece.options.scaleX ?? 1,
                             scaleY: tilePiece.options.scaleY ?? 1,
@@ -77,6 +78,7 @@ export async function getPieces(mapName, gapSize, showSprites, showElevation) {
                             opacity: opacity,
                             screenName: screenName,
                             pieceName: pieceName,
+                            piece: tilePiece.piece,
                         });
                     }
                 }

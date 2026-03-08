@@ -89,11 +89,11 @@ body {
             setString("mapName", "overworld", value => HyruleBuilder.getMapNames().includes(value));
             setBool("showSprites", true);
             setBool("showElevation", true);
-            setBool("showLogo", false);
+            setBool("showLogo", "rotations" === this.mapName);
             setBool("showStats", false);
             setBool("antialias", true);
             setInt("clearColor", 0xD4EDFC);
-            setString("palette", "nes", value => ["nes", "ldraw"].includes(value));
+            setString("palette", "nes", value => ["nes", "ldraw", "studio"].includes(value));
             setFloat("roughness", 1.0);
             setFloat("polygonOffsetFactor", 0.1);
             setBool("showLights", false);
@@ -180,34 +180,46 @@ body {
             "Z up (3D Printer)": "Z"
         }).name("OBJ Coordinate System");
 
-        const guiDownloadObjDefaultName = "Download OBJ";
-        const guiDownloadObj = gui.add({downloadObj() {
-            guiDownloadObj.disable();
+        const getFileBaseName = () => `hyrule-${options.mapName}-${options.palette}`;
 
-            setTimeout(async () => {
-                try {
-                    const startTime = window.performance.now();
-                    const data = await pieceInstances.getObjData(
-                        options.mapName, options.upAxis === "Y", async (screenName) => {
-                            guiDownloadObj.name(`Working... ${screenName}`);
+        const addExport = (exportName, mimeType, extension, getData) => {
+            const guiExportDefaultName = `Export ${exportName}`;
+            const guiExport = gui.add({exportButton() {
+                guiExport.disable();
+
+                setTimeout(async () => {
+                    try {
+                        const fileBaseName = getFileBaseName();
+                        const startTime = window.performance.now();
+                        const data = await getData(fileBaseName, async (message) => {
+                            guiExport.name(`Working... ${message}`);
                             await new Promise(resolve => setTimeout(resolve, 0));
-                    });
-                    const elapseTime = window.performance.now() - startTime;
-                    console.log(`Get obj data took: ${elapseTime / 1000} ms`);
-                    downloadBlob(new Blob([data], {type: 'application/gzip'}), `hyrule-${options.mapName}.tar.gz`);
-                } catch (error) {
-                    console.error("Download failed:", error);
-                } finally {
-                    guiDownloadObj.name(guiDownloadObjDefaultName);
-                    guiDownloadObj.enable();
-                }
-            }, 10);
-        }}, "downloadObj").name(guiDownloadObjDefaultName);
+                        });
+                        const elapseTime = window.performance.now() - startTime;
+                        console.log(`Get data took: ${elapseTime / 1000} ms`);
+                        downloadBlob(new Blob([data], {type: mimeType}), `${fileBaseName}.${extension}`);
+                    } catch (error) {
+                        console.error("Export failed:", error);
+                    } finally {
+                        guiExport.name(guiExportDefaultName);
+                        guiExport.enable();
+                    }
+                }, 10);
+            }}, "exportButton").name(guiExportDefaultName);
+        };
+
+        addExport("OBJ", "application/gzip", "tar.gz", async (fileBaseName, onProgress) => {
+            return await pieceInstances.getObjData(fileBaseName, options.upAxis === "Y", onProgress);
+        });
+
+        addExport("LDR", "application/x-ldraw", "ldr", async (fileBaseName, onProgress) => {
+            return await pieceInstances.getLdrData(fileBaseName, options.palette, onProgress);
+        });
 
         gui.add({screenshot() {
             renderer.render(scene, camera, null, false);
             renderer.domElement.toBlob((blob) => {
-                downloadBlob(blob, `hyrule-${options.mapName}.png`);
+                downloadBlob(blob, `${getFileBaseName()}.png`);
             });
         }}, "screenshot").name("Screenshot");
 
@@ -245,7 +257,7 @@ body {
             });
         }}, "copyCameraURL").name(guiCameraUrlDefaultName);
 
-        gui.add(options, 'palette', {nes: "nes", 'ldraw' : 'ldraw'})
+        gui.add(options, 'palette', {nes: 'nes', ldraw: 'ldraw', studio: 'studio'})
             .name('Color Palette')
             .onChange(value => pieceInstances.changePalette(value));
 
