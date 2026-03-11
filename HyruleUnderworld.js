@@ -534,24 +534,24 @@ const levelDataMap = {
 const raiser2Tile = [new TilePiece(new Piece(null, 2,  2, null, "raiser2"), NESColor.primary, {})];
 
 const roomTexts = {
-    "01,01": [[Texts.dungeon_walk_waterfall],  [Tile.old_man], []],
-    "01,12": [[Texts.dungeon_fairies_dont],    [Tile.old_man], []],
-    "02,06": [[Texts.dungeon_secret_arrow],    [Tile.old_man], []],
-    "02,08": [[Texts.dungeon_more_bombs],      [Tile.old_man], [[Tile.item_rupee_orange_center, -100]]],
-    "02,16": [[Texts.dungeon_dodongo_smoke],   [Tile.old_man], []],
-    "03,12": [[Texts.dungeon_sword_waterfall], [Tile.old_man], []],
-    "05,02": [[Texts.dungeon_eastmost_secret], [Tile.old_man], []],
-    "07,08": [[Texts.dungeon_diggogger_hates], [Tile.old_man], []],
-    "07,11": [[Texts.dungeon_gohma_eyes],      [Tile.old_man], []],
-    "09,03": [[Texts.dungeon_skull_secret],    [Tile.old_man], []],
-    "09,07": [[Texts.dungeon_next_room],       [Tile.old_man], []],
+    "01,01": [[Texts.dungeon_walk_waterfall],  [Tile.old_man_center], []],
+    "01,12": [[Texts.dungeon_fairies_dont],    [Tile.old_man_center], []],
+    "02,06": [[Texts.dungeon_secret_arrow],    [Tile.old_man_center], []],
+    "02,08": [[Texts.dungeon_more_bombs],      [Tile.old_man_center], [[Tile.item_rupee_orange_center, -100]]],
+    "02,16": [[Texts.dungeon_dodongo_smoke],   [Tile.old_man_center], []],
+    "03,12": [[Texts.dungeon_sword_waterfall], [Tile.old_man_center], []],
+    "05,02": [[Texts.dungeon_eastmost_secret], [Tile.old_man_center], []],
+    "07,08": [[Texts.dungeon_diggogger_hates], [Tile.old_man_center], []],
+    "07,11": [[Texts.dungeon_gohma_eyes],      [Tile.old_man_center], []],
+    "09,03": [[Texts.dungeon_skull_secret],    [Tile.old_man_center], []],
+    "09,07": [[Texts.dungeon_next_room],       [Tile.old_man_center], []],
     "11,09": [[Texts.dungeon_grumble],         [Tile.moblin_red_center], []],
-    "12,12": [[Texts.dungeon_10th_enemy],      [Tile.old_man], []],
-    "12,14": [[Texts.dungeon_spectacle_rock],  [Tile.old_man], []],
-    "13,04": [[Texts.dungeon_patra_map],       [Tile.old_man], []],
-    "13,09": [[Texts.dungeon_more_bombs],      [Tile.old_man], [[Tile.item_rupee_orange_center, -100]]],
-    "14,12": [[Texts.dungeon_tip_nose],        [Tile.old_man], []],
-    "15,07": [[Texts.dungeon_have_triforce],   [Tile.old_man], []],
+    "12,12": [[Texts.dungeon_10th_enemy],      [Tile.old_man_center], []],
+    "12,14": [[Texts.dungeon_spectacle_rock],  [Tile.old_man_center], []],
+    "13,04": [[Texts.dungeon_patra_map],       [Tile.old_man_center], []],
+    "13,09": [[Texts.dungeon_more_bombs],      [Tile.old_man_center], [[Tile.item_rupee_orange_center, -100]]],
+    "14,12": [[Texts.dungeon_tip_nose],        [Tile.old_man_center], []],
+    "15,07": [[Texts.dungeon_have_triforce],   [Tile.old_man_center], []],
 };
 
 function makeBoxTile(rowIndex, tileElevation, tile) {
@@ -675,126 +675,135 @@ function makeItemRoom(item, keeses) {
     return [[new Palette(NESColor.light_gray, NESColor.dark_gray, NESColor.black)], rows];
 }
 
-export function getMapRowData() {
-    function makeRoom(position, levelNumber, roomTemplateIndex, doorN, doorE, doorS, doorW, paletteType, sprites) {
-        const texts = roomTexts[position];
-        const elevation = levelDataMap[levelNumber].elevation;
+export function makeRoom(position, levelNumber, roomTemplateIndex, doorN, doorE, doorS, doorW, paletteType, sprites) {
+    const texts = roomTexts[position];
+    const elevation = levelDataMap[levelNumber].elevation;
 
-        const roomData = texts
-            ? makeTextFloor(elevation, ...texts)
-            : roomTemplates[roomTemplateIndex].map(row => {
-                return row.split("").map(code => [elevation, floorTileMap[code]]);
-        });
+    const roomData = texts
+        ? makeTextFloor(elevation, ...texts)
+        : roomTemplates[roomTemplateIndex].map(row => {
+            return row.split("").map(code => [elevation, floorTileMap[code]]);
+    });
 
-        function makeWallEdge(rowIndex) {
-            roomData[rowIndex].unshift([elevation, Tile.wall_outer_ew], [elevation, Tile.wall_inner_ew]);
-            roomData[rowIndex].push(   [elevation, Tile.wall_inner_ew], [elevation, Tile.wall_outer_ew]);
-        }
-
-        function makeWallEquatorial(doorW, doorE) {
-            roomData[3].unshift([elevation, doorMap[doorW].w.outer], [elevation, doorMap[doorW].w.inner]);
-            roomData[3].push(   [elevation, doorMap[doorE].e.inner], [elevation, doorMap[doorE].e.outer]);
-        }
-
-        function makeWallPolar(pole, side) {
-            const wall = [];
-            const wallSpan = raiser2Tile.concat(polarWallMap[side].span);
-
-            wall.push([elevation, polarWallMap[side].capW]);
-            for (let i = 0; i < 13; i++) {
-                if (i === 6) {
-                    wall.push([elevation, doorMap["n" === pole ? doorN : doorS][pole][side]]);
-                } else {
-                    wall.push([elevation, wallSpan]);
-                }
-            }
-            wall.push([elevation, []]);
-            wall.push([elevation, polarWallMap[side].capE]);
-
-            addPolarWallMap[pole](roomData, wall);
-        }
-
-        for (let i = 0; i < 7; i++) {
-            if (i === 3) {
-                makeWallEquatorial(doorW, doorE);
-            } else {
-                makeWallEdge(i);
-            }
-        }
-
-        makeWallPolar("n", "inner");
-        makeWallPolar("n", "outer");
-        makeWallPolar("s", "inner");
-        makeWallPolar("s", "outer");
-
-        for (const [rowIndex, columnIndex, sprite, baseOptions] of sprites) {
-            // Special wallmaster replacement.
-            if ([Tile.wallmaster_n, Tile.wallmaster_e, Tile.wallmaster_s, Tile.wallmaster_w].includes(sprite)) {
-                // valid:
-                // north/south row:   1 || 9, col: 2-6, 8-12
-                // west/east   row: 2-4, 6-8, col:   1 || 14
-                roomData[rowIndex][columnIndex][1] = roomData[rowIndex][columnIndex][1].toSpliced(1, 1, ...sprite);
-            } else {
-                if (baseOptions) {
-                    const color = roomData[rowIndex][columnIndex][1].at(-1).color;
-                    for (let row = rowIndex; row < rowIndex + baseOptions["rows"]; row++) {
-                        for (let column = columnIndex; column < columnIndex + baseOptions["columns"]; column++) {
-                            roomData[row][column][1] = roomData[row][column][1].slice(0, -1);
-                        }
-                    }
-                    if (baseOptions.newTilePiece) {
-                        roomData[rowIndex][columnIndex][1].push(baseOptions.newTilePiece(color));
-                    }
-                }
-                // Special flame replacement to create a hole to allow the flame to go all the way down.
-                // (Flame with baseOptions is already a jumper with a hole).
-                else if (sprite === Tile.dungeon_flame && !baseOptions) {
-                    roomData[rowIndex][columnIndex][1] = Tile.dungeon_floor_stud;
-                }
-                roomData[rowIndex][columnIndex].push(Tile.transformTile(sprite, baseOptions?.spriteTransformOptions || {}));
-            }
-        }
-
-        return [levelDataMap[levelNumber].getRoomPaletts(paletteType), roomData];
+    function makeWallEdge(rowIndex) {
+        roomData[rowIndex].unshift([elevation, Tile.wall_outer_ew], [elevation, Tile.wall_inner_ew]);
+        roomData[rowIndex].push(   [elevation, Tile.wall_inner_ew], [elevation, Tile.wall_outer_ew]);
     }
 
-    const drop1x1 = {
+    function makeWallEquatorial(doorW, doorE) {
+        roomData[3].unshift([elevation, doorMap[doorW].w.outer], [elevation, doorMap[doorW].w.inner]);
+        roomData[3].push(   [elevation, doorMap[doorE].e.inner], [elevation, doorMap[doorE].e.outer]);
+    }
+
+    function makeWallPolar(pole, side) {
+        const wall = [];
+        const wallSpan = raiser2Tile.concat(polarWallMap[side].span);
+
+        wall.push([elevation, polarWallMap[side].capW]);
+        for (let i = 0; i < 13; i++) {
+            if (i === 6) {
+                wall.push([elevation, doorMap["n" === pole ? doorN : doorS][pole][side]]);
+            } else {
+                wall.push([elevation, wallSpan]);
+            }
+        }
+        wall.push([elevation, []]);
+        wall.push([elevation, polarWallMap[side].capE]);
+
+        addPolarWallMap[pole](roomData, wall);
+    }
+
+    for (let i = 0; i < 7; i++) {
+        if (i === 3) {
+            makeWallEquatorial(doorW, doorE);
+        } else {
+            makeWallEdge(i);
+        }
+    }
+
+    makeWallPolar("n", "inner");
+    makeWallPolar("n", "outer");
+    makeWallPolar("s", "inner");
+    makeWallPolar("s", "outer");
+
+    for (const [rowIndex, columnIndex, sprite, baseOptions] of sprites) {
+        // Special wallmaster replacement.
+        if ([Tile.wallmaster_n, Tile.wallmaster_e, Tile.wallmaster_s, Tile.wallmaster_w].includes(sprite)) {
+            // valid:
+            // north/south row:   1 || 9, col: 2-6, 8-12
+            // west/east   row: 2-4, 6-8, col:   1 || 14
+            roomData[rowIndex][columnIndex][1] = roomData[rowIndex][columnIndex][1].toSpliced(1, 1, ...sprite);
+        } else {
+            if (baseOptions) {
+                const color = roomData[rowIndex][columnIndex][1].at(-1).color;
+                for (let row = rowIndex; row < rowIndex + baseOptions["rows"]; row++) {
+                    for (let column = columnIndex; column < columnIndex + baseOptions["columns"]; column++) {
+                        roomData[row][column][1] = roomData[row][column][1].slice(0, -1);
+                    }
+                }
+                if (baseOptions.newTilePiece) {
+                    roomData[rowIndex][columnIndex][1].push(baseOptions.newTilePiece(color));
+                }
+            }
+            // Special flame replacement to create a hole to allow the flame to go all the way down.
+            // (Flame with baseOptions is already a jumper with a hole).
+            else if (sprite === Tile.dungeon_flame && !baseOptions) {
+                roomData[rowIndex][columnIndex][1] = Tile.dungeon_floor_stud;
+            }
+            roomData[rowIndex][columnIndex].push(Tile.transformTile(sprite, baseOptions?.spriteTransformOptions || {}));
+        }
+    }
+
+    return [levelDataMap[levelNumber].getRoomPaletts(paletteType), roomData];
+}
+
+export const baseOptions = {
+    drop1x1: {
         rows: 1,
         columns: 1,
         newTilePiece: null,
         spriteTransformOptions: null
-    };
-    const wall1x2 = {
+    },
+    wall1x2: {
         rows: 1,
         columns: 2,
         newTilePiece: color => new TilePiece(Piece.plate_center_stud, color, {translateX: 1}),
         spriteTransformOptions: {translateX: 1},
-    };
-    const base1x2 = {
+    },
+    base1x2: {
         rows: 1,
         columns: 2,
         newTilePiece: color => new TilePiece(Piece.plate_center_stud, color, {translateX: .5}),
         spriteTransformOptions: {translateX: .5},
-    };
-    const base2x1 = {
+    },
+    base2x1: {
         rows: 2,
         columns: 1,
         newTilePiece: color => new TilePiece(Piece.plate_center_stud, color, {translateY: .5, rotateY: 90}),
         spriteTransformOptions: {translateY: .5},
-    };
-    const base2x2_center = {
+    },
+    base2x2_center: {
         rows: 2,
         columns: 2,
         newTilePiece: color => new TilePiece(Piece.plate2x2_center_stud, color, {translateX: .5, translateY: .5}),
         spriteTransformOptions: {translateX: .5, translateY: .5},
-    };
-
-    const base2x2_studs = {
+    },
+    base2x2_studs: {
         rows: 2,
         columns: 2,
         newTilePiece: color => new TilePiece(Piece.plate2x2, color, {translateX: .5, translateY: .5}),
         spriteTransformOptions: {translateX: .5, translateY: .5},
-    };
+    },
+};
+
+
+export function getMapRowData() {
+    const drop1x1 = baseOptions.drop1x1;
+    const wall1x2 = baseOptions.wall1x2;
+    const base1x2 = baseOptions.base1x2;
+    const base2x1 = baseOptions.base2x1;
+    const base2x2_center = baseOptions.base2x2_center;
+    const base2x2_studs = baseOptions.base2x2_studs;
 
     return [
         [
@@ -812,12 +821,12 @@ export function getMapRowData() {
 
             ]),
             /* room: 01,03 */ makeRoom("01,03", 4, 0x01, "solid",  "solid",  "open",   "open",   "dark", [
-                [2,  2, Tile.trap_nw],
-                [2, 13, Tile.trap_ne],
-                [5,  4, Tile.trap_w],
-                [5, 11, Tile.trap_e],
-                [8,  2, Tile.trap_sw],
-                [8, 13, Tile.trap_se],
+                [2,  2, Tile.blade_trap_nw],
+                [2, 13, Tile.blade_trap_ne],
+                [5,  4, Tile.blade_trap_w],
+                [5, 11, Tile.blade_trap_e],
+                [8,  2, Tile.blade_trap_sw],
+                [8, 13, Tile.blade_trap_se],
             ]),
             /* room: 01,04 */ makeRoom("01,04", 4, 0x29, "solid",  "solid",  "open",   "solid",  "dim" , [
                 [5,  7, Tile.item_triforce, base1x2],
@@ -978,10 +987,10 @@ export function getMapRowData() {
                 [8, 13, Tile.item_map],
             ]),
             /* room: 03,03 */ makeRoom("03,03", 1, 0x1A, "solid",  "locked", "solid",  "solid",  null  , [
-                [2,  2, Tile.trap_nw],
-                [2, 13, Tile.trap_ne],
-                [8,  2, Tile.trap_sw],
-                [8, 13, Tile.trap_se],
+                [2,  2, Tile.blade_trap_nw],
+                [2, 13, Tile.blade_trap_ne],
+                [8,  2, Tile.blade_trap_sw],
+                [8, 13, Tile.blade_trap_se],
             ]),
             /* room: 03,04 */ makeRoom("03,04", 1, 0x15, "solid",  "solid",  "locked", "locked", null  , [
                 [2,  9, Tile.goriya_red, base1x2],
@@ -1047,14 +1056,14 @@ export function getMapRowData() {
             /* room: 03,12 */ makeRoom("03,12", 3, 0x26, "solid",  "solid",  "open",   "open",   "text", [
             ]),
             /* room: 03,13 */ makeRoom("03,13", 6, 0x00, "locked", "open",   "open",   "solid",  null  , [
-                [2,  2, Tile.trap_nw],
-                [2, 13, Tile.trap_ne],
+                [2,  2, Tile.blade_trap_nw],
+                [2, 13, Tile.blade_trap_ne],
                 [3, 10, Tile.wizzrobe_blue_e, base1x2],
                 [5,  3, Tile.wizzrobe_blue_e],
                 [5,  9, Tile.wizzrobe_red_e],
                 [5, 11, Tile.wizzrobe_red_e],
-                [8,  2, Tile.trap_sw],
-                [8, 13, Tile.trap_se],
+                [8,  2, Tile.blade_trap_sw],
+                [8, 13, Tile.blade_trap_se],
             ]),
             /* room: 03,14 */ makeRoom("03,14", 6, 0x13, "open",   "solid",  "solid",  "open",   "dark", [
                 [3,  4, Tile.vire, base2x1],
@@ -1159,12 +1168,12 @@ export function getMapRowData() {
                 [7,  4, Tile.wizzrobe_blue_e, base1x2],
             ]),
             /* room: 04,12 */ makeRoom("04,12", 3, 0x0A, "shut",   "solid",  "locked", "solid",  null  , [
-                [2,  2, Tile.trap_nw],
-                [2, 13, Tile.trap_ne],
+                [2,  2, Tile.blade_trap_nw],
+                [2, 13, Tile.blade_trap_ne],
                 [3,  6, Tile.zol_evergreen, base2x1],
                 [6,  5, Tile.zol_evergreen, base1x2],
-                [8,  2, Tile.trap_sw],
-                [8, 13, Tile.trap_se],
+                [8,  2, Tile.blade_trap_sw],
+                [8, 13, Tile.blade_trap_se],
             ]),
             /* room: 04,13 */ makeRoom("04,13", 6, 0x17, "shut",   "solid",  "solid",  "solid",  "dark", [
                 [5,  8, Tile.item_bomb],
@@ -1189,15 +1198,15 @@ export function getMapRowData() {
                 [7,  5, Tile.moldorm],
             ]),
             /* room: 04,16 */ makeRoom("04,16", 2, 0x00, "bomb",   "solid",  "bomb",   "open",   null  , [
-                [2,  2, Tile.trap_nw],
-                [2, 13, Tile.trap_ne],
+                [2,  2, Tile.blade_trap_nw],
+                [2, 13, Tile.blade_trap_ne],
                 [3,  7, Tile.keese_blue],
                 [4,  2, Tile.keese_blue],
                 [5,  8, Tile.item_bomb],
                 [6, 11, Tile.keese_blue, base1x2],
                 [8,  8, Tile.keese_blue, base1x2],
-                [8,  2, Tile.trap_sw],
-                [8, 13, Tile.trap_se],
+                [8,  2, Tile.blade_trap_sw],
+                [8, 13, Tile.blade_trap_se],
             ]),
         ], [
             /* room: 05,01 */ makeRoom("05,01", 4, 0x15, "open",   "solid",  "open",   "solid",  "dark", [
@@ -1248,12 +1257,12 @@ export function getMapRowData() {
                 [6,  8, Tile.item_key],
             ]),
             /* room: 05,09 */ makeRoom("05,09", 6, 0x01, "open",   "solid",  "open",   "solid",  null  , [
-                [2,  2, Tile.trap_nw],
-                [2, 13, Tile.trap_ne],
-                [5,  4, Tile.trap_w],
-                [5, 11, Tile.trap_e],
-                [8,  2, Tile.trap_sw],
-                [8, 13, Tile.trap_se],
+                [2,  2, Tile.blade_trap_nw],
+                [2, 13, Tile.blade_trap_ne],
+                [5,  4, Tile.blade_trap_w],
+                [5, 11, Tile.blade_trap_e],
+                [8,  2, Tile.blade_trap_sw],
+                [8, 13, Tile.blade_trap_se],
             ]),
             /* room: 05,10 */ makeRoom("05,10", 3, 0x00, "solid",  "open",   "open",   "solid",  null  , [
                 [2, 11, Tile.zol_evergreen],
@@ -1281,13 +1290,13 @@ export function getMapRowData() {
                 [5, 10, Tile.zol_evergreen],
             ]),
             /* room: 05,13 */ makeRoom("05,13", 3, 0x00, "solid",  "bomb",   "open",   "locked", null  , [
-                [2,  2, Tile.trap_nw],
-                [2, 13, Tile.trap_ne],
+                [2,  2, Tile.blade_trap_nw],
+                [2, 13, Tile.blade_trap_ne],
                 [2,  9, Tile.zol_evergreen, base1x2],
                 [5,  8, Tile.item_map],
                 [6,  9, Tile.zol_evergreen, base1x2],
-                [8,  2, Tile.trap_sw],
-                [8, 13, Tile.trap_se],
+                [8,  2, Tile.blade_trap_sw],
+                [8, 13, Tile.blade_trap_se],
             ]),
             /* room: 05,14 */ makeRoom("05,14", 3, 0x25, "shut",   "solid",  "shut",   "bomb",   "sand", [
                 [6,  4, Tile.manhandla],
@@ -1394,15 +1403,15 @@ export function getMapRowData() {
                 [7,  9, Tile.darknut_red],
             ]),
             /* room: 06,11 */ makeRoom("06,11", 3, 0x00, "open",   "open",   "solid",  "locked", null  , [
-                [2,  2, Tile.trap_nw],
-                [2, 13, Tile.trap_ne],
+                [2,  2, Tile.blade_trap_nw],
+                [2, 13, Tile.blade_trap_ne],
                 [3,  3, Tile.keese_blue],
                 [4,  5, Tile.keese_blue],
                 [5,  2, Tile.keese_blue, base1x2],
                 [5,  8, Tile.item_compass],
                 [7,  3, Tile.keese_blue],
-                [8,  2, Tile.trap_sw],
-                [8, 13, Tile.trap_se],
+                [8,  2, Tile.blade_trap_sw],
+                [8, 13, Tile.blade_trap_se],
             ]),
             /* room: 06,12 */ makeRoom("06,12", 3, 0x00, "open",   "bomb",   "open",   "open",   null  , [
                 [2, 10, Tile.darknut_red, base1x2],
@@ -1642,14 +1651,14 @@ export function getMapRowData() {
                 [7,  3, Tile.zol_black, base1x2],
             ]),
             /* room: 09,05 */ makeRoom("09,05", 9, 0x1A, "solid",  "solid",  "solid",  "bomb",   null  , [
-                [2,  2, Tile.trap_nw],
-                [2, 13, Tile.trap_ne],
+                [2,  2, Tile.blade_trap_nw],
+                [2, 13, Tile.blade_trap_ne],
                 [5,  9, Tile.wizzrobe_blue_e],
                 [7, 12, Tile.wizzrobe_red_n],
                 [8,  7, Tile.wizzrobe_blue_e],
                 [8, 11, Tile.wizzrobe_red_n],
-                [8,  2, Tile.trap_sw],
-                [8, 13, Tile.trap_se],
+                [8,  2, Tile.blade_trap_sw],
+                [8, 13, Tile.blade_trap_se],
             ]),
             /* room: 09,06 */ makeRoom("09,06", 9, 0x0A, "solid",  "bomb",   "solid",  "solid",  null  , [
                 [2,  8, Tile.wizzrobe_blue_e, base2x1],
@@ -1988,14 +1997,14 @@ export function getMapRowData() {
             /* room: 11,16 */ [[], []],
         ], [
             /* room: 12,01 */ makeRoom("12,01", 9, 0x0A, "solid",  "bomb",   "locked", "solid",  null  , [
-                [2,  2, Tile.trap_nw],
-                [2, 13, Tile.trap_ne],
+                [2,  2, Tile.blade_trap_nw],
+                [2, 13, Tile.blade_trap_ne],
                 [3,  6, Tile.wizzrobe_blue_e],
                 [4,  7, Tile.wizzrobe_blue_e, base1x2],
                 [6,  6, Tile.wizzrobe_red_e],
                 [6,  8, Tile.wizzrobe_red_e],
-                [8,  2, Tile.trap_sw],
-                [8, 13, Tile.trap_se],
+                [8,  2, Tile.blade_trap_sw],
+                [8, 13, Tile.blade_trap_se],
             ]),
             /* room: 12,02 */ makeRoom("12,02", 9, 0x25, "open",   "solid",  "shut",   "bomb",   null  , [
                 [2, 10, Tile.like_like],
@@ -2120,14 +2129,14 @@ export function getMapRowData() {
                 [8,  7, Tile.wizzrobe_red_n],
             ]),
             /* room: 13,02 */ makeRoom("13,02", 9, 0x00, "open",   "solid",  "shut",   "solid",  "dark", [
-                [2,  2, Tile.trap_nw],
-                [2, 13, Tile.trap_ne],
+                [2,  2, Tile.blade_trap_nw],
+                [2, 13, Tile.blade_trap_ne],
                 [2,  9, Tile.like_like],
                 [2, 10, Tile.like_like],
                 [3,  4, Tile.like_like, base1x2],
                 [5,  7, Tile.like_like, base2x1],
-                [8,  2, Tile.trap_sw],
-                [8, 13, Tile.trap_se],
+                [8,  2, Tile.blade_trap_sw],
+                [8, 13, Tile.blade_trap_se],
             ]),
             /* room: 13,03 */ makeRoom("13,03", 9, 0x28, "shut",   "solid",  "shut",   "solid",  "darkOuter", [
                 [3,   5, Tile.ganon, base2x2_studs],
@@ -2406,15 +2415,15 @@ export function getMapRowData() {
             ]),
             /* room: 15,08 */ [[], []],
             /* room: 15,09 */ makeRoom("15,09", 7, 0x00, "open",   "bomb",   "open",   "solid",  null  , [
-                [2,  2, Tile.trap_nw],
-                [2, 13, Tile.trap_ne],
+                [2,  2, Tile.blade_trap_nw],
+                [2, 13, Tile.blade_trap_ne],
                 [3, 10, Tile.keese_blue, base1x2],
                 [4,  2, Tile.keese_blue, base1x2],
                 [5,  7, Tile.keese_blue],
                 [5,  8, Tile.item_bomb],
                 [5, 10, Tile.keese_blue],
-                [8,  2, Tile.trap_sw],
-                [8, 13, Tile.trap_se],
+                [8,  2, Tile.blade_trap_sw],
+                [8, 13, Tile.blade_trap_se],
             ]),
             /* room: 15,10 */ makeRoom("15,10", 7, 0x23, "bomb",   "open",   "open",   "bomb",   null  , [
                 [2,  5, Tile.goriya_blue],

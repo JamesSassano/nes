@@ -1,12 +1,9 @@
 "use strict";
 
 import {Tile} from "./HyrulePieces.js";
-import * as HyruleOverworld from "./HyruleOverworld.js";
-import * as HyruleCaves from "./HyruleCaves.js";
-import * as HyruleUnderworld from "./HyruleUnderworld.js";
 
 /** Collect all pieces by part number and opacity to a list of all piece configurations. */
-export function getPieces(mapName, gapSize, showSprites, showElevation) {
+export async function getPieces(mapName, gapSize, showSprites, showElevation) {
 
     const screenColumnCount = 16;
     const screenRowCount = 11;
@@ -78,18 +75,24 @@ export function getPieces(mapName, gapSize, showSprites, showElevation) {
     // Add map pieces.
 
     const mapDataProviders = {
-        overworld:  () => HyruleOverworld.mapRowData,
-        caves:      () => HyruleCaves.getMapRowData(),
-        underworld: () => HyruleUnderworld.getMapRowData(),
-        samples:    () => HyruleOverworld.getSamples(),
+        overworld:  async () => (await import('./HyruleOverworld.js')).mapRowData,
+        caves:      async () => (await import('./HyruleCaves.js')).getMapRowData(),
+        underworld: async () => (await import('./HyruleUnderworld.js')).getMapRowData(),
+        samples:    async () => (await import('./HyruleSamples.js')).getMapRowData(),
+        mini:       async () => (await import('./HyruleSamples.js')).getMiniMapRowData(),
     }
 
-    const mapData = mapDataProviders[mapName]();
-    const gridColumnCount = mapData[0].length;
-    const gridRowCount = mapData.length;
+    const mapData = await mapDataProviders[mapName]();
+    const nearestMultipleOf2 = (value) => value % 2 === 0 ? value : value + 1;
+    const gridColumnCount = nearestMultipleOf2(Math.max(...mapData.map(row => row.length)));
+    const gridRowCount = nearestMultipleOf2(mapData.length);
     for (const [gridY, mapColumnData] of mapData.entries()) {
-        for (const [gridX, screenData] of mapColumnData.entries()) {
-            addScreen(gridColumnCount, gridRowCount, gridX, gridY, ...screenData);
+        if (mapColumnData) {
+            for (const [gridX, screenData] of mapColumnData.entries()) {
+                if (screenData) {
+                    addScreen(gridColumnCount, gridRowCount, gridX, gridY, ...screenData);
+                }
+            }
         }
     }
 

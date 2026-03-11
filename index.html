@@ -85,7 +85,7 @@ body {
             setBool("showGui", true);
             setString("upAxis", "Y");
             setInt("gapSize", 2);
-            setString("mapName", "overworld", value => ["overworld", "caves", "underworld", "samples"].includes(value));
+            setString("mapName", "overworld", value => ["overworld", "caves", "underworld", "samples", "mini"].includes(value));
             setBool("showSprites", true);
             setBool("showElevation", true);
             setBool("drawLines", true);
@@ -164,7 +164,7 @@ body {
     // Add pieces.
 
     const pieceInstances = await PieceUtils.addPiecesToScene(
-        HyruleBuilder.getPieces(options.mapName, options.gapSize, options.showSprites, options.showElevation),
+        await HyruleBuilder.getPieces(options.mapName, options.gapSize, options.showSprites, options.showElevation),
         scene, options.drawLines, options.roughness, options.polygonOffsetFactor, options.palette);
 
     // Create GUI options.

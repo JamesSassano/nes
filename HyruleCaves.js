@@ -9,41 +9,41 @@ const showMinifigureItems = false;
 const caveTemplates = {
     "item_sword": [
         [Texts.cave_item_take_this],
-        [Tile.old_man],
+        [Tile.old_man_center],
         [[showMinifigureItems ? Tile.item_sword_minfigure : Tile.item_sword_center]],
     ],
     "item_white_sword": [
         [Texts.cave_item_master_using],
-        [Tile.old_man],
+        [Tile.old_man_center],
         [[showMinifigureItems ? Tile.item_white_sword_minfigure : Tile.item_white_sword_center]]],
     "item_magical_sword": [
         [Texts.cave_item_master_using],
-        [Tile.old_man],
+        [Tile.old_man_center],
         [[showMinifigureItems ? Tile.item_magical_sword_minfigure : Tile.item_magical_sword_center]],
     ],
     "item_letter": [
         [Texts.cave_item_show_this],
-        [Tile.old_man],
+        [Tile.old_man_center],
         [[Tile.item_letter_center]],
     ],
     "take_any": [
         [Texts.cave_take_any],
-        [Tile.old_man],
+        [Tile.old_man_center],
         [[Tile.item_life_potion_red_center], [Tile.item_heart_container_center]],
     ],
     "take_road": [
         [Texts.cave_take_road],
-        [Tile.old_man],
+        [Tile.old_man_center],
         [[Tile.item_road], [Tile.item_road], [Tile.item_road]],
     ],
     "secret_tree": [
         [Texts.cave_secret_tree],
-        [Tile.old_man],
+        [Tile.old_man_center],
         [],
     ],
     "meet_grave": [
         [Texts.cave_meet_grave],
-        [Tile.old_man],
+        [Tile.old_man_center],
         [],
     ],
     "secret_everybody_10": [
@@ -63,47 +63,47 @@ const caveTemplates = {
     ],
     "shop_buy_medicine": [
         [Texts.cave_shop_buy_medicine],
-        [Tile.old_woman, Tile.item_letter],
+        [Tile.old_woman_center, Tile.item_letter],
         [[Tile.item_life_potion_blue_center, 40], [Tile.item_life_potion_red_center, 68]],
     ],
     "shop_1": [
         [Texts.cave_shop_expensive],
-        [Tile.merchant],
+        [Tile.merchant_center],
         [[Tile.item_key_center, 80], [Tile.item_ring_blue_center, 250], [Tile.item_bait_center, 60]],
     ],
     "shop_2": [
         [Texts.cave_shop_buy_somethin],
-        [Tile.merchant],
+        [Tile.merchant_center],
         [[Tile.item_magical_shield_center, 130], [Tile.item_bomb_center, 20], [Tile.item_arrow_center, 80]],
     ],
     "shop_3": [
         [Texts.cave_shop_expensive],
-        [Tile.merchant],
+        [Tile.merchant_center],
         [[Tile.item_magical_shield_center, 90], [Tile.item_bait_center, 100], [Tile.item_heart_center, 10]],
     ],
     "shop_4": [
         [Texts.cave_shop_buy_somethin],
-        [Tile.merchant],
+        [Tile.merchant_center],
         [[Tile.item_magical_shield_center, 160], [Tile.item_key_center, 100], [Tile.item_candle_blue_center, 60]],
     ],
     "lets_play": [
         [Texts.cave_lets_play],
-        [Tile.old_man],
+        [Tile.old_man_center],
         [[Tile.item_rupee_orange_center, -10], [Tile.item_rupee_orange_center, -10], [Tile.item_rupee_orange_center, -10]],
     ],
     "door_repair": [
         [Texts.cave_door_repair],
-        [Tile.old_man],
+        [Tile.old_man_center],
         [[null, -20]],
     ],
     "up_up": [
         [Texts.cave_pay_talk, Texts.cave_aint_enough, Texts.cave_up_up],
-        [Tile.old_woman],
+        [Tile.old_woman_center],
         [[Tile.item_rupee_orange_center,  -5], [Tile.item_rupee_orange_center, -10], [Tile.item_rupee_orange_center, -20]],
     ],
     "maze": [
         [Texts.cave_pay_talk, Texts.cave_aint_enough, Texts.cave_youre_rich, Texts.cave_maze],
-        [Tile.old_woman],
+        [Tile.old_woman_center],
         [[Tile.item_rupee_orange_center, -10], [Tile.item_rupee_orange_center, -30], [Tile.item_rupee_orange_center, -50]],
     ],
 }
@@ -174,7 +174,7 @@ const caveLocations = {
     N8: "take_any",
 }
 
-export function getMapRowData() {
+export function makeCave(screenName) {
 
     const solid = Array(11).fill(0).map((_, screenY) =>
         Array(16).fill(0).map((_, screenX) => [1, Tile.rock_s]
@@ -196,30 +196,30 @@ export function getMapRowData() {
     const caveWallSouthInner2 = makeWall(false, 2);
     const caveWallSouthOuter2 = makeWall(true, 2);
 
-    function makeCave(screenName) {
-        if (screenName in caveLocations) {
-            const cave = makeTextFloor(0, ...caveTemplates[caveLocations[screenName]]);
-            cave.forEach(caveRow => {
-                caveRow.unshift([0, Tile.cave_wall_inner]);
-                caveRow.unshift([0, Tile.cave_wall_outer]);
-                caveRow.push([0, Tile.cave_wall_inner]);
-                caveRow.push([0, Tile.cave_wall_outer]);
-            });
+    if (screenName in caveLocations) {
+        const cave = makeTextFloor(0, ...caveTemplates[caveLocations[screenName]]);
+        cave.forEach(caveRow => {
+            caveRow.unshift([0, Tile.cave_wall_inner]);
+            caveRow.unshift([0, Tile.cave_wall_outer]);
+            caveRow.push([0, Tile.cave_wall_inner]);
+            caveRow.push([0, Tile.cave_wall_outer]);
+        });
 
-            cave.unshift(caveWallNorthInner);
-            cave.unshift(caveWallNorthOuter);
-            const caveWallSouth = caveLocations[screenName] === "take_road"
-                ? [caveWallSouthInner1, caveWallSouthOuter1]
-                : [caveWallSouthInner2, caveWallSouthOuter2];
-            cave.push(caveWallSouth[0]);
-            cave.push(caveWallSouth[1]);
+        cave.unshift(caveWallNorthInner);
+        cave.unshift(caveWallNorthOuter);
+        const caveWallSouth = caveLocations[screenName] === "take_road"
+            ? [caveWallSouthInner1, caveWallSouthOuter1]
+            : [caveWallSouthInner2, caveWallSouthOuter2];
+        cave.push(caveWallSouth[0]);
+        cave.push(caveWallSouth[1]);
 
-            return [[Palette.cave, Palette.text], cave];
-        } else {
-            return [[Palette.cave], solid];
-        }
+        return [[Palette.cave, Palette.text], cave];
+    } else {
+        return [[Palette.cave], solid];
     }
+}
 
+export function getMapRowData() {
     return Array(8).fill(0).map((_, gridY) =>
         Array(16).fill(0).map((_, gridX) => makeCave(String.fromCharCode(gridX + 65) + (gridY + 1)))
     );
