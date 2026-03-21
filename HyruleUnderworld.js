@@ -554,19 +554,6 @@ const roomTexts = {
     "15,07": [[Texts.dungeon_have_triforce],   [Tile.old_man_center], []],
 };
 
-function makeBoxTile(rowIndex, tileElevation, tile) {
-    const pieceWidth = 20;
-    const plateHeight = 8;
-
-    return (rowIndex === 9 ? [] : [
-        new TilePiece(Piece.box, NESColor.primary, {
-            scaleX: pieceWidth / 2,
-            scaleY: plateHeight * (9 + tileElevation),
-            scaleZ: pieceWidth / 2,
-        })
-    ]).concat(tile);
-}
-
 function makePassageRoom(keeses) {
     const rows = [
         [
@@ -609,10 +596,7 @@ function makePassageRoom(keeses) {
             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
         ],
-    ].map((row, rowIndex) => row.map(tile => [
-        -rowIndex,
-        makeBoxTile(rowIndex, -rowIndex, tile)
-    ]));
+    ].map((row, rowIndex) => row.map(tile => [9 - rowIndex, tile]));
     keeses.forEach(keesePosition => {
         rows[keesePosition[0]][keesePosition[1]][2] = Tile.keese_blue;
     });
@@ -662,12 +646,8 @@ function makeItemRoom(item, keeses) {
             Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
         ],
     ].map((row, rowIndex) => row.map((tile, columnIndex) => {
-        const elevation = ((rowIndex === 2 || rowIndex === 3) && tile === Tile.ground) ? -4 : -rowIndex;
-        return [
-            elevation,
-            makeBoxTile(rowIndex, elevation, tile),
-            (rowIndex === 3 && columnIndex === 8) ? item : null
-        ];
+        const elevation = ((rowIndex === 2 || rowIndex === 3) && tile === Tile.ground) ? 5 : 9 - rowIndex;
+        return [elevation, tile, (rowIndex === 3 && columnIndex === 8) ? item : null];
     }));
     keeses.forEach(keesePosition => {
         rows[keesePosition[0]][keesePosition[1]][2] = Tile.keese_blue;

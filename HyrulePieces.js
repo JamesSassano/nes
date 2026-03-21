@@ -7,6 +7,7 @@ export class Piece {
     static brick_headlight              = new Piece( 4070, 3,  3, null,                     "brick_headlight");
     static brick_slope_curved           = new Piece( 7126, 3,  3, null,                     "brick_slope_curved");
     static brick_side_stud              = new Piece(87087, 3,  3, null,                     "brick_side_stud");
+    static brick_4_side_studs           = new Piece( 4733, 3,  3, null,                     "brick_4_side_studs");
     static brick_side_stud2             = new Piece(32952, 5,  5, null,                     "brick_side_stud2");
     static inverted_cone                = new Piece(11610, 3,  3, null,                     "inverted_cone");
     static brick_2_3rd                  = new Piece(86996, 2,  2, null,                     "brick_2_3rd");
@@ -16,6 +17,8 @@ export class Piece {
     static brick_2_3rd_slope_pyramid    = new Piece(22388, 2,  0, null,                     "brick_2_3rd_slope_pyramid");
     static brick_2_3rd_slope_triangle   = new Piece(35464, 2,  0, null,                     "brick_2_3rd_slope_triangle");
     static brick_2_3rd_convex_corner    = new Piece( 7826, 2,  0, null,                     "brick_2_3rd_convex_corner");
+    static brick_1x1x5                  = new Piece('2453b', 15, 15, null,                  "brick_1x1x5");
+    static brick_1x1x3                  = new Piece(14716, 9,  9, null,                     "brick_1x1x3");
 
     static plate                        = new Piece( 3024, 1,  1, null,                     "plate");
     static plate_clip_top               = new Piece(15712, 1,  1, null,                     "plate_clip_top");
@@ -57,8 +60,6 @@ export class Piece {
     static water_piece_top              = Piece.plate_round_dot;
     static ground_piece_under           = Piece.plate;
     static ground_piece_top             = Piece.tile;
-
-    static box                          = new Piece('../p/box5', 0,  0, null,               "box5");
 
     constructor(partNumber, plateHeight, plateLevel, studReplacement, name) {
         this.partNumber = partNumber;
@@ -659,11 +660,17 @@ export class Tile {
         ];
     }
 
-    static makeTrap(rotateBottom, rotateTop) {
+    static makeBladeTrap(rotateBottom, rotateTop) {
+        const bladeTrapVersion = 2;
+        const clipTopColor = [NESColor.steel_blue, NESColor.steel_blue, NESColor.white     ][bladeTrapVersion];
+        const tileColor =    [null,                NESColor.navy,       NESColor.steel_blue][bladeTrapVersion];
         return [
             new TilePiece(Piece.plate_clip_vertical_side,   NESColor.white,         {rotateY: rotateBottom}),
-            new TilePiece(Piece.plate_clip_vertical_side,   NESColor.steel_blue,    {rotateY: rotateTop}),
-        ];
+            new TilePiece(Piece.plate_clip_vertical_side,   clipTopColor,           {rotateY: rotateTop}),
+            tileColor
+                ? new TilePiece(Piece.tile,                 tileColor,              {rotateY: rotateTop})
+                : null
+        ].filter(tilePiece => tilePiece);
     }
 
     static makeWallmaster(translateX, rotateY) {
@@ -754,12 +761,12 @@ export class Tile {
     static stalfos_key = Tile.makeStalfos(NESColor.orange, true);
     static stalfos_compass = Tile.makeStalfos(NESColor.red, false);
 
-    static blade_trap_nw = Tile.makeTrap(  0, -90);
-    static blade_trap_ne = Tile.makeTrap(  0,  90);
-    static blade_trap_sw = Tile.makeTrap(180, -90);
-    static blade_trap_se = Tile.makeTrap(180,  90);
-    static blade_trap_w  = Tile.makeTrap(-90, -90);
-    static blade_trap_e  = Tile.makeTrap( 90,  90);
+    static blade_trap_nw = Tile.makeBladeTrap(  0, -90);
+    static blade_trap_ne = Tile.makeBladeTrap(  0,  90);
+    static blade_trap_sw = Tile.makeBladeTrap(180, -90);
+    static blade_trap_se = Tile.makeBladeTrap(180,  90);
+    static blade_trap_w  = Tile.makeBladeTrap(-90, -90);
+    static blade_trap_e  = Tile.makeBladeTrap( 90,  90);
 
     static vire = [
         new TilePiece(Piece.tile,                           NESColor.navy,          {}),
@@ -805,31 +812,39 @@ export class Tile {
     static makeGleeok(headCount) {
         const heads = {
             2: [
-                new TilePiece(Piece.plate_center_stud,      NESColor.lime,          {                 translateY:  .5, translateZ: -2}),
-                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {                 translateY:  .5, translateZ: -2, rotateY: 80}),
-                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {                 translateY:  .5, translateZ: -2, rotateY: 105}),
+                new TilePiece(Piece.plate_center_stud,      NESColor.lime,          {                 translateZ: -4}),
+                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {                 translateZ: -4, rotateY:  78.75}),
+                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {                 translateZ: -4, rotateY: 101.25}),
             ],
             3: [
-                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {translateX: -.5, translateY:  .5, translateZ: -2, rotateY: 105}),
-                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {translateX:  .5, translateY:  .5, translateZ: -3, rotateY: 80}),
-                new TilePiece(Piece.plate_center_stud,      NESColor.lime,          {                 translateY:  .5, translateZ: -3}),
-                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {                 translateY:  .5, translateZ: -3, rotateY: 80}),
+                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {translateX: -.5, translateZ: -4, rotateY: 101.25}),
+                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {translateX:  .5, translateZ: -5, rotateY:  78.75}),
+                new TilePiece(Piece.plate_center_stud,      NESColor.lime,          {                 translateZ: -5}),
+                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {                 translateZ: -5, rotateY:  78.75}),
             ],
             4: [
-                new TilePiece(Piece.plate1x2,               NESColor.lime,          {                 translateY:  .5, translateZ: -2}),
-                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {translateX: -.5, translateY:  .5, translateZ: -2, rotateY: 80}),
-                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {translateX: -.5, translateY:  .5, translateZ: -2, rotateY: 105}),
-                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {translateX:  .5, translateY:  .5, translateZ: -4, rotateY: 80}),
-                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {translateX:  .5, translateY:  .5, translateZ: -4, rotateY: 105}),
+                new TilePiece(Piece.plate1x2,               NESColor.lime,          {                 translateZ: -4}),
+                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {translateX: -.5, translateZ: -4, rotateY:  78.75}),
+                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {translateX: -.5, translateZ: -4, rotateY: 101.25}),
+                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {translateX:  .5, translateZ: -6, rotateY:  78.75}),
+                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {translateX:  .5, translateZ: -6, rotateY: 101.25}),
             ],
         };
 
         return [
-            new TilePiece(Piece.plate2x2,                   NESColor.lime,          {}),
-            new TilePiece(Piece.plate_center_stud,          NESColor.lime,          {translateY: -.5}),
-            new TilePiece(Piece.plate_clip_top_edge,        NESColor.dark_slate,    {translateY: -.5, rotateY: 90}),
-            new TilePiece(Piece.plate1x2,                   NESColor.dark_slate,    {translateY:  .5, translateZ: -2}),
-        ].concat(heads[headCount]);
+            // Back.
+            new TilePiece(Piece.plate1x2_round_half,        NESColor.lime,          {translateY: -.5, rotateY: 180}),
+            new TilePiece(Piece.plate1x2_round_half,        NESColor.lime,          {translateY: -.5, rotateY: 180}),
+            new TilePiece(Piece.plate_clip_top_edge,        NESColor.dark_slate,    {translateY: -.5}),
+            // Feet.
+            new TilePiece(Piece.plate_round_dot,            NESColor.lime,          {translateX: -.5, translateY:  .5, translateZ: -3}),
+            new TilePiece(Piece.plate_round_dot,            NESColor.lime,          {translateX:  .5, translateY:  .5, translateZ: -4}),
+            // Blue body.
+            new TilePiece(Piece.plate1x2,                   NESColor.dark_slate,    {                 translateY:  .5, translateZ: -4}),
+        ].concat(
+            // Head.
+            Tile.transformTile(heads[headCount], {translateY: .5})
+        );
     }
 
     static makeGohma(color1, color2) {
@@ -859,10 +874,12 @@ export class Tile {
     static dodongo_w = Tile.makeDodongo(3);
 
     static manhandla = [
-        new TilePiece(Piece.plate_clip_vertical_side,       NESColor.steel_blue,    {rotateY: 0}),
-        new TilePiece(Piece.plate_clip_vertical_side,       NESColor.steel_blue,    {rotateY: 90}),
-        new TilePiece(Piece.plate_clip_vertical_side,       NESColor.steel_blue,    {rotateY: 270}),
-        new TilePiece(Piece.plate_clip_vertical_side,       NESColor.steel_blue,    {rotateY: 180}),
+        new TilePiece(Piece.brick_4_side_studs,             NESColor.white,         {}),
+        new TilePiece(Piece.tile,                           NESColor.navy,          {rotateY: 45}),
+        new TilePiece(Piece.plate_clip_top,                 NESColor.steel_blue,    {translateY:  .9, translateZ: -3.25, rotateX:  90, rotateZ:   0}), // front
+        new TilePiece(Piece.plate_clip_top,                 NESColor.steel_blue,    {translateX:  .9, translateZ: -4.25, rotateX:  90, rotateZ:  90}), // right
+        new TilePiece(Piece.plate_clip_top,                 NESColor.steel_blue,    {translateY: -.9, translateZ: -5.25, rotateX:  90, rotateZ: 180}), // back
+        new TilePiece(Piece.plate_clip_top,                 NESColor.steel_blue,    {translateX: -.9, translateZ: -6.25, rotateX:  90, rotateZ: 270}), // left
     ];
 
     static gleeok2 = Tile.makeGleeok(2);
@@ -1304,17 +1321,25 @@ export class Tile {
         this.tilePieces = basePieces.concat(spritePieces ?? []);
     }
 
+    // 1x1 pieces of descending heights to raise the elevation.
+    static elevators = [
+        Piece.brick_1x1x5,
+        Piece.brick_1x1x3,
+        Piece.brick,
+        Piece.brick_2_3rd,
+        Piece.plate,
+    ].map(piece => new TilePiece(piece, NESColor.primary, {}));
+
     // [[plateLevel, piece], ...]
-    * getPieceLevelEntries(elevation, pieceWidth, plateHeight) {
-        // Add a filler piece for elevation.
-        if (elevation > 0) {
-            yield [elevation, new TilePiece(Piece.box, NESColor.primary, {
-                scaleX: pieceWidth / 2,
-                scaleY: plateHeight * elevation,
-                scaleZ: pieceWidth / 2,
-            })];
+    * getPieceLevelEntries(elevation) {
+        // Find filler pieces for elevation.
+        const tileElevators = [];
+        while (elevation > 0) {
+            const tilePiece = Tile.elevators.find(tilePiece => tilePiece.piece.plateHeight <= elevation);
+            tileElevators.push(tilePiece);
+            elevation -= tilePiece.piece.plateHeight;
         }
-        for (const tilePiece of this.tilePieces) {
+        for (const tilePiece of tileElevators.concat(this.tilePieces)) {
             if (null != tilePiece.piece.partNumber) {
                 yield [elevation + tilePiece.piece.plateLevel, tilePiece];
             }

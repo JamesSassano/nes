@@ -39,7 +39,7 @@ export async function getPieces(mapName, gapSize, showSprites, showElevation) {
                     const mapY = gridY * screenRowCount + screenY;
                     const elevation = showElevation ? screenTileData[0] : 0;
                     const piecesByLevel = new Tile(screenTileData[1], showSprites ? screenTileData[2] : null)
-                        .getPieceLevelEntries(elevation, pieceWidth, plateHeight);
+                        .getPieceLevelEntries(elevation);
                     for (const [plateLevel, tilePiece] of piecesByLevel) {
                         const partNumber = tilePiece.piece.partNumber;
                         const opacity = tilePiece.options.opacity ?? 1;
