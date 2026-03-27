@@ -554,104 +554,48 @@ const roomTexts = {
     "15,07": [[Texts.dungeon_have_triforce],   [Tile.old_man_center], []],
 };
 
-function makePassageRoom(keeses) {
-    const rows = [
-        [
-            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s,
-        ],
-        [
-            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s,
-        ],
-        [
-            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s,
-        ],
-        [
-            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s,
-        ],
-        [
-            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s,
-        ],
-        [
-            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s,
-        ],
-        [
-            Tile.rock_s, Tile.rock_s, Tile.ground, Tile.steps,  Tile.ground, Tile.ground, Tile.ground, Tile.ground,
-            Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.steps,  Tile.ground, Tile.rock_s, Tile.rock_s,
-        ],
-        [
-            Tile.rock_s, Tile.rock_s, Tile.ground, Tile.steps,  Tile.ground, Tile.ground, Tile.ground, Tile.ground,
-            Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.steps,  Tile.ground, Tile.rock_s, Tile.rock_s,
-        ],
-        [
-            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-        ],
-        [
-            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-        ],
-    ].map((row, rowIndex) => row.map(tile => [9 - rowIndex, tile]));
-    keeses.forEach(keesePosition => {
-        rows[keesePosition[0]][keesePosition[1]][2] = Tile.keese_blue;
-    });
-    return [[new Palette(NESColor.light_gray, NESColor.dark_gray, NESColor.black)], rows];
+const passageTileMap = {
+    "w": Tile.passage_wall,
+    ".": Tile.passage_steps,
+    "+": Tile.passage_ground,
 }
 
-function makeItemRoom(item, keeses) {
-    const rows = [
-        [
-            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-        ],
-        [
-            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-        ],
-        [
-            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.ground,
-            Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.rock_s, Tile.rock_s,
-        ],
-        [
-            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.ground,
-            Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.rock_s, Tile.rock_s,
-        ],
-        [
-            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.ground,
-            Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.ground, Tile.rock_s, Tile.rock_s,
-        ],
-        [
-            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.steps,  Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-        ],
-        [
-            Tile.rock_s, Tile.rock_s, Tile.ground, Tile.steps,  Tile.ground, Tile.ground, Tile.ground, Tile.ground,
-            Tile.ground, Tile.ground, Tile.ground, Tile.steps,  Tile.ground, Tile.ground, Tile.rock_s, Tile.rock_s,
-        ],
-        [
-            Tile.rock_s, Tile.rock_s, Tile.ground, Tile.steps,  Tile.ground, Tile.ground, Tile.ground, Tile.ground,
-            Tile.ground, Tile.ground, Tile.ground, Tile.steps,  Tile.ground, Tile.ground, Tile.rock_s, Tile.rock_s,
-        ],
-        [
-            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-        ],
-        [
-            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-            Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s, Tile.rock_s,
-        ],
-    ].map((row, rowIndex) => row.map((tile, columnIndex) => {
-        const elevation = ((rowIndex === 2 || rowIndex === 3) && tile === Tile.ground) ? 5 : 9 - rowIndex;
-        return [elevation, tile, (rowIndex === 3 && columnIndex === 8) ? item : null];
+export function makePassageRoom(keeses, item) {
+    const passageTemplate = undefined === item
+        ? [
+            "www.wwwwwwww.www",
+            "www.wwwwwwww.www",
+            "www.wwwwwwww.www",
+            "www.wwwwwwww.www",
+            "www.wwwwwwww.www",
+            "www.wwwwwwww.www",
+            "ww+.++++++++.+ww",
+            "ww+.++++++++.+ww",
+            "wwwwwwwwwwwwwwww",
+            "wwwwwwwwwwwwwwww",
+        ] : [
+            "www.wwwwwwwwwwww",
+            "www.wwwwwwwwwwww",
+            "www.www+++++++ww",
+            "www.www+++++++ww",
+            "www.www+++++++ww",
+            "www.wwwwwww.wwww",
+            "ww+.+++++++.++ww",
+            "ww+.+++++++.++ww",
+            "wwwwwwwwwwwwwwww",
+            "wwwwwwwwwwwwwwww",
+        ];
+    const rows = passageTemplate.map((row, rowIndex) => row.split("").map(code => {
+        const tile = passageTileMap[code];
+        const elevation = (tile === Tile.passage_ground && [2, 3].includes(rowIndex))
+            ? 4
+            : (9 - rowIndex - (tile === Tile.passage_steps ? 2 : tile === Tile.passage_ground ? 1 : 0));
+        return [elevation, tile];
     }));
     keeses.forEach(keesePosition => {
         rows[keesePosition[0]][keesePosition[1]][2] = Tile.keese_blue;
     });
+    rows[3][8][2] = item;
     return [[new Palette(NESColor.light_gray, NESColor.dark_gray, NESColor.black)], rows];
 }
 
@@ -980,7 +924,7 @@ export function getMapRowData() {
             ]),
             /* room: 03,05 */ makeRoom("03,05", 5, 0x24, "shut",   "locked", "open",   "solid",  "dim" , [
                 [3,  8, Tile.item_heart_container],
-                [4,  5, Tile.digdogger, base2x2_center],
+                [4,  5, Tile.digdogger, base2x2_studs],
             ]),
             /* room: 03,06 */ makeRoom("03,06", 5, 0x07, "bomb",   "open",   "solid",  "locked", null  , [
                 [2, 10, Tile.pols_voice_orange_green],
@@ -2535,20 +2479,20 @@ export function getMapRowData() {
         [],
         [
             [[], []],
-            makePassageRoom(                        [[0,  9], [2,  4], [5, 13], [7,  2]]),
+            makePassageRoom([[0,  9], [2,  4], [5, 13], [7,  2]]),
             [[], []],
-            makeItemRoom(Tile.item_bow,             [[0,  5], [2,  8], [6, 12], [9, 14]]),
-            makeItemRoom(Tile.item_raft,            [[1, 15], [3,  1], [5,  4], [7, 10]]),
-            makeItemRoom(Tile.item_stepladder,      [[2, 13], [4,  0], [8,  9], [9,  6]]),
-            makeItemRoom(Tile.item_recorder,        [[0, 11], [3, 14], [5,  2], [7,  7]]),
-            makeItemRoom(Tile.item_magical_rod,     [[1,  3], [4,  5], [6,  8], [8, 12]]),
-            makeItemRoom(Tile.item_candle_red,      [[2, 10], [5, 15], [7,  1], [9,  0]]),
-            makeItemRoom(Tile.item_book_of_magic,   [[2, 11], [4, 14], [5,  7], [6,  2]]),
-            makeItemRoom(Tile.item_magical_key,     [[0,  4], [1,  9], [3,  6], [8, 13]]),
-            makeItemRoom(Tile.item_ring_red,        [[1,  0], [4,  6], [6, 10], [8, 15]]),
-            makeItemRoom(Tile.item_silver_arrow,    [[0,  3], [3, 12], [7,  5], [9,  8]]),
+            makePassageRoom([[0,  5], [2,  8], [6, 12], [9, 14]], Tile.item_bow),
+            makePassageRoom([[1, 15], [3,  1], [5,  4], [7, 10]], Tile.item_raft),
+            makePassageRoom([[2, 13], [4,  0], [8,  9], [9,  6]], Tile.item_stepladder),
+            makePassageRoom([[0, 11], [3, 14], [5,  2], [7,  7]], Tile.item_recorder),
+            makePassageRoom([[1,  3], [4,  5], [6,  8], [8, 12]], Tile.item_magical_rod),
+            makePassageRoom([[2, 10], [5, 15], [7,  1], [9,  0]], Tile.item_candle_red),
+            makePassageRoom([[2, 11], [4, 14], [5,  7], [6,  2]], Tile.item_book_of_magic),
+            makePassageRoom([[0,  4], [1,  9], [3,  6], [8, 13]], Tile.item_magical_key),
+            makePassageRoom([[1,  0], [4,  6], [6, 10], [8, 15]], Tile.item_ring_red),
+            makePassageRoom([[0,  3], [3, 12], [7,  5], [9,  8]], Tile.item_silver_arrow),
             [[], []],
-            makePassageRoom(                        [[1,  7], [3,  0], [8, 11], [9, 14]]),
+            makePassageRoom([[1,  7], [3,  0], [8, 11], [9, 14]]),
             [[], []],
         ],
     ];

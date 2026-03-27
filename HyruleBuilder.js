@@ -2,6 +2,18 @@
 
 import {Tile} from "./HyrulePieces.js";
 
+const mapDataProviders = {
+    overworld:  async () => (await import('./HyruleOverworld.js')).mapRowData,
+    caves:      async () => (await import('./HyruleCaves.js')).getMapRowData(),
+    dungeons:   async () => (await import('./HyruleDungeons.js')).getMapRowData(),
+    samples:    async () => (await import('./HyruleSamples.js')).getMapRowData(),
+    mini:       async () => (await import('./HyruleSamples.js')).getMiniMapRowData(),
+}
+
+export function getMapNames() {
+    return Object.keys(mapDataProviders);
+}
+
 /** Collect all pieces by part number and opacity to a list of all piece configurations. */
 export async function getPieces(mapName, gapSize, showSprites, showElevation) {
 
@@ -73,14 +85,6 @@ export async function getPieces(mapName, gapSize, showSprites, showElevation) {
     }
 
     // Add map pieces.
-
-    const mapDataProviders = {
-        overworld:  async () => (await import('./HyruleOverworld.js')).mapRowData,
-        caves:      async () => (await import('./HyruleCaves.js')).getMapRowData(),
-        underworld: async () => (await import('./HyruleUnderworld.js')).getMapRowData(),
-        samples:    async () => (await import('./HyruleSamples.js')).getMapRowData(),
-        mini:       async () => (await import('./HyruleSamples.js')).getMiniMapRowData(),
-    }
 
     const mapData = await mapDataProviders[mapName]();
     const nearestMultipleOf2 = (value) => value % 2 === 0 ? value : value + 1;

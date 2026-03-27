@@ -203,7 +203,7 @@ class LoadTracker {
  * to a scene, and returns information of every piece instance.
  */
 export async function addPiecesToScene(pieces, scene,
-    optionsDrawLines, optionsRoughness, optionsPolygonOffsetFactor, optionsPalette) {
+    optionsShowLogo, optionsRoughness, optionsPolygonOffsetFactor, optionsPalette) {
 
     const pieceInstances = new PieceInstances();
     const meshMaterials = {};
@@ -271,6 +271,9 @@ export async function addPiecesToScene(pieces, scene,
     const lDrawLoader = new LDrawLoader();
     lDrawLoader.setConditionalLineMaterial(LDrawConditionalLineMaterial);
     lDrawLoader.setPartsLibraryPath('/ldraw/');
+    if (optionsShowLogo) {
+        lDrawLoader.setFileMap({'stud.dat': 'stud-logo.dat'});
+    }
     await lDrawLoader.preloadMaterials('/ldraw/LDConfig.ldr');
 
     const loadTracker = new LoadTracker(pieces);

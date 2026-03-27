@@ -1,7 +1,7 @@
 "use strict";
 
 import {Palette, Tile} from "./HyrulePieces.js";
-import * as HyruleUnderworld from "./HyruleUnderworld.js";
+import * as HyruleDungeons from "./HyruleDungeons.js";
 import * as HyruleCaves from "./HyruleCaves.js";
 
 function createBase() {
@@ -189,7 +189,7 @@ export function getMapRowData() {
         Tile.item_triforce_sand,
     );
 
-    const room1 = HyruleUnderworld.makeRoom(null, 9, 0x1A, "shut",   "solid",  "solid",  "solid",  null, [
+    const room1 = HyruleDungeons.makeRoom(null, 9, 0x1A, "shut",   "solid",  "solid",  "solid",  null, [
         [2,  2, Tile.blade_trap_nw],
         [2, 13, Tile.blade_trap_ne],
         [8,  2, Tile.blade_trap_sw],
@@ -198,7 +198,7 @@ export function getMapRowData() {
         [4,  4, Tile.lanmola_body_red],
         [5,  4, Tile.lanmola_body_red],
         [6,  4, Tile.lanmola_body_red],
-        [6,  5, Tile.lanmola_head_red, HyruleUnderworld.baseOptions.base2x1],
+        [6,  5, Tile.lanmola_head_red, HyruleDungeons.baseOptions.base2x1],
 
         [2,  9, Tile.lanmola_head_blue],
         [2, 10, Tile.lanmola_body_blue],
@@ -207,11 +207,11 @@ export function getMapRowData() {
 
         [5, 12, Tile.moldorm],
         [6, 12, Tile.moldorm],
-        [6, 11, Tile.moldorm, HyruleUnderworld.baseOptions.base2x1],
+        [6, 11, Tile.moldorm, HyruleDungeons.baseOptions.base2x1],
         [7, 10, Tile.moldorm],
     ]);
 
-    const room2 = HyruleUnderworld.makeRoom(null, 6, 0x13, "bomb",   "solid",  "solid",  "solid",  null, [
+    const room2 = HyruleDungeons.makeRoom(null, 6, 0x13, "bomb",   "solid",  "solid",  "solid",  null, [
         [3,  3, Tile.vire],
         [5,  3, Tile.keese_blue],
         [7,  3, Tile.keese_red],
@@ -227,7 +227,7 @@ export function getMapRowData() {
         [7, 12, Tile.gel_navy],
     ]);
 
-    const room3 = HyruleUnderworld.makeRoom(null, 7, 0x1F, "locked", "solid",  "solid",  "solid",  "dark", [
+    const room3 = HyruleDungeons.makeRoom(null, 7, 0x1F, "locked", "solid",  "solid",  "solid",  "dark", [
         [3,  6, Tile.bubble_red],
         [3,  7, Tile.bubble_brown],
         [3,  8, Tile.bubble_blue],
@@ -239,14 +239,14 @@ export function getMapRowData() {
         [5, 10, Tile.darknut_red],
         [5, 12, Tile.darknut_blue],
 
-        [7,  6, Tile.wizzrobe_red_e, HyruleUnderworld.baseOptions.base1x2],
-        [7,  8, Tile.wizzrobe_blue_w, HyruleUnderworld.baseOptions.base1x2],
+        [7,  6, Tile.wizzrobe_red_e, HyruleDungeons.baseOptions.base1x2],
+        [7,  8, Tile.wizzrobe_blue_w, HyruleDungeons.baseOptions.base1x2],
 
         [1,  3, Tile.wallmaster_n],
         [7, 14, Tile.wallmaster_e],
     ]);
 
-    const room4 = HyruleUnderworld.makeRoom(null, 2, 0x1E, "open",   "solid",  "solid",  "solid",  null, [
+    const room4 = HyruleDungeons.makeRoom(null, 2, 0x1E, "open",   "solid",  "solid",  "solid",  null, [
         [3,  3, Tile.gibdo_key],
         [5,  3, Tile.gibdo_bomb],
         [7,  3, Tile.gibdo],
@@ -263,21 +263,21 @@ export function getMapRowData() {
         [5, 12, Tile.pols_voice_peach_blue],
         [7, 12, Tile.pols_voice_peach_green],
 
-        [2,  7, Tile.rope_w, HyruleUnderworld.baseOptions.base2x2_center],
-        [7,  7, Tile.like_like, HyruleUnderworld.baseOptions.base2x2_center],
+        [2,  7, Tile.rope_w, HyruleDungeons.baseOptions.base2x2_center],
+        [7,  7, Tile.like_like, HyruleDungeons.baseOptions.base2x2_center],
     ]);
 
-    const boss1 = HyruleUnderworld.makeRoom(null, 9, 0x28, "solid",  "solid",  "shut",   "solid",  null, [
-        [3,   5, Tile.ganon, HyruleUnderworld.baseOptions.base2x2_studs],
+    const boss1 = HyruleDungeons.makeRoom(null, 9, 0x28, "solid",  "solid",  "shut",   "solid",  null, [
+        [3,   5, Tile.ganon, HyruleDungeons.baseOptions.base2x2_studs],
     ]);
 
-    const boss2 = HyruleUnderworld.makeRoom(null, 6, 0x05, "solid",  "solid",  "bomb",   "solid",  null, [
-        [2,   7, Tile.gleeok4, HyruleUnderworld.baseOptions.base2x2_studs],
-        [4,   4, Tile.gleeok2, HyruleUnderworld.baseOptions.base2x2_studs],
-        [4,  10, Tile.gleeok3, HyruleUnderworld.baseOptions.base2x2_studs],
+    const boss2 = HyruleDungeons.makeRoom(null, 6, 0x05, "solid",  "solid",  "bomb",   "solid",  null, [
+        [2,   7, Tile.gleeok4, HyruleDungeons.baseOptions.base2x2_studs],
+        [4,   4, Tile.gleeok2, HyruleDungeons.baseOptions.base2x2_studs],
+        [4,  10, Tile.gleeok3, HyruleDungeons.baseOptions.base2x2_studs],
     ]);
 
-    const boss3 = HyruleUnderworld.makeRoom(null, 3, 0x25, "solid",  "solid",  "locked", "solid",  null, [
+    const boss3 = HyruleDungeons.makeRoom(null, 3, 0x25, "solid",  "solid",  "locked", "solid",  null, [
         [3,  4, Tile.gohma_red],
         [6,  5, Tile.gohma_blue],
 
@@ -285,9 +285,9 @@ export function getMapRowData() {
         [6, 11, Tile.dodongo_w],
     ]);
 
-    const boss4 = HyruleUnderworld.makeRoom(null, 1, 0x04, "solid",  "solid",  "open",   "solid",  null, [
-        [1,  2, Tile.patra_red, HyruleUnderworld.baseOptions.wall1x2],
-        [1,  4, Tile.patra_red, HyruleUnderworld.baseOptions.wall1x2],
+    const boss4 = HyruleDungeons.makeRoom(null, 1, 0x04, "solid",  "solid",  "open",   "solid",  null, [
+        [1,  2, Tile.patra_red, HyruleDungeons.baseOptions.wall1x2],
+        [1,  4, Tile.patra_red, HyruleDungeons.baseOptions.wall1x2],
         [2,  1, Tile.patra_red],
         [2,  7, Tile.patra_red],
         [3,  4, Tile.patra_blue],
@@ -296,10 +296,14 @@ export function getMapRowData() {
         [5,  3, Tile.patra_red],
         [5,  5, Tile.patra_red],
 
-        [6,  7, Tile.digdogger, HyruleUnderworld.baseOptions.base2x2_center],
+        [6,  7, Tile.digdogger, HyruleDungeons.baseOptions.base2x2_studs],
+        [7,  5, Tile.digdogger_small],
 
         [5, 11, Tile.aquamentus],
     ]);
+
+    const passageRoom = HyruleDungeons.makePassageRoom([]);
+    const itemRoom = HyruleDungeons.makePassageRoom([], null);
 
     const cave1 = HyruleCaves.makeCave("H8");
     const cave2 = HyruleCaves.makeCave("J8");
@@ -307,10 +311,10 @@ export function getMapRowData() {
 
     return [
         [
-            samples1, boss1, boss2, boss3, boss4,
+            samples1, boss1, boss2, boss3, boss4, passageRoom,
         ],
         [
-            samples2, room1, room2, room3, room4,
+            samples2, room1, room2, room3, room4, itemRoom,
         ],
         [
             samples3, enemies, cave1, cave2, cave3,

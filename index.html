@@ -22,7 +22,7 @@ body {
   <div style="position: absolute; left: 50%; transform: translateX(-50%);">
     <a href="?mapName=overworld">Overworld</a> |
     <a href="?mapName=caves">Caves</a> |
-    <a href="?mapName=underworld">Underworld</a>
+    <a href="?mapName=dungeons">Dungeons</a>
   </div>
 </nav>
 
@@ -41,6 +41,7 @@ body {
     import * as THREE from 'three';
     import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
+    import Stats from 'three/addons/libs/stats.module.js';
     import * as HyruleBuilder from "./HyruleBuilder.js";
     import * as PieceUtils from "./PieceUtils.js";
 
@@ -85,10 +86,11 @@ body {
             setBool("showGui", true);
             setString("upAxis", "Y");
             setInt("gapSize", 2);
-            setString("mapName", "overworld", value => ["overworld", "caves", "underworld", "samples", "mini"].includes(value));
+            setString("mapName", "overworld", value => HyruleBuilder.getMapNames().includes(value));
             setBool("showSprites", true);
             setBool("showElevation", true);
-            setBool("drawLines", true);
+            setBool("showLogo", false);
+            setBool("showStats", false);
             setBool("antialias", true);
             setInt("clearColor", 0xD4EDFC);
             setString("palette", "nes", value => ["nes", "ldraw"].includes(value));
@@ -120,6 +122,7 @@ body {
     const camera = new THREE.PerspectiveCamera(options.cameraFov, viewWidth() / viewHeight(), 1, maxDistance);
     const controls = new OrbitControls(camera, renderer.domElement);
     const scene = new THREE.Scene();
+    const stats = options.showStats ? new Stats() : null;
 
     camera.position.set(options.cameraPositionX, options.cameraPositionY, options.cameraPositionZ);
     controls.target.set(options.cameraTargetX, options.cameraTargetY, options.cameraTargetZ);
@@ -127,6 +130,7 @@ body {
     renderer.setClearColor(options.clearColor);
     renderer.setSize(viewWidth(), viewHeight());
     renderer.setAnimationLoop(function() {
+        stats?.update();
         controls.update();
         renderer.render(scene, camera);
     });
@@ -165,13 +169,12 @@ body {
 
     const pieceInstances = await PieceUtils.addPiecesToScene(
         await HyruleBuilder.getPieces(options.mapName, options.gapSize, options.showSprites, options.showElevation),
-        scene, options.drawLines, options.roughness, options.polygonOffsetFactor, options.palette);
+        scene, options.showLogo, options.roughness, options.polygonOffsetFactor, options.palette);
 
     // Create GUI options.
 
-    if (options.showGui) {
-        const gui = new GUI().close();
-
+    const gui = options.showGui ? new GUI().close() : null;
+    if (gui) {
         gui.add(options, 'upAxis', {
             "Y up (Three.js)": "Y",
             "Z up (3D Printer)": "Z"
@@ -299,6 +302,17 @@ body {
                     .onChange(value => lightConfig.sphere.position[position] = value);
             });
             guiLight.add(lightConfig.light, 'intensity', 0, 30).step(0.5).listen();
+        });
+    }
+
+    if (stats) {
+        document.body.appendChild(stats.dom);
+        requestAnimationFrame(() => {
+            const right = gui
+                ? window.innerWidth - gui.domElement.getBoundingClientRect().left + 2
+                : 0;
+            stats.dom.style.right = `${right}px`;
+            stats.dom.style.left = 'auto';
         });
     }
 

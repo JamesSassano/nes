@@ -377,6 +377,21 @@ export class Tile {
         ].concat(Tile.dungeon_tops[topName]);
     }
 
+    // Passages
+
+    static passage_wall = [
+        new TilePiece(Piece.brick,                          NESColor.primary,       {}),
+    ];
+
+    static passage_ground = [
+        new TilePiece(Piece.ground_piece_top,               NESColor.background,    {}),
+    ];
+
+    static passage_steps = [
+        new TilePiece(Piece.plate,                          NESColor.primary,       {}),
+        new TilePiece(Piece.tile_round_dot,                 NESColor.secondary,     {}),
+    ];
+
     // Dungeons
     static dungeon_n1 = Tile.makeDungeon("curvedTop");
     static dungeon_n2 = Tile.makeDungeon("clip_top");
@@ -887,8 +902,18 @@ export class Tile {
     static gleeok4 = Tile.makeGleeok(4);
 
     static digdogger = [
-        new TilePiece(Piece.plate2x2_round,                 NESColor.red,           {}),
-        new TilePiece(Piece.plate2x2_round_inverted_dish,   NESColor.orange,        {}),
+        new TilePiece(Piece.plate_round_tabs,               NESColor.red,           {rotateY: 45, translateX:  .5, translateY:  .5, translateZ:  0}),
+        new TilePiece(Piece.plate_round_tabs,               NESColor.red,           {rotateY: 45, translateX: -.5, translateY:  .5, translateZ: -1}),
+        new TilePiece(Piece.plate_round_tabs,               NESColor.red,           {rotateY: 45, translateX:  .5, translateY: -.5, translateZ: -2}),
+        new TilePiece(Piece.plate_round_tabs,               NESColor.red,           {rotateY: 45, translateX: -.5, translateY: -.5, translateZ: -3}),
+        new TilePiece(Piece.plate2x2_round,                 NESColor.orange,        {translateZ: -3}),
+        new TilePiece(Piece.plate2x2_round_inverted_dish,   NESColor.orange,        {translateZ: -3}),
+        new TilePiece(Piece.tile_round_dot,                 NESColor.white,         {translateZ: -3}),
+    ];
+
+    static digdogger_small = [
+        new TilePiece(Piece.plate_round_tabs,               NESColor.red,           {rotateY: 45}),
+        new TilePiece(Piece.plate_round_dot,                NESColor.orange,        {}),
         new TilePiece(Piece.tile_round_dot,                 NESColor.white,         {}),
     ];
 

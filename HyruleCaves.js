@@ -1,7 +1,6 @@
 "use strict";
 
-import {NESColor} from "./Colors.js";
-import {Palette, Piece, TilePiece, Tile, Texts, makeTextFloor} from "./HyrulePieces.js";
+import {Palette, Tile, Texts, makeTextFloor} from "./HyrulePieces.js";
 
 // todo: Make option.
 const showMinifigureItems = false;
