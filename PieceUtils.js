@@ -12,6 +12,11 @@ const objComment = [
     "#",
 ].join("\n");
 
+const ldrComment = [
+    "0 // Design Interpretation & Tile Mapping (c) 2026 James Sassano.",
+    "0 // Licensed under Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0).",
+].join("\n");
+
 /** Pairs PieceConfigurations to their resolved InstancedMesh/index. */
 export class PieceInstances {
 
@@ -97,70 +102,6 @@ export class PieceInstances {
         return await outputPromise;
     }
 
-    async getLdrData(fileBaseName, palette, onProgress) {
-        const instanceMatrix4 = new THREE.Matrix4();
-        const lines = [`0 FILE ${fileBaseName}.ldr`];
-        for (const screenName of Object.keys(this.piecesByScreen).sort()
-            //.filter(screenName => ["H4"].includes(screenName))
-            //.filter(screenName => ["C13"].includes(screenName))
-        ) {
-            await onProgress(screenName);
-
-            const pieceInstances = this.piecesByScreen[screenName]
-                .sort((a, b) => a.pieceName.localeCompare(b.pieceName));
-
-            for (const pieceInstance of pieceInstances) {
-                pieceInstance.pieceInstancedMesh.getMatrixAt(pieceInstance.pieceInstancedMeshIndex, instanceMatrix4);
-                const paletteColor = pieceInstance.color.getPaletteColor(palette);
-                const color = ['ldraw', 'studio'].includes(palette)
-                        ? paletteColor.colorCode
-                        : `0x2${paletteColor.colorInt.toString(16).padStart(6, '0').toUpperCase()}`;
-
-                const matrix = instanceMatrix4.elements;
-                if ('studio' === palette) {
-                    const rotate = (pieceInstance.piece.studioRotation + pieceInstance.piece.ldrawRotation) % 360;
-                    if (rotate > 0) {
-                        const x0 = matrix[0], x1 = matrix[1], x2 = matrix[2];
-                        const z0 = matrix[8], z1 = matrix[9], z2 = matrix[10];
-
-                        if (rotate === 90) {
-                            matrix[0] =  z0; matrix[1] =  z1; matrix[ 2] =  z2;
-                            matrix[8] = -x0; matrix[9] = -x1; matrix[10] = -x2;
-                        }
-                        else if (rotate === 180) {
-                            matrix[0] = -x0; matrix[1] = -x1; matrix[ 2] = -x2;
-                            matrix[8] = -z0; matrix[9] = -z1; matrix[10] = -z2;
-                        }
-                        else if (rotate === 270) {
-                            matrix[0] = -z0; matrix[1] = -z1; matrix[ 2] = -z2;
-                            matrix[8] =  x0; matrix[9] =  x1; matrix[10] =  x2;
-                        } else {
-                            throw Error(`Unexpected rotation ${rotate}`);
-                        }
-                    }
-                }
-
-                const x = ( matrix[12]).toFixed(3);
-                const y = (-matrix[13]).toFixed(3);
-                const z = (-matrix[14]).toFixed(3);
-                const a = ( matrix[ 0]).toFixed(4);
-                const b = ( matrix[ 4]).toFixed(4);
-                const c = ( matrix[ 8]).toFixed(4);
-                const d = (-matrix[ 1]).toFixed(4);
-                const e = (-matrix[ 5]).toFixed(4);
-                const f = (-matrix[ 9]).toFixed(4);
-                const g = (-matrix[ 2]).toFixed(4);
-                const h = (-matrix[ 6]).toFixed(4);
-                const i = (-matrix[10]).toFixed(4);
-
-                const partName = pieceInstance.piece.getLdrName(palette);
-                lines.push(`1 ${color} ${x} ${y} ${z} ${a} ${b} ${c} ${d} ${e} ${f} ${g} ${h} ${i} ${partName}.dat`);
-            }
-        }
-        lines.push("");
-        return lines.join("\n");
-    }
-
     static createObjContent(fileBaseName, pieceInstances, mtllib, yUp) {
         const objOutput = [`${objComment}\nmtllib ${fileBaseName}.mtl\n`];
         const instanceMatrix4 = new THREE.Matrix4();
@@ -233,6 +174,73 @@ d ${opacity}
         }
 
         return objOutput.join("");
+    }
+
+    async getLdrData(fileBaseName, palette, onProgress) {
+        const instanceMatrix4 = new THREE.Matrix4();
+        const lines = [
+            ldrComment,
+            `0 FILE ${fileBaseName}.ldr`,
+        ];
+        for (const screenName of Object.keys(this.piecesByScreen).sort()
+            //.filter(screenName => ["H4"].includes(screenName))
+            //.filter(screenName => ["C13"].includes(screenName))
+        ) {
+            await onProgress(screenName);
+
+            const pieceInstances = this.piecesByScreen[screenName]
+                .sort((a, b) => a.pieceName.localeCompare(b.pieceName));
+
+            for (const pieceInstance of pieceInstances) {
+                pieceInstance.pieceInstancedMesh.getMatrixAt(pieceInstance.pieceInstancedMeshIndex, instanceMatrix4);
+                const paletteColor = pieceInstance.color.getPaletteColor(palette);
+                const color = ['ldraw', 'studio'].includes(palette)
+                        ? paletteColor.colorCode
+                        : `0x2${paletteColor.colorInt.toString(16).padStart(6, '0').toUpperCase()}`;
+
+                const matrix = instanceMatrix4.elements;
+                if ('studio' === palette) {
+                    const rotate = (pieceInstance.piece.studioRotation + pieceInstance.piece.ldrawRotation) % 360;
+                    if (rotate > 0) {
+                        const x0 = matrix[0], x1 = matrix[1], x2 = matrix[2];
+                        const z0 = matrix[8], z1 = matrix[9], z2 = matrix[10];
+
+                        if (rotate === 90) {
+                            matrix[0] =  z0; matrix[1] =  z1; matrix[ 2] =  z2;
+                            matrix[8] = -x0; matrix[9] = -x1; matrix[10] = -x2;
+                        }
+                        else if (rotate === 180) {
+                            matrix[0] = -x0; matrix[1] = -x1; matrix[ 2] = -x2;
+                            matrix[8] = -z0; matrix[9] = -z1; matrix[10] = -z2;
+                        }
+                        else if (rotate === 270) {
+                            matrix[0] = -z0; matrix[1] = -z1; matrix[ 2] = -z2;
+                            matrix[8] =  x0; matrix[9] =  x1; matrix[10] =  x2;
+                        } else {
+                            throw Error(`Unexpected rotation ${rotate}`);
+                        }
+                    }
+                }
+
+                const x = ( matrix[12]).toFixed(3);
+                const y = (-matrix[13]).toFixed(3);
+                const z = (-matrix[14]).toFixed(3);
+                const a = ( matrix[ 0]).toFixed(4);
+                const b = ( matrix[ 4]).toFixed(4);
+                const c = ( matrix[ 8]).toFixed(4);
+                const d = (-matrix[ 1]).toFixed(4);
+                const e = (-matrix[ 5]).toFixed(4);
+                const f = (-matrix[ 9]).toFixed(4);
+                const g = (-matrix[ 2]).toFixed(4);
+                const h = (-matrix[ 6]).toFixed(4);
+                const i = (-matrix[10]).toFixed(4);
+
+                const partName = pieceInstance.piece.getLdrName(palette);
+                lines.push(`1 ${color} ${x} ${y} ${z} ${a} ${b} ${c} ${d} ${e} ${f} ${g} ${h} ${i} ${partName}.dat`);
+            }
+        }
+        lines.push("");
+        return lines.join("\n");
     }
 }
 

@@ -9,7 +9,7 @@ const caveTemplates = {
     "item_sword": [
         [Texts.cave_item_take_this],
         [Tile.old_man_center],
-        [[showMinifigureItems ? Tile.item_sword_minfigure : Tile.item_sword_center]],
+        [[showMinifigureItems ? Tile.item_sword_minfigure : Tile.item_sword_green_center]],
     ],
     "item_white_sword": [
         [Texts.cave_item_master_using],
@@ -73,7 +73,7 @@ const caveTemplates = {
     "shop_2": [
         [Texts.cave_shop_buy_somethin],
         [Tile.merchant_center],
-        [[Tile.item_magical_shield_center, 130], [Tile.item_bomb_center, 20], [Tile.item_arrow_center, 80]],
+        [[Tile.item_magical_shield_center, 130], [Tile.item_bomb_center, 20], [Tile.item_arrow_green_center, 80]],
     ],
     "shop_3": [
         [Texts.cave_shop_expensive],

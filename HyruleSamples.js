@@ -153,7 +153,7 @@ export function getMapRowData() {
         Tile.item_clock,
         Tile.item_letter,
         Tile.item_bait,
-        Tile.item_sword,
+        Tile.item_sword_green,
         Tile.item_white_sword,
         Tile.item_magical_sword,
     );
@@ -164,8 +164,8 @@ export function getMapRowData() {
         Tile.item_boomerang,
         Tile.item_magical_boomerang,
         Tile.item_bomb,
-        Tile.item_bow,
-        Tile.item_arrow,
+        Tile.item_bow_green,
+        Tile.item_arrow_green,
         Tile.item_silver_arrow,
         Tile.item_candle_blue,
         Tile.item_candle_red,
@@ -177,7 +177,7 @@ export function getMapRowData() {
     const item3 = createItems(
         Tile.item_power_bracelet,
         Tile.item_recorder,
-        Tile.item_raft,
+        Tile.item_raft_green,
         Tile.item_stepladder,
         Tile.item_magical_rod,
         Tile.item_book_of_magic,

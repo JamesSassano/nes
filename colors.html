@@ -240,24 +240,24 @@
         ]) {
             addHeader(table, `${name} Colors`);
 
-            for (const ldrawCodeRow of codeTable) {
-                const ldrawRow = document.createElement('tr');
-                for (const ldrawCode of ldrawCodeRow) {
-                    const ldrawCell = document.createElement('td');
-                    if (null !== ldrawCode) {
-                        const ldrawColor = colors[ldrawCode];
-                        const ldrawHex = setElementColors(ldrawCell, ldrawColor);
-                        const oklch = getOklch(ldrawColor.colorInt);
+            for (const colorCodeRow of codeTable) {
+                const colorRow = document.createElement('tr');
+                for (const colorCode of colorCodeRow) {
+                    const colorCell = document.createElement('td');
+                    if (null !== colorCode) {
+                        const color = colors[colorCode];
+                        const hex = setElementColors(colorCell, color);
+                        const oklch = getOklch(color.colorInt);
                         const hue = oklch.h.toFixed(0);
                         const lightness = oklch.L.toFixed(2);
-                        ldrawCell.innerHTML = `
-                            <span class="color-code">[${ldrawCode}&nbsp;${ldrawHex}]</span>
-                            <br>${getName(ldrawColor)}
+                        colorCell.innerHTML = `
+                            <span class="color-code">[${colorCode}&nbsp;${hex}]</span>
+                            <br>${getName(color)}
                             <br><span style="font-size: 8px; opacity: 0.8;">H: ${hue}, L: ${lightness}</span>`;
                     }
-                    ldrawRow.appendChild(ldrawCell);
+                    colorRow.appendChild(colorCell);
                 }
-                table.appendChild(ldrawRow);
+                table.appendChild(colorRow);
             }
         }
 
