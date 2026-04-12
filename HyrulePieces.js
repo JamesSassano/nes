@@ -69,6 +69,7 @@ export class Piece {
         this.studioRotation = studioRotation;
         this.studReplacement = studReplacement;
         this.name = name;
+        Object.freeze(this);
     }
 
     getLdrName(palette) {
@@ -93,10 +94,36 @@ export class Palette {
         this.primary = primary;
         this.secondary = secondary;     // Water, Accents
         this.background = background;   // Ground
+        Object.freeze(this);
     }
 
     getColor(color) {
         return this[color] ?? color;
+    }
+}
+
+/* A list of all piece options that takes a sparse input and intializes any missing values with defaults. */
+class PieceOptions {
+    static matrix_options = ["translateX", "translateY", "translateZ", "rotateX", "rotateY", "rotateZ"];
+
+    constructor(options) {
+        PieceOptions.matrix_options.forEach(option => this[option] = options[option] ?? 0);
+        this.opacity = options.opacity ?? 1;
+        Object.freeze(this);
+    }
+
+    mergeOptions(newOptions) {
+        const mergedOptions = {
+            // Take a new opacity if defined, otherwise default to the current.
+            opacity: newOptions.opacity ?? this.opacity
+        };
+
+        // Add all new matrix options to the merged options.
+        PieceOptions.matrix_options.forEach(option => {
+            mergedOptions[option] = this[option] + (newOptions[option] ?? 0);
+        });
+
+        return new PieceOptions(mergedOptions);
     }
 }
 
@@ -105,7 +132,8 @@ export class TilePiece {
     constructor(piece, color, options) {
         this.piece = piece;
         this.color = color;
-        this.options = options;
+        this.options = new PieceOptions(options);
+        Object.freeze(this);
     }
 }
 
@@ -114,22 +142,9 @@ export class Tile {
     static water_opacity = 1;
     static clear_opacity = 0.5;
 
-    static transformTile(tile, options) {
+    static transformTile(tile, newOptions) {
         return tile.map(tilePiece => {
-            const transformedOptions = {};
-            [
-                "translateX", "translateY", "translateZ",
-                "rotateX", "rotateY", "rotateZ",
-                "scaleX", "scaleY", "scaleZ",
-                "opacity",
-            ].forEach(option => {
-                const oldValue = tilePiece.options[option];
-                const newValue = options[option];
-                if (undefined !== oldValue || undefined !== newValue) {
-                    transformedOptions[option] = (oldValue || 0) + (newValue || 0);
-                }
-            });
-            return new TilePiece(tilePiece.piece, tilePiece.color, transformedOptions);
+            return new TilePiece(tilePiece.piece, tilePiece.color, tilePiece.options.mergeOptions(newOptions));
         });
     }
 
@@ -645,7 +660,7 @@ export class Tile {
 
     static makeKeese(color) {
         return [
-            new TilePiece(Piece.tile,                       color,                  {}),
+            new TilePiece(Piece.plate,                      color,                  {}),
             new TilePiece(Piece.tile_round_dot_pin_holder,  color,                  {}),
         ];
     }
@@ -700,10 +715,11 @@ export class Tile {
         ].filter(tilePiece => tilePiece);
     }
 
-    static makeWallmaster(translateX, rotateY) {
+    static makeWallmaster(rotateY) {
+        const [translateX, translateY] = rotateY % 180 === 0 ? [.5, 2] : [0, 0];
         return [
-            new TilePiece(Piece.tile,                       NESColor.navy,          {translateX: translateX}),
-            new TilePiece(Piece.plate_clip_vertical_side,   NESColor.steel_blue,    {translateX: translateX, rotateY: rotateY}),
+            new TilePiece(Piece.tile,                       NESColor.navy,          {translateX: translateX, translateY: translateY}),
+            new TilePiece(Piece.plate_clip_vertical_side,   NESColor.steel_blue,    {translateX: translateX, translateY: translateY, rotateY: rotateY}),
         ];
     }
 
@@ -796,14 +812,14 @@ export class Tile {
     static blade_trap_e  = Tile.makeBladeTrap( 90,  90);
 
     static vire = [
-        new TilePiece(Piece.tile,                           NESColor.navy,          {}),
+        new TilePiece(Piece.plate,                          NESColor.navy,          {}),
         new TilePiece(Piece.plate_clip_top_edge,            NESColor.steel_blue,    {}),
     ];
 
-    static wallmaster_n = Tile.makeWallmaster(.5,   0);
-    static wallmaster_s = Tile.makeWallmaster(.5, 180);
-    static wallmaster_e = Tile.makeWallmaster( 0,  90);
-    static wallmaster_w = Tile.makeWallmaster( 0, -90);
+    static wallmaster_n = Tile.makeWallmaster(  0);
+    static wallmaster_e = Tile.makeWallmaster( 90);
+    static wallmaster_s = Tile.makeWallmaster(180);
+    static wallmaster_w = Tile.makeWallmaster(270);
 
     static wizzrobe_red_n = Tile.makeWizzrobe('red', 270);
     static wizzrobe_red_e = Tile.makeWizzrobe('red', 0);
@@ -954,14 +970,14 @@ export class Tile {
     static item_heart_center = Tile.transformCenterX(Tile.item_heart);
 
     static item_heart_container = [
-        new TilePiece(Piece.tile,                           NESColor.white,         {}),
+        new TilePiece(Piece.plate,                          NESColor.white,         {}),
         new TilePiece(Piece.tile_heart,                     NESColor.red,           {rotateY: 45}),
     ];
     static item_heart_container_center = Tile.transformCenterX(Tile.item_heart_container);
 
     static item_floating_heart_container = [
         new TilePiece(Piece.plate_round_dot,                NESColor.white,         {opacity: Tile.clear_opacity}),
-        new TilePiece(Piece.tile,                           NESColor.white,         {}),
+        new TilePiece(Piece.plate,                          NESColor.white,         {}),
         new TilePiece(Piece.tile_heart,                     NESColor.red,           {rotateY: 45}),
     ];
 
@@ -1065,7 +1081,7 @@ export class Tile {
     static item_bait_center = Tile.transformCenterX(Tile.item_bait);
 
     static item_letter = [
-        new TilePiece(Piece.tile,                           NESColor.white,         {}),
+        new TilePiece(Piece.plate,                          NESColor.white,         {}),
         new TilePiece(Piece.plate,                          NESColor.steel_blue,    {}),
     ];
     static item_letter_center = Tile.transformCenterX(Tile.item_letter);
@@ -1151,7 +1167,7 @@ export class Tile {
     // Items Navigation.
 
     static item_map = [
-        new TilePiece(Piece.tile,                           NESColor.white,         {}),
+        new TilePiece(Piece.plate,                          NESColor.white,         {}),
         new TilePiece(Piece.plate,                          NESColor.orange,        {}),
     ];
     static item_compass = [
@@ -1209,9 +1225,9 @@ export class Tile {
 
     static makeWallOuter(isBase) {
         const tile = [];
-        const options = isBase ? {} : {translateX: .5};
+        const options = isBase ? {} : {translateX: .5, translateY: 2};
         if (isBase) {
-            tile.push(new TilePiece(Piece.brick,            NESColor.primary,       {}));
+            tile.push(new TilePiece(Piece.brick,            NESColor.primary,       options));
         } else {
             tile.push(new TilePiece(Piece.plate,            NESColor.primary,       options));
         }
@@ -1234,10 +1250,10 @@ export class Tile {
 
     static makeWallInner(isBase) {
         const tile = [];
+        const options = isBase ? {} : {translateX: .5, translateY: 2};
         if (isBase) {
-            tile.push(new TilePiece(Piece.brick_2_3rd,      NESColor.primary,       {}));
+            tile.push(new TilePiece(Piece.brick_2_3rd,      NESColor.primary,       options));
         }
-        const options = isBase ? {} : {translateX: .5};
         tile.push(new TilePiece(Piece.brick_2_3rd,          NESColor.background,    options));
         tile.push(new TilePiece(Piece.tile_groove,          NESColor.primary,       options));
         return tile;
@@ -1371,8 +1387,10 @@ export class Tile {
                 basePieces = basePieces.slice(0, -1).concat(
                     new TilePiece(studReplacement, topPiece.color, topPiece.options));
             }
+            basePieces = basePieces.concat(spritePieces);
         }
-        this.tilePieces = basePieces.concat(spritePieces ?? []);
+        this.tilePieces = Object.freeze(basePieces);
+        Object.freeze(this);
     }
 
     // 1x1 pieces of descending heights to raise the elevation.

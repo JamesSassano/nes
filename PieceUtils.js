@@ -12,10 +12,32 @@ const objComment = [
     "#",
 ].join("\n");
 
-const ldrComment = [
-    "0 // Design Interpretation & Tile Mapping (c) 2026 James Sassano.",
-    "0 // Licensed under Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0).",
+const ldrHeader = (fileBaseName) => [
+    [
+        `0 ${fileBaseName}`,
+        "Design Interpretation & Tile Mapping (c) 2026 James Sassano",
+        "Licensed under CC BY-NC 4.0 International",
+    ].join(" - "),
+    `0 Name: ${fileBaseName}.ldr`,
+    "0 Author: James Sassano",
 ].join("\n");
+
+/** Details about a piece that have been added to an InstancedMesh. */
+class PieceInstance {
+    constructor(pieceConfiguration, pieceInstancedMesh, pieceInstancedMeshIndex) {
+        this.info = pieceConfiguration.info;
+        this.pieceInstancedMesh = pieceInstancedMesh;
+        this.pieceInstancedMeshIndex = pieceInstancedMeshIndex;
+        Object.freeze(this);
+    }
+
+    static compare(a, b) {
+        return a.info.compare(b.info);
+    }
+}
+
+/** Converts a float to string with 6 decimal points, and no negative zeros.  */
+const toFixed6 = value => (value < 0 && value > -0.0000005 ? 0 : value).toFixed(6);
 
 /** Pairs PieceConfigurations to their resolved InstancedMesh/index. */
 export class PieceInstances {
@@ -25,23 +47,18 @@ export class PieceInstances {
     }
 
     add(pieceConfiguration, pieceInstancedMesh, pieceInstancedMeshIndex) {
-        const screenName = pieceConfiguration.screenName;
+        const screenName = pieceConfiguration.info.screenName;
         this.piecesByScreen[screenName] ??= [];
-        this.piecesByScreen[screenName].push({
-            piece: pieceConfiguration.piece,
-            pieceName: pieceConfiguration.pieceName,
-            color: pieceConfiguration.color,
-            opacity: pieceConfiguration.opacity,
-            pieceInstancedMesh: pieceInstancedMesh,
-            pieceInstancedMeshIndex: pieceInstancedMeshIndex,
-        });
+        this.piecesByScreen[screenName].push(
+            new PieceInstance(pieceConfiguration, pieceInstancedMesh, pieceInstancedMeshIndex)
+        );
     }
 
     changePalette(palette) {
         const colors = {};
         Object.keys(this.piecesByScreen).forEach(screenName => {
             this.piecesByScreen[screenName].forEach(pieceInstance => {
-                const paletteColor = pieceInstance.color.getPaletteColor(palette).colorInt;
+                const paletteColor = pieceInstance.info.color.getPaletteColor(palette).colorInt;
                 const color = colors[paletteColor] ??= new THREE.Color(paletteColor);
                 pieceInstance.pieceInstancedMesh.setColorAt(pieceInstance.pieceInstancedMeshIndex, color);
                 pieceInstance.pieceInstancedMesh.instanceColor.needsUpdate = true;
@@ -87,8 +104,7 @@ export class PieceInstances {
         for (const screenName of screenNames) {
             await onProgress(screenName);
 
-            const pieceInstances = this.piecesByScreen[screenName]
-                .sort((a, b) => a.pieceName.localeCompare(b.pieceName));
+            const pieceInstances = this.piecesByScreen[screenName].sort(PieceInstance.compare);
 
             const objContent = PieceInstances.createObjContent(fileBaseName, pieceInstances, mtllib, yUp);
             await addFile(`${fileBaseName}/${fileBaseName}.${screenName}.obj`, objContent);
@@ -117,7 +133,7 @@ export class PieceInstances {
             pieceInstance.pieceInstancedMesh.getMatrixAt(pieceInstance.pieceInstancedMeshIndex, instanceMatrix4);
             normalMatrix3.getNormalMatrix(instanceMatrix4);
 
-            const opacity = pieceInstance.opacity.toFixed(3);
+            const opacity = pieceInstance.info.opacity.toFixed(3);
             const materialName = `${color.getHexString()}-${opacity}`;
             const objColor = `${color.r.toFixed(3)} ${color.g.toFixed(3)} ${color.b.toFixed(3)}`;
             mtllib[materialName] ??= `newmtl ${materialName}
@@ -136,8 +152,8 @@ d ${opacity}
             for (let i = 0; i < vertices.count; i++) {
                 vector3.fromBufferAttribute(vertices, i).applyMatrix4(instanceMatrix4).multiplyScalar(0.4);
                 const vLine = yUp
-                    ? `v ${vector3.x.toFixed(6)} ${vector3.y.toFixed(6)} ${vector3.z.toFixed(6)} ${objColor}\n`
-                    : `v ${vector3.x.toFixed(6)} ${(-vector3.z).toFixed(6)} ${vector3.y.toFixed(6)} ${objColor}\n`;
+                    ? `v ${toFixed6(vector3.x)} ${toFixed6( vector3.y)} ${toFixed6(vector3.z)} ${objColor}\n`
+                    : `v ${toFixed6(vector3.x)} ${toFixed6(-vector3.z)} ${toFixed6(vector3.y)} ${objColor}\n`;
 
                 if (!vMap.has(vLine)) {
                     vMap.set(vLine, vMap.size);
@@ -146,8 +162,8 @@ d ${opacity}
 
                 vector3.fromBufferAttribute(normals, i).applyMatrix3(normalMatrix3).normalize();
                 const vnLine = yUp
-                    ? `vn ${vector3.x.toFixed(6)} ${vector3.y.toFixed(6)} ${vector3.z.toFixed(6)}\n`
-                    : `vn ${vector3.x.toFixed(6)} ${(-vector3.z).toFixed(6)} ${vector3.y.toFixed(6)}\n`;
+                    ? `vn ${toFixed6(vector3.x)} ${toFixed6( vector3.y)} ${toFixed6(vector3.z)}\n`
+                    : `vn ${toFixed6(vector3.x)} ${toFixed6(-vector3.z)} ${toFixed6(vector3.y)}\n`;
 
                 if (!vnMap.has(vnLine)) {
                     vnMap.set(vnLine, vnMap.size);
@@ -162,7 +178,7 @@ d ${opacity}
             }
 
             objOutput.push(
-                `o ${pieceInstance.pieceName}\n`,
+                `o ${pieceInstance.info.getPieceName()}\n`,
                 [...vMap.keys()].join(""),
                 [...vnMap.keys()].join(""),
                 `usemtl ${materialName}\n`,
@@ -177,10 +193,18 @@ d ${opacity}
     }
 
     async getLdrData(fileBaseName, palette, onProgress) {
+
+        // Index and sign to convert Three.js matrix elements to an LDR coordinate system.
+        const ldrMatrixMap = [
+            [12,  1], [13, -1], [14, -1], // Translation: X, -Y, -Z
+            [ 0,  1], [ 4,  1], [ 8,  1], // Rotation Row 1 (X-basis)
+            [ 1, -1], [ 5, -1], [ 9, -1], // Rotation Row 2 (Y-basis negated)
+            [ 2, -1], [ 6, -1], [10, -1], // Rotation Row 3 (Z-basis negated)
+        ];
+
         const instanceMatrix4 = new THREE.Matrix4();
         const lines = [
-            ldrComment,
-            `0 FILE ${fileBaseName}.ldr`,
+            ldrHeader(fileBaseName)
         ];
         for (const screenName of Object.keys(this.piecesByScreen).sort()
             //.filter(screenName => ["H4"].includes(screenName))
@@ -188,19 +212,18 @@ d ${opacity}
         ) {
             await onProgress(screenName);
 
-            const pieceInstances = this.piecesByScreen[screenName]
-                .sort((a, b) => a.pieceName.localeCompare(b.pieceName));
+            const pieceInstances = this.piecesByScreen[screenName].sort(PieceInstance.compare);
 
             for (const pieceInstance of pieceInstances) {
                 pieceInstance.pieceInstancedMesh.getMatrixAt(pieceInstance.pieceInstancedMeshIndex, instanceMatrix4);
-                const paletteColor = pieceInstance.color.getPaletteColor(palette);
+                const paletteColor = pieceInstance.info.color.getPaletteColor(palette);
                 const color = ['ldraw', 'studio'].includes(palette)
-                        ? paletteColor.colorCode
-                        : `0x2${paletteColor.colorInt.toString(16).padStart(6, '0').toUpperCase()}`;
+                    ? paletteColor.colorCode
+                    : `0x2${paletteColor.colorInt.toString(16).padStart(6, '0').toUpperCase()}`;
 
                 const matrix = instanceMatrix4.elements;
                 if ('studio' === palette) {
-                    const rotate = (pieceInstance.piece.studioRotation + pieceInstance.piece.ldrawRotation) % 360;
+                    const rotate = (pieceInstance.info.piece.studioRotation + pieceInstance.info.piece.ldrawRotation) % 360;
                     if (rotate > 0) {
                         const x0 = matrix[0], x1 = matrix[1], x2 = matrix[2];
                         const z0 = matrix[8], z1 = matrix[9], z2 = matrix[10];
@@ -222,21 +245,9 @@ d ${opacity}
                     }
                 }
 
-                const x = ( matrix[12]).toFixed(3);
-                const y = (-matrix[13]).toFixed(3);
-                const z = (-matrix[14]).toFixed(3);
-                const a = ( matrix[ 0]).toFixed(4);
-                const b = ( matrix[ 4]).toFixed(4);
-                const c = ( matrix[ 8]).toFixed(4);
-                const d = (-matrix[ 1]).toFixed(4);
-                const e = (-matrix[ 5]).toFixed(4);
-                const f = (-matrix[ 9]).toFixed(4);
-                const g = (-matrix[ 2]).toFixed(4);
-                const h = (-matrix[ 6]).toFixed(4);
-                const i = (-matrix[10]).toFixed(4);
-
-                const partName = pieceInstance.piece.getLdrName(palette);
-                lines.push(`1 ${color} ${x} ${y} ${z} ${a} ${b} ${c} ${d} ${e} ${f} ${g} ${h} ${i} ${partName}.dat`);
+                const matrixValues = ldrMatrixMap.map(([index, sign]) => toFixed6(matrix[index] * sign)).join(" ");
+                const partName = pieceInstance.info.piece.getLdrName(palette);
+                lines.push(`1 ${color} ${matrixValues} ${partName}.dat`);
             }
         }
         lines.push("");
@@ -283,7 +294,7 @@ export async function addPiecesToScene(pieces, scene,
     const lineMaterial = new THREE.LineBasicMaterial({color: 0x333333});
     const colors = {};
 
-    const addToScene = (modelItems, pieceConfigurationsByOpacity) => {
+    const addToScene = (meshGeometry, lineGeometry, pieceConfigurationsByOpacity) => {
         for (const [opacity, pieceConfigurations] of Object.entries(pieceConfigurationsByOpacity)) {
             meshMaterials[opacity] ??= new THREE.MeshStandardMaterial({
                 roughness: optionsRoughness,
@@ -294,12 +305,11 @@ export async function addPiecesToScene(pieces, scene,
                 premultipliedAlpha: opacity !== "1",
             });
 
-            const pieceInstancedMeshes = modelItems.meshes.map(meshGeometry =>
+            const pieceInstancedMesh =
                 new THREE.InstancedMesh(meshGeometry, meshMaterials[opacity], pieceConfigurations.length)
-            );
-            const pieceLineInstances = modelItems.lines.map(lineGeometry =>
-                Array.from({length: pieceConfigurations.length}, () => lineGeometry.clone())
-            );
+            pieceInstancedMesh.matrixAutoUpdate = false
+            const pieceLineInstances =
+                Array.from({length: pieceConfigurations.length}, () => lineGeometry.clone());
 
             const object3d = new THREE.Object3D();
             for (const [pieceIndex, pieceConfiguration] of pieceConfigurations.entries()) {
@@ -313,31 +323,18 @@ export async function addPiecesToScene(pieces, scene,
                     pieceConfiguration.rotationY,
                     pieceConfiguration.rotationZ
                 );
-                object3d.scale.set(
-                    pieceConfiguration.scaleX,
-                    pieceConfiguration.scaleY,
-                    pieceConfiguration.scaleZ
-                );
                 object3d.updateMatrix();
 
-                pieceInstancedMeshes.forEach(pieceInstancedMesh => {
-                    pieceInstancedMesh.setMatrixAt(pieceIndex, object3d.matrix);
-                    const paletteColor = pieceConfiguration.color.getPaletteColor(optionsPalette).colorInt;
-                    const color = colors[paletteColor] ??= new THREE.Color(paletteColor);
-                    pieceInstancedMesh.setColorAt(pieceIndex, color);
-
-                    pieceInstances.add(pieceConfiguration, pieceInstancedMesh, pieceIndex);
-                    pieceInstancedMesh.matrixAutoUpdate = false
-                });
-                pieceLineInstances.forEach(pieceLineInstance =>
-                    pieceLineInstance[pieceIndex].applyMatrix4(object3d.matrix));
+                const paletteColor = pieceConfiguration.info.color.getPaletteColor(optionsPalette).colorInt;
+                const color = colors[paletteColor] ??= new THREE.Color(paletteColor);
+                pieceInstancedMesh.setColorAt(pieceIndex, color);
+                pieceInstancedMesh.setMatrixAt(pieceIndex, object3d.matrix);
+                pieceLineInstances[pieceIndex].applyMatrix4(object3d.matrix);
+                pieceInstances.add(pieceConfiguration, pieceInstancedMesh, pieceIndex);
             }
 
-            pieceInstancedMeshes.forEach(pieceInstancedMesh => scene.add(pieceInstancedMesh));
-            pieceLineInstances.forEach(pieceLineInstance =>
-                scene.add(new THREE.LineSegments(
-                    mergeGeometries(pieceLineInstance, false), lineMaterial))
-            );
+            scene.add(pieceInstancedMesh);
+            scene.add(new THREE.LineSegments(mergeGeometries(pieceLineInstances), lineMaterial));
         }
     }
 
@@ -354,11 +351,6 @@ export async function addPiecesToScene(pieces, scene,
     // For each piece load the ldraw model and create an instanced mesh of all positions.
     Object.entries(pieces).forEach(([partNumber, pieceConfigurationsByOpacity]) => {
 
-        const addModelItemsToScene = modelItems => {
-            addToScene(modelItems, pieceConfigurationsByOpacity);
-            loadTracker.loaded(partNumber);
-        };
-
         const partFile = `/ldraw/parts/${partNumber}.dat`;
         lDrawLoader.load(
             partFile,
@@ -372,12 +364,17 @@ export async function addPiecesToScene(pieces, scene,
                         lines.push(item.geometry);
                     }
                 });
-                addModelItemsToScene({meshes, lines});
+                addToScene(
+                    meshes.length == 1 ? meshes[0] : mergeGeometries(meshes),
+                    lines.length  == 1 ? lines[0]  : mergeGeometries(lines),
+                    pieceConfigurationsByOpacity,
+                );
+                loadTracker.loaded(partNumber);
             },
             null,
             error => {
                 console.error(`Error loading file: ${partFile}`, error);
-                addModelItemsToScene({meshes: [], lines: []});
+                loadTracker.loaded(partNumber);
             }
         );
     });

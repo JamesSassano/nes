@@ -394,6 +394,35 @@ export function getMiniMapRowData() {
 }
 
 export function getRotationMapRowData() {
+    function logoUnderHole(rotateY) {
+        const stack = [
+            new TilePiece(Piece.plate, 'primary', {rotateY: rotateY}),
+            new TilePiece(Piece.plate_round_dot_with_hole, 'primary', {opacity: .5}),
+        ];
+
+        return [
+            // One stack of pieces.
+            [0, stack],
+            // One stack of pieces, translated.
+            [0, Tile.transformTile(stack, {translateX: .5})],
+            // One stack of pieces, translated, and all pieces should have opacity.
+            [0, Tile.transformTile(stack, {translateX: .5, opacity: .9})],
+
+            [0, []],
+
+            // One piece with a sprite on top.
+            [0,
+                [new TilePiece(Piece.plate, 'primary', {rotateY: rotateY})],
+                [new TilePiece(Piece.plate_round_dot_with_hole, 'primary', {})],
+            ],
+            // One piece, that has a stud replacement, with a sprite on top.
+            [0,
+                [new TilePiece(Piece.tile, 'primary', {rotateY: rotateY})],
+                [new TilePiece(Piece.plate_round_dot_with_hole, 'primary', {})],
+            ],
+        ];
+    }
+
     return [[[
         [Palette.mountain],
         [
@@ -415,6 +444,12 @@ export function getRotationMapRowData() {
                 [0, [new TilePiece(Piece.brick_2_3rd_convex_corner, 'primary', {rotateY: 90})]],
                 [0, [new TilePiece(Piece.brick_2_3rd_convex_corner, 'primary', {rotateY: 0})]],
             ],
+
+            // Logo piece has no rotation.
+            logoUnderHole(0),
+
+            // Logo picce is rotated.
+            logoUnderHole(45),
         ]
     ]]];
 }

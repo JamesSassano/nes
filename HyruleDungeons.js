@@ -530,9 +530,6 @@ const levelDataMap = {
     9: new LevelData(0, NESColor.white,      NESColor.light_gray,   NESColor.deep_gray,  NESColor.red,        "Death Mountain"),
 };
 
-// Raises a stack so that every piece above does not need to maintain translateY.
-const raiser2Tile = [new TilePiece(new Piece(null, 2,  2, null, "raiser2"), NESColor.primary, {})];
-
 const roomTexts = {
     "01,01": [[Texts.dungeon_walk_waterfall],  [Tile.old_man_center], []],
     "01,12": [[Texts.dungeon_fairies_dont],    [Tile.old_man_center], []],
@@ -621,7 +618,7 @@ export function makeRoom(position, levelNumber, roomTemplateIndex, doorN, doorE,
 
     function makeWallPolar(pole, side) {
         const wall = [];
-        const wallSpan = raiser2Tile.concat(polarWallMap[side].span);
+        const wallSpan = polarWallMap[side].span;
 
         wall.push([elevation, polarWallMap[side].capW]);
         for (let i = 0; i < 13; i++) {
@@ -656,7 +653,7 @@ export function makeRoom(position, levelNumber, roomTemplateIndex, doorN, doorE,
             // valid:
             // north/south row:   1 || 9, col: 2-6, 8-12
             // west/east   row: 2-4, 6-8, col:   1 || 14
-            roomData[rowIndex][columnIndex][1] = roomData[rowIndex][columnIndex][1].toSpliced(1, 1, ...sprite);
+            roomData[rowIndex][columnIndex][1] = roomData[rowIndex][columnIndex][1].toSpliced(-2, 1, ...sprite);
         } else {
             if (baseOptions) {
                 const color = roomData[rowIndex][columnIndex][1].at(-1).color;
@@ -674,7 +671,11 @@ export function makeRoom(position, levelNumber, roomTemplateIndex, doorN, doorE,
             else if (sprite === Tile.dungeon_flame && !baseOptions) {
                 roomData[rowIndex][columnIndex][1] = Tile.dungeon_floor_stud;
             }
-            roomData[rowIndex][columnIndex].push(Tile.transformTile(sprite, baseOptions?.spriteTransformOptions || {}));
+            roomData[rowIndex][columnIndex].push(
+                baseOptions?.spriteTransformOptions
+                    ? Tile.transformTile(sprite, baseOptions.spriteTransformOptions)
+                    : sprite
+            );
         }
     }
 
@@ -691,8 +692,8 @@ export const baseOptions = {
     wall1x2: {
         rows: 1,
         columns: 2,
-        newTilePiece: color => new TilePiece(Piece.plate_center_stud, color, {translateX: 1}),
-        spriteTransformOptions: {translateX: 1},
+        newTilePiece: color => new TilePiece(Piece.plate_center_stud, color, {translateX: 1, translateY: 2}),
+        spriteTransformOptions: {translateX: 1, translateY: 2},
     },
     base1x2: {
         rows: 1,

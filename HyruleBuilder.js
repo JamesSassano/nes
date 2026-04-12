@@ -15,6 +15,53 @@ export function getMapNames() {
     return Object.keys(mapDataProviders);
 }
 
+/** Information to save about a piece instance. */
+class PieceInstanceInfo {
+    constructor(color, opacity, screenName, screenX, screenY, plateLevel, piece) {
+        this.color = color;
+        this.opacity = opacity;
+        this.screenName = screenName;
+        this.screenX = screenX;
+        this.screenY = screenY;
+        this.plateLevel = plateLevel;
+        this.piece = piece;
+        Object.freeze(this);
+    }
+
+    static pad(value) {
+        return value.toString().padStart(2, "0");
+    }
+
+    getPieceName() {
+        const screenX = PieceInstanceInfo.pad(this.screenX + 1);
+        const screenY = PieceInstanceInfo.pad(this.screenY + 1);
+        const plateLevel = PieceInstanceInfo.pad(this.plateLevel);
+        return `${this.screenName}_${screenX},${screenY},${plateLevel}_${this.piece.partNumber}_${this.piece.name}`;
+    }
+
+    compare(other) {
+        return this.screenName.localeCompare(other.screenName)
+            || this.screenX - other.screenX
+            || this.screenY - other.screenY
+            || this.plateLevel - other.plateLevel
+            || this.piece.partNumber.localeCompare(other.piece.partNumber)
+            || this.piece.name.localeCompare(other.piece.name);
+    }
+}
+
+class PieceConfiguration {
+    constructor(positionX, positionY, positionZ, rotationX, rotationY, rotationZ, info) {
+        this.positionX = positionX;
+        this.positionY = positionY;
+        this.positionZ = positionZ;
+        this.rotationX = rotationX;
+        this.rotationY = rotationY;
+        this.rotationZ = rotationZ;
+        this.info = info;
+        Object.freeze(this);
+    }
+}
+
 /** Collect all pieces by part number and opacity to a list of all piece configurations. */
 export async function getPieces(mapName, gapSize, showSprites, showElevation) {
 
@@ -27,7 +74,7 @@ export async function getPieces(mapName, gapSize, showSprites, showElevation) {
 
     function toPosition(position, translate, worldSize, screenSize) {
         position -= worldSize / 2;
-        return (position + (translate ?? 0)) * pieceWidth + (pieceWidth / 2) + (Math.floor(position / screenSize) + .5) * gapSize;
+        return (position + translate) * pieceWidth + (pieceWidth / 2) + (Math.floor(position / screenSize) + .5) * gapSize;
     }
 
     function degreesToRadians(degrees) {
@@ -42,9 +89,7 @@ export async function getPieces(mapName, gapSize, showSprites, showElevation) {
         const palettes = [paletteData[0], paletteData[1] ?? paletteData[0]];
         const screenName = String.fromCharCode(gridX + 65) + (gridY + 1);
         for (const [screenY, screenRowTileData] of screenTileDataGrid.entries()) {
-            const screenYPosition = `${(screenY + 1).toString().padStart(2, "0")}`;
             for (const [screenX, screenTileData] of screenRowTileData.entries()) {
-                const screenXPosition = `${(screenX + 1).toString().padStart(2, "0")}`;
                 if (screenTileData) {
                     const palette = screenX > 1 && screenX < (screenColumnCount - 2)
                                 && screenY > 1 && screenY < (screenRowCount - 2) ? palettes[1] : palettes[0];
@@ -55,31 +100,27 @@ export async function getPieces(mapName, gapSize, showSprites, showElevation) {
                         .getPieceLevelEntries(elevation);
                     for (const [plateLevel, tilePiece] of piecesByLevel) {
                         const partNumber = tilePiece.piece.partNumber;
-                        const opacity = tilePiece.options.opacity ?? 1;
-                        const pieceName = [
-                            `${screenName}`,
-                            `${screenXPosition},${screenYPosition},${plateLevel.toString().padStart(2, "0")}`,
-                            `${tilePiece.piece.partNumber}_${tilePiece.piece.name}`
-                        ].join("_").replaceAll(" ", "_");
+                        const opacity = tilePiece.options.opacity;
 
                         pieces[partNumber] ??= {};
                         pieces[partNumber][opacity] ??= [];
-                        pieces[partNumber][opacity].push({
-                            positionX: toPosition(mapX, tilePiece.options.translateX, mapColumnCount, screenColumnCount),
-                            positionY: plateHeight * (plateLevel + (tilePiece.options.translateY ?? 0)),
-                            positionZ: toPosition(mapY, tilePiece.options.translateZ, mapRowCount, screenRowCount),
-                            rotationX: degreesToRadians((tilePiece.options.rotateX ?? 0) + 180),
-                            rotationY: degreesToRadians((tilePiece.options.rotateY ?? 0) + tilePiece.piece.ldrawRotation),
-                            rotationZ: degreesToRadians(tilePiece.options.rotateZ ?? 0),
-                            scaleX: tilePiece.options.scaleX ?? 1,
-                            scaleY: tilePiece.options.scaleY ?? 1,
-                            scaleZ: tilePiece.options.scaleZ ?? 1,
-                            color: palette.getColor(tilePiece.color),
-                            opacity: opacity,
-                            screenName: screenName,
-                            pieceName: pieceName,
-                            piece: tilePiece.piece,
-                        });
+                        pieces[partNumber][opacity].push(new PieceConfiguration(
+                            toPosition(mapX, tilePiece.options.translateX, mapColumnCount, screenColumnCount),
+                            plateHeight * (plateLevel + (tilePiece.options.translateY)),
+                            toPosition(mapY, tilePiece.options.translateZ, mapRowCount, screenRowCount),
+                            degreesToRadians(tilePiece.options.rotateX + 180),
+                            degreesToRadians(tilePiece.options.rotateY + tilePiece.piece.ldrawRotation),
+                            degreesToRadians(tilePiece.options.rotateZ),
+                            new PieceInstanceInfo(
+                                palette.getColor(tilePiece.color),
+                                opacity,
+                                screenName,
+                                screenX,
+                                screenY,
+                                plateLevel,
+                                tilePiece.piece,
+                            )
+                        ));
                     }
                 }
             }
