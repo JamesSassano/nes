@@ -66,8 +66,8 @@ export async function getPieces(mapName, gapSize, showSprites, showElevation) {
                         pieces[partNumber][opacity] ??= [];
                         pieces[partNumber][opacity].push({
                             positionX: toPosition(mapX, tilePiece.options.translateX, mapColumnCount, screenColumnCount),
-                            positionY: plateHeight * (plateLevel + (tilePiece.options.translateZ ?? 0)),
-                            positionZ: toPosition(mapY, tilePiece.options.translateY, mapRowCount, screenRowCount),
+                            positionY: plateHeight * (plateLevel + (tilePiece.options.translateY ?? 0)),
+                            positionZ: toPosition(mapY, tilePiece.options.translateZ, mapRowCount, screenRowCount),
                             rotationX: degreesToRadians((tilePiece.options.rotateX ?? 0) + 180),
                             rotationY: degreesToRadians((tilePiece.options.rotateY ?? 0) + tilePiece.piece.ldrawRotation),
                             rotationZ: degreesToRadians(tilePiece.options.rotateZ ?? 0),

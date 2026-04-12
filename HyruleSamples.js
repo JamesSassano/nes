@@ -404,7 +404,7 @@ export function getRotationMapRowData() {
                 [0, [new TilePiece(Piece.brick, 'primary', {})]],
                 [0, [new TilePiece(Piece.plate, 'primary', {})]],
                 [0, [new TilePiece(Piece.plate_round_dot, 'primary', {})]],
-                [0, [new TilePiece(Piece.plate2x2, 'primary', {translateX: .5, translateY: .5})]],
+                [0, [new TilePiece(Piece.plate2x2, 'primary', {translateX: .5, translateZ: .5})]],
             ],
             // Ldraw and Studio differ on the initial rotation.
             [

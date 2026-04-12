@@ -137,8 +137,8 @@ export class Tile {
         return Tile.transformTile(tile, {translateX: .5});
     }
 
-    static transformCenterXY(tile) {
-        return Tile.transformTile(tile, {translateX: .5, translateY: .5});
+    static transformCenterXZ(tile) {
+        return Tile.transformTile(tile, {translateX: .5, translateZ: .5});
     }
 
     static makeOctorok(color, rotation) {
@@ -251,7 +251,7 @@ export class Tile {
         new TilePiece(Piece.plate_round_tabs,               NESColor.white,         {rotateY: 45}),
         new TilePiece(Piece.tile_round_dot,                 NESColor.red,           {}),
     ];
-    static fairy_center = Tile.transformCenterXY(Tile.fairy);
+    static fairy_center = Tile.transformCenterXZ(Tile.fairy);
 
     static old_man = [
         new TilePiece(Piece.plate,                          NESColor.red,           {}),
@@ -569,7 +569,7 @@ export class Tile {
 
     static dungeon_flame = [
         new TilePiece(Piece.plate_round_dot_with_hole,      NESColor.orange,        {}),
-        new TilePiece(Piece.candle_flame,                   NESColor.red,           {rotateY: 90, translateZ: -1.125}),
+        new TilePiece(Piece.candle_flame,                   NESColor.red,           {rotateY: 90, translateY: -1.125}),
     ];
 
     static dungeon_text_character = [
@@ -821,7 +821,7 @@ export class Tile {
     // Dungeon bosses.
 
     static makeDodongo(rotation) {
-        const  [btx, bty, stx, sty] = {
+        const  [btx, btz, stx, stz] = {
             0: [  0,  .5,   0,   1],
             1: [-.5,   0,  -1,   0],
             2: [  0, -.5,   0,  -1],
@@ -829,48 +829,48 @@ export class Tile {
         }[rotation];
 
         return [
-            new TilePiece(Piece.plate1x2,                   NESColor.red,           {translateX: btx, translateY: bty, rotateY: (rotation - 1) * 90}),
+            new TilePiece(Piece.plate1x2,                   NESColor.red,           {translateX: btx, translateZ: btz, rotateY: (rotation - 1) * 90}),
             new TilePiece(Piece.plate,                      NESColor.orange,        {}),
             new TilePiece(Piece.tile_round_dot_pin_holder,  NESColor.white,         {}),
-            new TilePiece(Piece.brick_2_3rd_slope,          NESColor.orange,        {translateX: stx, translateY: sty, translateZ: -2, rotateY: rotation * 90}),
+            new TilePiece(Piece.brick_2_3rd_slope,          NESColor.orange,        {translateX: stx, translateZ: stz, translateY: -2, rotateY: rotation * 90}),
         ];
     }
 
     static makeGleeok(headCount) {
         const heads = {
             2: [
-                new TilePiece(Piece.plate_center_stud,      NESColor.lime,          {                 translateZ: -4}),
-                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {                 translateZ: -4, rotateY:  78.75}),
-                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {                 translateZ: -4, rotateY: 101.25}),
+                new TilePiece(Piece.plate_center_stud,      NESColor.lime,          {                 translateY: -4}),
+                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {                 translateY: -4, rotateY:  78.75}),
+                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {                 translateY: -4, rotateY: 101.25}),
             ],
             3: [
-                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {translateX: -.5, translateZ: -4, rotateY: 101.25}),
-                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {translateX:  .5, translateZ: -5, rotateY:  78.75}),
-                new TilePiece(Piece.plate_center_stud,      NESColor.lime,          {                 translateZ: -5}),
-                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {                 translateZ: -5, rotateY:  78.75}),
+                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {translateX: -.5, translateY: -4, rotateY: 101.25}),
+                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {translateX:  .5, translateY: -5, rotateY:  78.75}),
+                new TilePiece(Piece.plate_center_stud,      NESColor.lime,          {                 translateY: -5}),
+                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {                 translateY: -5, rotateY:  78.75}),
             ],
             4: [
-                new TilePiece(Piece.plate1x2,               NESColor.lime,          {                 translateZ: -4}),
-                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {translateX: -.5, translateZ: -4, rotateY:  78.75}),
-                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {translateX: -.5, translateZ: -4, rotateY: 101.25}),
-                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {translateX:  .5, translateZ: -6, rotateY:  78.75}),
-                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {translateX:  .5, translateZ: -6, rotateY: 101.25}),
+                new TilePiece(Piece.plate1x2,               NESColor.lime,          {                 translateY: -4}),
+                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {translateX: -.5, translateY: -4, rotateY:  78.75}),
+                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {translateX: -.5, translateY: -4, rotateY: 101.25}),
+                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {translateX:  .5, translateY: -6, rotateY:  78.75}),
+                new TilePiece(Piece.plate_round_bar_side,   NESColor.lime,          {translateX:  .5, translateY: -6, rotateY: 101.25}),
             ],
         };
 
         return [
             // Back.
-            new TilePiece(Piece.plate1x2_round_half,        NESColor.lime,          {translateY: -.5, rotateY: 180}),
-            new TilePiece(Piece.plate1x2_round_half,        NESColor.lime,          {translateY: -.5, rotateY: 180}),
-            new TilePiece(Piece.plate_clip_top_edge,        NESColor.dark_slate,    {translateY: -.5}),
+            new TilePiece(Piece.plate1x2_round_half,        NESColor.lime,          {translateZ: -.5, rotateY: 180}),
+            new TilePiece(Piece.plate1x2_round_half,        NESColor.lime,          {translateZ: -.5, rotateY: 180}),
+            new TilePiece(Piece.plate_clip_top_edge,        NESColor.dark_slate,    {translateZ: -.5}),
             // Feet.
-            new TilePiece(Piece.plate_round_dot,            NESColor.lime,          {translateX: -.5, translateY:  .5, translateZ: -3}),
-            new TilePiece(Piece.plate_round_dot,            NESColor.lime,          {translateX:  .5, translateY:  .5, translateZ: -4}),
+            new TilePiece(Piece.plate_round_dot,            NESColor.lime,          {translateX: -.5, translateZ:  .5, translateY: -3}),
+            new TilePiece(Piece.plate_round_dot,            NESColor.lime,          {translateX:  .5, translateZ:  .5, translateY: -4}),
             // Blue body.
-            new TilePiece(Piece.plate1x2,                   NESColor.dark_slate,    {                 translateY:  .5, translateZ: -4}),
+            new TilePiece(Piece.plate1x2,                   NESColor.dark_slate,    {                 translateZ:  .5, translateY: -4}),
         ].concat(
             // Head.
-            Tile.transformTile(heads[headCount], {translateY: .5})
+            Tile.transformTile(heads[headCount], {translateZ: .5})
         );
     }
 
@@ -880,10 +880,10 @@ export class Tile {
             new TilePiece(Piece.plate_round_dot,            color2,                 {}),
             new TilePiece(Piece.plate_bar_double_side,      color1,                 {}),
             new TilePiece(Piece.tile_half_circle,           color1,                 {}),
-            new TilePiece(Piece.plate_round_tabs,           color1,                 {translateX: -1, translateZ: -4.5, rotateY: 45, rotateZ: 180}),
-            new TilePiece(Piece.plate_round_tabs,           color1,                 {translateX:  1, translateZ: -5.5, rotateY: 45, rotateZ: 180}),
-            new TilePiece(Piece.plate_clip_bottom,          NESColor.white,         {translateX: -1, translateZ: -5.5, rotateY: 90, rotateZ: 180}),
-            new TilePiece(Piece.plate_clip_bottom,          NESColor.white,         {translateX:  1, translateZ: -6.5, rotateY: 90, rotateZ: 180}),
+            new TilePiece(Piece.plate_round_tabs,           color1,                 {translateX: -1, translateY: -4.5, rotateY: 45, rotateZ: 180}),
+            new TilePiece(Piece.plate_round_tabs,           color1,                 {translateX:  1, translateY: -5.5, rotateY: 45, rotateZ: 180}),
+            new TilePiece(Piece.plate_clip_bottom,          NESColor.white,         {translateX: -1, translateY: -5.5, rotateY: 90, rotateZ: 180}),
+            new TilePiece(Piece.plate_clip_bottom,          NESColor.white,         {translateX:  1, translateY: -6.5, rotateY: 90, rotateZ: 180}),
         ];
     }
 
@@ -891,10 +891,10 @@ export class Tile {
         new TilePiece(Piece.plate_bracket_inverted,         NESColor.chartreuse,    {rotateY: 90}),
         new TilePiece(Piece.plate,                          NESColor.chartreuse,    {rotateY: 0}),
         new TilePiece(Piece.tile,                           NESColor.dark_green,    {rotateY: 0}),
-        new TilePiece(Piece.plate_bracket_inverted,         NESColor.chartreuse,    {rotateX: 270, rotateZ: 270, translateX: -1.1, translateZ: -3}),
-        new TilePiece(Piece.tile,                           NESColor.white,         {rotateX: 270, rotateZ: 270, translateX: -1.5, translateZ: -4}),
-        new TilePiece(Piece.plate,                          NESColor.chartreuse,    {rotateX:   0, rotateZ:   0, translateX: -1.2, translateZ: -2.25}),
-        new TilePiece(Piece.tile_round_dot_pin_holder,      NESColor.white,         {rotateX:   0, rotateZ:   0, translateX: -1.2, translateZ: -2.25}),
+        new TilePiece(Piece.plate_bracket_inverted,         NESColor.chartreuse,    {rotateX: 270, rotateZ: 270, translateX: -1.1, translateY: -3}),
+        new TilePiece(Piece.tile,                           NESColor.white,         {rotateX: 270, rotateZ: 270, translateX: -1.5, translateY: -4}),
+        new TilePiece(Piece.plate,                          NESColor.chartreuse,    {rotateX:   0, rotateZ:   0, translateX: -1.2, translateY: -2.25}),
+        new TilePiece(Piece.tile_round_dot_pin_holder,      NESColor.white,         {rotateX:   0, rotateZ:   0, translateX: -1.2, translateY: -2.25}),
     ];
 
     static dodongo_n = Tile.makeDodongo(0);
@@ -905,10 +905,10 @@ export class Tile {
     static manhandla = [
         new TilePiece(Piece.brick_4_side_studs,             NESColor.white,         {}),
         new TilePiece(Piece.tile,                           NESColor.navy,          {rotateY: 45}),
-        new TilePiece(Piece.plate_clip_top,                 NESColor.steel_blue,    {translateY:  .9, translateZ: -3.25, rotateX:  90, rotateZ:   0}), // front
-        new TilePiece(Piece.plate_clip_top,                 NESColor.steel_blue,    {translateX:  .9, translateZ: -4.25, rotateX:  90, rotateZ:  90}), // right
-        new TilePiece(Piece.plate_clip_top,                 NESColor.steel_blue,    {translateY: -.9, translateZ: -5.25, rotateX:  90, rotateZ: 180}), // back
-        new TilePiece(Piece.plate_clip_top,                 NESColor.steel_blue,    {translateX: -.9, translateZ: -6.25, rotateX:  90, rotateZ: 270}), // left
+        new TilePiece(Piece.plate_clip_top,                 NESColor.steel_blue,    {translateZ:  .9, translateY: -3.25, rotateX:  90, rotateZ:   0}), // front
+        new TilePiece(Piece.plate_clip_top,                 NESColor.steel_blue,    {translateX:  .9, translateY: -4.25, rotateX:  90, rotateZ:  90}), // right
+        new TilePiece(Piece.plate_clip_top,                 NESColor.steel_blue,    {translateZ: -.9, translateY: -5.25, rotateX:  90, rotateZ: 180}), // back
+        new TilePiece(Piece.plate_clip_top,                 NESColor.steel_blue,    {translateX: -.9, translateY: -6.25, rotateX:  90, rotateZ: 270}), // left
     ];
 
     static gleeok2 = Tile.makeGleeok(2);
@@ -916,13 +916,13 @@ export class Tile {
     static gleeok4 = Tile.makeGleeok(4);
 
     static digdogger = [
-        new TilePiece(Piece.plate_round_tabs,               NESColor.red,           {rotateY: 45, translateX:  .5, translateY:  .5, translateZ:  0}),
-        new TilePiece(Piece.plate_round_tabs,               NESColor.red,           {rotateY: 45, translateX: -.5, translateY:  .5, translateZ: -1}),
-        new TilePiece(Piece.plate_round_tabs,               NESColor.red,           {rotateY: 45, translateX:  .5, translateY: -.5, translateZ: -2}),
-        new TilePiece(Piece.plate_round_tabs,               NESColor.red,           {rotateY: 45, translateX: -.5, translateY: -.5, translateZ: -3}),
-        new TilePiece(Piece.plate2x2_round,                 NESColor.orange,        {translateZ: -3}),
-        new TilePiece(Piece.plate2x2_round_inverted_dish,   NESColor.orange,        {translateZ: -3}),
-        new TilePiece(Piece.tile_round_dot,                 NESColor.white,         {translateZ: -3}),
+        new TilePiece(Piece.plate_round_tabs,               NESColor.red,           {rotateY: 45, translateX:  .5, translateZ:  .5, translateY:  0}),
+        new TilePiece(Piece.plate_round_tabs,               NESColor.red,           {rotateY: 45, translateX: -.5, translateZ:  .5, translateY: -1}),
+        new TilePiece(Piece.plate_round_tabs,               NESColor.red,           {rotateY: 45, translateX:  .5, translateZ: -.5, translateY: -2}),
+        new TilePiece(Piece.plate_round_tabs,               NESColor.red,           {rotateY: 45, translateX: -.5, translateZ: -.5, translateY: -3}),
+        new TilePiece(Piece.plate2x2_round,                 NESColor.orange,        {translateY: -3}),
+        new TilePiece(Piece.plate2x2_round_inverted_dish,   NESColor.orange,        {translateY: -3}),
+        new TilePiece(Piece.tile_round_dot,                 NESColor.white,         {translateY: -3}),
     ];
 
     static digdogger_small = [
@@ -935,15 +935,15 @@ export class Tile {
     static gohma_blue = Tile.makeGohma(NESColor.steel_blue, NESColor.navy);
 
     static ganon = [
-        new TilePiece(Piece.plate1x2,                       NESColor.cyan,          {translateY: -.5}),
-        new TilePiece(Piece.plate1x2,                       NESColor.pale_cyan,     {translateY: -.5}),
-        new TilePiece(Piece.plate_light_attachment,         NESColor.cyan,          {translateX: -.5, translateY: -.5}),
-        new TilePiece(Piece.plate_light_attachment,         NESColor.cyan,          {translateX:  .5, translateY: -.5, translateZ: -1}),
-        new TilePiece(Piece.plate1x2_round_half,            NESColor.red,           {translateX:   0, translateY: -.5, translateZ: -1}),
-        new TilePiece(Piece.plate_bar_side,                 NESColor.cyan,          {translateX:   0, translateY: -.5, translateZ: -1}),
-        new TilePiece(Piece.plate_clip_top,                 NESColor.cyan,          {translateX:   0, translateY: -.5, translateZ: -1}),
-        new TilePiece(Piece.brick_2_3rd_convex_corner,      NESColor.red,           {translateX: -.5, translateY:  .5, translateZ: -7}),
-        new TilePiece(Piece.brick_2_3rd_convex_corner,      NESColor.red,           {translateX:  .5, translateY:  .5, translateZ: -9, rotateY: 90}),
+        new TilePiece(Piece.plate1x2,                       NESColor.cyan,          {translateZ: -.5}),
+        new TilePiece(Piece.plate1x2,                       NESColor.pale_cyan,     {translateZ: -.5}),
+        new TilePiece(Piece.plate_light_attachment,         NESColor.cyan,          {translateX: -.5, translateZ: -.5}),
+        new TilePiece(Piece.plate_light_attachment,         NESColor.cyan,          {translateX:  .5, translateZ: -.5, translateY: -1}),
+        new TilePiece(Piece.plate1x2_round_half,            NESColor.red,           {translateX:   0, translateZ: -.5, translateY: -1}),
+        new TilePiece(Piece.plate_bar_side,                 NESColor.cyan,          {translateX:   0, translateZ: -.5, translateY: -1}),
+        new TilePiece(Piece.plate_clip_top,                 NESColor.cyan,          {translateX:   0, translateZ: -.5, translateY: -1}),
+        new TilePiece(Piece.brick_2_3rd_convex_corner,      NESColor.red,           {translateX: -.5, translateZ:  .5, translateY: -7}),
+        new TilePiece(Piece.brick_2_3rd_convex_corner,      NESColor.red,           {translateX:  .5, translateZ:  .5, translateY: -9, rotateY: 90}),
     ];
 
     // Items.
@@ -1160,14 +1160,14 @@ export class Tile {
     ];
     static item_key = [
         new TilePiece(Piece.plate_round_tabs,               NESColor.orange,        {rotateY: 45}),
-        new TilePiece(Piece.plate_round_bar_side,           NESColor.orange,        {rotateX: 90, rotateY: 90, translateZ: 2.75, translateY: .1}),
+        new TilePiece(Piece.plate_round_bar_side,           NESColor.orange,        {rotateX: 90, rotateY: 90, translateY: 2.75, translateZ: .1}),
     ];
     static item_key_center = Tile.transformCenterX(Tile.item_key);
 
     static item_magical_key = [
         new TilePiece(Piece.plate_round_tabs,               NESColor.orange,        {rotateY: 45}),
-        new TilePiece(Piece.plate_round_bar_side,           NESColor.orange,        {rotateX: 90, rotateY: 90, translateZ: 2.75, translateY: .1}),
-        new TilePiece(Piece.tile_round_dot,                 NESColor.red,           {rotateX: 90, rotateY: 90, translateZ: 1.75, translateY: .5}),
+        new TilePiece(Piece.plate_round_bar_side,           NESColor.orange,        {rotateX: 90, rotateY: 90, translateY: 2.75, translateZ: .1}),
+        new TilePiece(Piece.tile_round_dot,                 NESColor.red,           {rotateX: 90, rotateY: 90, translateY: 1.75, translateZ: .5}),
     ];
     static makeRaft(color) {
         return [
@@ -1223,10 +1223,10 @@ export class Tile {
         const tile = [];
         tile.push(new TilePiece(Piece.plate_center_stud,    NESColor.primary,       {translateX:  side * 0.5}));
         tile.push(new TilePiece(Piece.brick_side_stud2,     NESColor.primary,       {translateX:  side * 0.5,                   rotateY: side *  90}));
-        tile.push(new TilePiece(Piece.tile2,                NESColor.primary,       {translateX: -side * 0.4, translateZ: -3.5, rotateZ: side * -90}));
-        tile.push(new TilePiece(Piece.plate_center_stud,    NESColor.primary,       {translateX:  side * 2.5, translateZ: -7}));
-        tile.push(new TilePiece(Piece.plate_center_stud2,   NESColor.primary,       {translateX:  side *   5, translateZ: -8}));
-        tile.push(new TilePiece(Piece.plate6,               NESColor.primary,       {translateX:  side *   4, translateZ: -8}));
+        tile.push(new TilePiece(Piece.tile2,                NESColor.primary,       {translateX: -side * 0.4, translateY: -3.5, rotateZ: side * -90}));
+        tile.push(new TilePiece(Piece.plate_center_stud,    NESColor.primary,       {translateX:  side * 2.5, translateY: -7}));
+        tile.push(new TilePiece(Piece.plate_center_stud2,   NESColor.primary,       {translateX:  side *   5, translateY: -8}));
+        tile.push(new TilePiece(Piece.plate6,               NESColor.primary,       {translateX:  side *   4, translateY: -8}));
         return tile;
     }
 
@@ -1248,10 +1248,10 @@ export class Tile {
         tile.push(new TilePiece(Piece.brick_2_3rd,          NESColor.primary,       {}));
         tile.push(new TilePiece(Piece.brick_side_stud,      NESColor.primary,       {rotateY: side * -90}));
         tile.push(new TilePiece(Piece.plate,                NESColor.primary,       {}));
-        tile.push(new TilePiece(Piece.tile,                 NESColor.primary,       {translateX: side * 0.9, translateZ: -3.25, rotateZ: side * 90}));
-        tile.push(new TilePiece(Piece.plate_center_stud2,   NESColor.primary,       {translateX: side *   2, translateZ: -7}));
-        tile.push(new TilePiece(Piece.plate_center_stud2,   NESColor.primary,       {translateX: side *   5, translateZ: -8}));
-        tile.push(new TilePiece(Piece.plate6,               NESColor.primary,       {translateX: side *   4, translateZ: -8}));
+        tile.push(new TilePiece(Piece.tile,                 NESColor.primary,       {translateX: side * 0.9, translateY: -3.25, rotateZ: side * 90}));
+        tile.push(new TilePiece(Piece.plate_center_stud2,   NESColor.primary,       {translateX: side *   2, translateY: -7}));
+        tile.push(new TilePiece(Piece.plate_center_stud2,   NESColor.primary,       {translateX: side *   5, translateY: -8}));
+        tile.push(new TilePiece(Piece.plate6,               NESColor.primary,       {translateX: side *   4, translateY: -8}));
         return tile;
     }
 
@@ -1305,19 +1305,19 @@ export class Tile {
     static makeWallInnerDoorBlocked(isBase, direction, clipColor, piece, pieceColor, pieceRotation) {
         const tile = Tile.makeWallInnerDoorOpen(isBase);
         const optionsClip = {
-            'n': {translateX:  0.5, translateY:  0.1, translateZ: .25, rotateY: 0, rotateX: 270, rotateZ: 180},
-            's': {translateX:  0.5, translateY: -0.1, translateZ: .25, rotateY: 0, rotateX: 270, rotateZ:   0},
-            'e': {translateX: -0.1, translateY:    0, translateZ: .25, rotateY: 0, rotateX: 270, rotateZ: 270},
-            'w': {translateX:  0.1, translateY:    0, translateZ: .25, rotateY: 0, rotateX: 270, rotateZ:  90},
+            'n': {translateX:  0.5, translateZ:  0.1, translateY: .25, rotateY: 0, rotateX: 270, rotateZ: 180},
+            's': {translateX:  0.5, translateZ: -0.1, translateY: .25, rotateY: 0, rotateX: 270, rotateZ:   0},
+            'e': {translateX: -0.1, translateZ:    0, translateY: .25, rotateY: 0, rotateX: 270, rotateZ: 270},
+            'w': {translateX:  0.1, translateZ:    0, translateY: .25, rotateY: 0, rotateX: 270, rotateZ:  90},
         };
 
         tile.push(new TilePiece(Piece.plate_clip_horizontal_side, clipColor, optionsClip[direction]));
 
         const optionsPiece = {
-            'n': {translateX:  0.5, translateY:  0.5, translateZ: -0.75, rotateX: 270,                 rotateY: pieceRotation, rotateZ: 180},
-            's': {translateX:  0.5, translateY: -0.5, translateZ: -0.75, rotateX: 270,                 rotateY: pieceRotation, rotateZ:   0},
-            'e': {translateX: -0.5, translateY:    0, translateZ: -0.75, rotateX: 270 + pieceRotation, rotateY:             0, rotateZ: 270},
-            'w': {translateX:  0.5, translateY:    0, translateZ: -0.75, rotateX: 270 + pieceRotation, rotateY:             0, rotateZ:  90},
+            'n': {translateX:  0.5, translateZ:  0.5, translateY: -0.75, rotateX: 270,                 rotateY: pieceRotation, rotateZ: 180},
+            's': {translateX:  0.5, translateZ: -0.5, translateY: -0.75, rotateX: 270,                 rotateY: pieceRotation, rotateZ:   0},
+            'e': {translateX: -0.5, translateZ:    0, translateY: -0.75, rotateX: 270 + pieceRotation, rotateY:             0, rotateZ: 270},
+            'w': {translateX:  0.5, translateZ:    0, translateY: -0.75, rotateX: 270 + pieceRotation, rotateY:             0, rotateZ:  90},
         };
 
         tile.push(new TilePiece(piece, pieceColor, optionsPiece[direction]));

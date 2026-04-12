@@ -530,7 +530,7 @@ const levelDataMap = {
     9: new LevelData(0, NESColor.white,      NESColor.light_gray,   NESColor.deep_gray,  NESColor.red,        "Death Mountain"),
 };
 
-// Raises a stack so that every piece above does not need to maintain translateZ.
+// Raises a stack so that every piece above does not need to maintain translateY.
 const raiser2Tile = [new TilePiece(new Piece(null, 2,  2, null, "raiser2"), NESColor.primary, {})];
 
 const roomTexts = {
@@ -703,20 +703,20 @@ export const baseOptions = {
     base2x1: {
         rows: 2,
         columns: 1,
-        newTilePiece: color => new TilePiece(Piece.plate_center_stud, color, {translateY: .5, rotateY: 90}),
-        spriteTransformOptions: {translateY: .5},
+        newTilePiece: color => new TilePiece(Piece.plate_center_stud, color, {translateZ: .5, rotateY: 90}),
+        spriteTransformOptions: {translateZ: .5},
     },
     base2x2_center: {
         rows: 2,
         columns: 2,
-        newTilePiece: color => new TilePiece(Piece.plate2x2_center_stud, color, {translateX: .5, translateY: .5}),
-        spriteTransformOptions: {translateX: .5, translateY: .5},
+        newTilePiece: color => new TilePiece(Piece.plate2x2_center_stud, color, {translateX: .5, translateZ: .5}),
+        spriteTransformOptions: {translateX: .5, translateZ: .5},
     },
     base2x2_studs: {
         rows: 2,
         columns: 2,
-        newTilePiece: color => new TilePiece(Piece.plate2x2, color, {translateX: .5, translateY: .5}),
-        spriteTransformOptions: {translateX: .5, translateY: .5},
+        newTilePiece: color => new TilePiece(Piece.plate2x2, color, {translateX: .5, translateZ: .5}),
+        spriteTransformOptions: {translateX: .5, translateZ: .5},
     },
 };
 
