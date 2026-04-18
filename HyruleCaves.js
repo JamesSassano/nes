@@ -1,6 +1,7 @@
 "use strict";
 
 import {Palette, Tile, Texts, makeTextFloor} from "./HyrulePieces.js";
+import {ScreenVector} from "./ScreenUtils.js";
 
 // todo: Make option.
 const showMinifigureItems = false;
@@ -218,8 +219,18 @@ export function makeCave(screenName) {
     }
 }
 
-export function getMapRowData() {
+function getMapRowData() {
     return Array(8).fill(0).map((_, gridY) =>
         Array(16).fill(0).map((_, gridX) => makeCave(String.fromCharCode(gridX + 65) + (gridY + 1)))
     );
+}
+
+export function getMapData() {
+    return {
+        mapRowData: getMapRowData(),
+        pointsOfInterest: {
+            "It's Dangerous": new ScreenVector("H8", [7.5, 2, 5], [0, 30, 10]),
+        },
+        home: new ScreenVector("I5", [-.5,  0, -.5], [0, 400, 100], [-1, -1]),
+    }
 }

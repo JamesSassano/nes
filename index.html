@@ -97,14 +97,15 @@ body {
             setFloat("roughness", 1.0);
             setFloat("polygonOffsetFactor", 0.1);
             setBool("showLights", false);
+            setBool("showPoi", false);
 
             setFloat("cameraFov", 45.0);
-            setFloat("cameraPositionX", -1.0);
-            setFloat("cameraPositionY", 3200.0);
-            setFloat("cameraPositionZ", 2000.0);
-            setFloat("cameraTargetX", 0.0);
-            setFloat("cameraTargetY", 0.0);
-            setFloat("cameraTargetZ", 0.0);
+            setFloat("cameraPositionX");
+            setFloat("cameraPositionY");
+            setFloat("cameraPositionZ");
+            setFloat("cameraTargetX");
+            setFloat("cameraTargetY");
+            setFloat("cameraTargetZ");
         }
     };
     const options = new Options();
@@ -124,8 +125,6 @@ body {
     const scene = new THREE.Scene();
     const stats = options.showStats ? new Stats() : null;
 
-    camera.position.set(options.cameraPositionX, options.cameraPositionY, options.cameraPositionZ);
-    controls.target.set(options.cameraTargetX, options.cameraTargetY, options.cameraTargetZ);
     controls.maxDistance = maxDistance;
     renderer.setClearColor(options.clearColor);
     renderer.setSize(viewWidth(), viewHeight());
@@ -143,6 +142,15 @@ body {
         camera.updateProjectionMatrix();
     });
 
+    function makeSphere(color, position) {
+        const sphere = new THREE.Mesh(
+            new THREE.SphereGeometry(10),
+            new THREE.MeshBasicMaterial({color: color})
+        );
+        sphere.position.copy(position)
+        return sphere;
+    }
+
     // Lights.
 
     const lightConfigs = [
@@ -152,29 +160,80 @@ body {
         const light = new THREE.DirectionalLight(0xffffff, lightConfig["intensity"]);
         light.position.set(lightConfig["x"], lightConfig["y"], lightConfig["z"]);
         scene.add(light);
-        const geometry = new THREE.SphereGeometry(10);
-        const material = new THREE.MeshBasicMaterial({color: lightConfig["color"]});
-        const sphere = new THREE.Mesh(geometry, material);
-        sphere.position.x = lightConfig["x"];
-        sphere.position.y = lightConfig["y"];
-        sphere.position.z = lightConfig["z"];
 
+        const sphere = makeSphere(lightConfig["color"], lightConfig);
         if (options.showLights) {
             scene.add(sphere);
         }
         return {light: light, sphere: sphere, name: lightConfig["name"]};
     });
 
-    // Add pieces.
+    // Get map data.
 
+    const mapData = await HyruleBuilder.getMapData(options.mapName, options.gapSize, options.showSprites, options.showElevation);
+
+    // Set initial camera position.  If any camera override options are found then create a custom GUI POI entry.
+    const [guiPoiDefault, guiPoi] =
+        [
+            options.cameraPositionX, options.cameraPositionY, options.cameraPositionZ,
+            options.cameraTargetX,   options.cameraTargetY,   options.cameraTargetZ
+        ].some(value => value != null)
+        ? [
+            "Custom",
+            {
+                "Custom": {
+                    origin: {
+                        x: options.cameraPositionX ?? mapData.home.origin.x,
+                        y: options.cameraPositionY ?? mapData.home.origin.y,
+                        z: options.cameraPositionZ ?? mapData.home.origin.z,
+                    },
+                    target: {
+                        x: options.cameraTargetX ?? mapData.home.target.x,
+                        y: options.cameraTargetY ?? mapData.home.target.y,
+                        z: options.cameraTargetZ ?? mapData.home.target.z,
+                    },
+                }
+            }
+        ]
+        : ["Home", {}];
+    Object.freeze(Object.assign(guiPoi, {Home: mapData.home, ...mapData.pointsOfInterest}));
+
+    camera.position.copy(guiPoi[guiPoiDefault].origin);
+    controls.target.copy(guiPoi[guiPoiDefault].target);
+
+    // Add map data pieces.
     const pieceInstances = await PieceUtils.addPiecesToScene(
-        await HyruleBuilder.getPieces(options.mapName, options.gapSize, options.showSprites, options.showElevation),
-        scene, options.showLogo, options.roughness, options.polygonOffsetFactor, options.palette);
+        mapData.pieces, scene, options.showLogo, options.roughness, options.polygonOffsetFactor, options.palette);
+
+    if (options.showPoi) {
+        Object.values(mapData.pointsOfInterest).forEach(poi => {
+            for (const [color, position] of [
+                ['red', poi.target],
+                ['blue', poi.origin],
+            ]) {
+                scene.add(makeSphere(color, position));
+            }
+        });
+    }
 
     // Create GUI options.
 
     const gui = options.showGui ? new GUI().close() : null;
     if (gui) {
+
+        // Add GUI POI.
+
+        gui.add({name: guiPoiDefault}, "name", Object.keys(guiPoi))
+            .name("Points of Interest")
+            .onChange(name => {
+                const poi = guiPoi[name];
+                controls.target.copy(poi.target);
+                camera.position.copy(poi.origin);
+                controls.update();
+            });
+
+        // Add GUI exports.
+
         gui.add(options, 'upAxis', {
             "Y up (Three.js)": "Y",
             "Z up (3D Printer)": "Z"
@@ -216,12 +275,16 @@ body {
             return await pieceInstances.getLdrData(fileBaseName, options.palette, onProgress);
         });
 
+        // Add GUI screenshot.
+
         gui.add({screenshot() {
             renderer.render(scene, camera, null, false);
             renderer.domElement.toBlob((blob) => {
                 downloadBlob(blob, `${getFileBaseName()}.png`);
             });
         }}, "screenshot").name("Screenshot");
+
+        // Add GUI camera controls.
 
         const guiCameraPosition = gui.addFolder('Camera Position');
         guiCameraPosition.add(camera.position, 'x', -4000, 4000).step(0.01).listen();
@@ -257,6 +320,8 @@ body {
             });
         }}, "copyCameraURL").name(guiCameraUrlDefaultName);
 
+        // Add GUI color options.
+
         gui.add(options, 'palette', {nes: 'nes', ldraw: 'ldraw', studio: 'studio'})
             .name('Color Palette')
             .onChange(value => pieceInstances.changePalette(value));
@@ -288,6 +353,8 @@ body {
             });
         }}, "toggleLines").name("Toggle Lines");
 
+        // Add GUI material options.
+
         const guiMaterial = gui.addFolder('Materials');
         guiMaterial.add(options, 'roughness', 0, 1).step(0.01).onChange(value => {
             scene.traverse(item => {
@@ -305,8 +372,10 @@ body {
             });
         });
 
+        // Add GUI light controls.
+
         lightConfigs.forEach((lightConfig, lightIndex) => {
-            const guiLight = gui.addFolder(`Light ${lightIndex} - ${lightConfig.name}`);
+            const guiLight = gui.addFolder(`Light ${lightIndex} - ${lightConfig.name}`).close();
             ["x", "y", "z"].forEach(position => {
                 guiLight
                     .add(lightConfig.light.position, position, -2500, 2500)

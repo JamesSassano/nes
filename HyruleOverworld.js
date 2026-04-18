@@ -1,8 +1,9 @@
 "use strict";
 
 import {Palette, Tile} from "./HyrulePieces.js";
+import {ScreenVector} from "./ScreenUtils.js";
 
-export const mapRowData = [
+const mapRowData = [
     [ /* gridRow: 1 */
         [ /* screen: A1 */
             [Palette.mountain],
@@ -23567,7 +23568,7 @@ export const mapRowData = [
             ]
         ],
         [ /* screen: E8 */
-            [Palette.forest],
+            [Palette.forest, Palette.mountain],
             [
                 [   /* screen: E8, row:  1              el  tiles */
                     /* screen: E8, row:  1, col:  1 */ [ 0, Tile.rock_s],
@@ -26004,3 +26005,21 @@ export const mapRowData = [
         ],
     ],
 ];
+
+export const mapData = {
+    mapRowData,
+    pointsOfInterest: {
+        "Level 1":      new ScreenVector("H4", [7.5,  3,   5], [     0,  30,     10]),
+        "Level 2":      new ScreenVector("M4", [7.5, 11,  10], [     0,  33,     11]),
+        "Level 3":      new ScreenVector("E8", [7.5,  3,   5], [     0,  30,     10]),
+        "Level 4":      new ScreenVector("F5", [7.5,  6,   5], [     0,  30,     10]),
+        "Level 5":      new ScreenVector("L1", [7.5, 13,   8], [     0,  30,     10]),
+        "Level 6":      new ScreenVector("C3", [7.5, 18,   8], [     0,  30,     10]),
+        "Desert":       new ScreenVector("K3", [7.5,  3,   3], [     0,  85,     30]),
+        "River":        new ScreenVector("H2", [  7,  9,   5], [    49,   1,      0]),
+        "Fairy":        new ScreenVector("D5", [7.5,  4,   5], [     0,  50,      1]),
+        "Graveyard":    new ScreenVector("B4", [-.5, 12,   8], [     0,  70,     25], [-1,  0]),
+        "Overlook":     new ScreenVector("H6", [  9,  4,   2], [-70.75,  27, -49.75]),
+    },
+    home:               new ScreenVector("I5", [-.5,  0, -.5], [     0, 400,    100], [-1, -1]),
+};

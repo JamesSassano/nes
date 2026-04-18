@@ -4,6 +4,7 @@ import * as THREE from "three";
 import { LDrawLoader } from "three/addons/loaders/LDrawLoader.js";
 import { LDrawConditionalLineMaterial } from "three/addons/materials/LDrawConditionalLineMaterial.js";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
+import {ScreenLocation} from "./ScreenUtils.js";
 
 const objComment = [
     "# Design Interpretation & Tile Mapping (c) 2026 James Sassano.",
@@ -46,8 +47,14 @@ export class PieceInstances {
         this.piecesByScreen = {};
     }
 
+    getScreenNames(filter) {
+        return Object.keys(this.piecesByScreen)
+            .filter(screenName => (!filter) || filter.includes(screenName))
+            .sort(ScreenLocation.compareNames);
+    }
+
     add(pieceConfiguration, pieceInstancedMesh, pieceInstancedMeshIndex) {
-        const screenName = pieceConfiguration.info.screenName;
+        const screenName = pieceConfiguration.info.screenLocation.getName();
         this.piecesByScreen[screenName] ??= [];
         this.piecesByScreen[screenName].push(
             new PieceInstance(pieceConfiguration, pieceInstancedMesh, pieceInstancedMeshIndex)
@@ -98,9 +105,9 @@ export class PieceInstances {
             if (padding > 0) await writer.write(new Uint8Array(padding));
         };
 
-        const screenNames = Object.keys(this.piecesByScreen).sort()
-            //.filter(screenName => ["H3", "H4"].includes(screenName))
-        ;
+        const screenNames = this.getScreenNames(
+            //["H3", "H4"]
+        );
         for (const screenName of screenNames) {
             await onProgress(screenName);
 
@@ -206,10 +213,10 @@ d ${opacity}
         const lines = [
             ldrHeader(fileBaseName)
         ];
-        for (const screenName of Object.keys(this.piecesByScreen).sort()
-            //.filter(screenName => ["H4"].includes(screenName))
-            //.filter(screenName => ["C13"].includes(screenName))
-        ) {
+        for (const screenName of this.getScreenNames(
+            //["H4"]
+            //["C13"]
+        )) {
             await onProgress(screenName);
 
             const pieceInstances = this.piecesByScreen[screenName].sort(PieceInstance.compare);

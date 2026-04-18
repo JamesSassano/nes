@@ -1,14 +1,15 @@
 "use strict";
 
 import {Tile} from "./HyrulePieces.js";
+import {WorldSize, ScreenLocation, ScreenPositioner} from "./ScreenUtils.js";
 
 const mapDataProviders = {
-    overworld:  async () => (await import('./HyruleOverworld.js')).mapRowData,
-    caves:      async () => (await import('./HyruleCaves.js')).getMapRowData(),
-    dungeons:   async () => (await import('./HyruleDungeons.js')).getMapRowData(),
-    samples:    async () => (await import('./HyruleSamples.js')).getMapRowData(),
-    mini:       async () => (await import('./HyruleSamples.js')).getMiniMapRowData(),
-    rotations:  async () => (await import('./HyruleSamples.js')).getRotationMapRowData(),
+    overworld:  async () => (await import('./HyruleOverworld.js')).mapData,
+    caves:      async () => (await import('./HyruleCaves.js')).getMapData(),
+    dungeons:   async () => (await import('./HyruleDungeons.js')).getMapData(),
+    samples:    async () => (await import('./HyruleSamples.js')).getMapData(),
+    mini:       async () => (await import('./HyruleSamples.js')).getMiniMapData(),
+    rotations:  async () => (await import('./HyruleSamples.js')).getRotationMapData(),
 }
 
 export function getMapNames() {
@@ -17,10 +18,10 @@ export function getMapNames() {
 
 /** Information to save about a piece instance. */
 class PieceInstanceInfo {
-    constructor(color, opacity, screenName, screenX, screenY, plateLevel, piece) {
+    constructor(color, opacity, screenLocation, screenX, screenY, plateLevel, piece) {
         this.color = color;
         this.opacity = opacity;
-        this.screenName = screenName;
+        this.screenLocation = screenLocation;
         this.screenX = screenX;
         this.screenY = screenY;
         this.plateLevel = plateLevel;
@@ -36,11 +37,11 @@ class PieceInstanceInfo {
         const screenX = PieceInstanceInfo.pad(this.screenX + 1);
         const screenY = PieceInstanceInfo.pad(this.screenY + 1);
         const plateLevel = PieceInstanceInfo.pad(this.plateLevel);
-        return `${this.screenName}_${screenX},${screenY},${plateLevel}_${this.piece.partNumber}_${this.piece.name}`;
+        return `${this.screenLocation.getName()}_${screenX},${screenY},${plateLevel}_${this.piece.partNumber}_${this.piece.name}`;
     }
 
     compare(other) {
-        return this.screenName.localeCompare(other.screenName)
+        return this.screenLocation.compare(other.screenLocation)
             || this.screenX - other.screenX
             || this.screenY - other.screenY
             || this.plateLevel - other.plateLevel
@@ -62,39 +63,27 @@ class PieceConfiguration {
     }
 }
 
-/** Collect all pieces by part number and opacity to a list of all piece configurations. */
-export async function getPieces(mapName, gapSize, showSprites, showElevation) {
-
-    const screenColumnCount = 16;
-    const screenRowCount = 11;
-    const pieceWidth = 20;
-    const plateHeight = 8;
-
-    const pieces = {};
-
-    function toPosition(position, translate, worldSize, screenSize) {
-        position -= worldSize / 2;
-        return (position + translate) * pieceWidth + (pieceWidth / 2) + (Math.floor(position / screenSize) + .5) * gapSize;
-    }
+/**
+  * For the map data of a given map name:
+  * - Collect all pieces by part number and opacity to a list of all piece configurations.
+  * - Build the positions for the points of interest.
+  */
+export async function getMapData(mapName, gapSize, showSprites, showElevation) {
 
     function degreesToRadians(degrees) {
         return degrees / 180 * Math.PI;
     }
 
-    function addScreen(gridColumnCount, gridRowCount, gridX, gridY, paletteData, screenTileDataGrid) {
-        const mapColumnCount = gridColumnCount * screenColumnCount;
-        const mapRowCount = gridRowCount * screenRowCount;
+    function addScreen(pieces, screenPositioner, paletteData, screenTileDataGrid) {
 
         // Most screens use one tile palette.  Some use a two tile border for one, and the inner tiles for another.
         const palettes = [paletteData[0], paletteData[1] ?? paletteData[0]];
-        const screenName = String.fromCharCode(gridX + 65) + (gridY + 1);
         for (const [screenY, screenRowTileData] of screenTileDataGrid.entries()) {
             for (const [screenX, screenTileData] of screenRowTileData.entries()) {
                 if (screenTileData) {
-                    const palette = screenX > 1 && screenX < (screenColumnCount - 2)
-                                && screenY > 1 && screenY < (screenRowCount - 2) ? palettes[1] : palettes[0];
-                    const mapX = gridX * screenColumnCount + screenX;
-                    const mapY = gridY * screenRowCount + screenY;
+                    const palette = screenX > 1 && screenX < (screenPositioner.worldSize.screenColumnCount - 2)
+                                 && screenY > 1 && screenY < (screenPositioner.worldSize.screenRowCount - 2)
+                        ? palettes[1] : palettes[0];
                     const elevation = showElevation ? screenTileData[0] : 0;
                     const piecesByLevel = new Tile(screenTileData[1], showSprites ? screenTileData[2] : null)
                         .getPieceLevelEntries(elevation);
@@ -105,16 +94,16 @@ export async function getPieces(mapName, gapSize, showSprites, showElevation) {
                         pieces[partNumber] ??= {};
                         pieces[partNumber][opacity] ??= [];
                         pieces[partNumber][opacity].push(new PieceConfiguration(
-                            toPosition(mapX, tilePiece.options.translateX, mapColumnCount, screenColumnCount),
-                            plateHeight * (plateLevel + (tilePiece.options.translateY)),
-                            toPosition(mapY, tilePiece.options.translateZ, mapRowCount, screenRowCount),
+                            screenPositioner.getX(screenX    + tilePiece.options.translateX),
+                            screenPositioner.getY(plateLevel + tilePiece.options.translateY),
+                            screenPositioner.getZ(screenY    + tilePiece.options.translateZ),
                             degreesToRadians(tilePiece.options.rotateX + 180),
                             degreesToRadians(tilePiece.options.rotateY + tilePiece.piece.ldrawRotation),
                             degreesToRadians(tilePiece.options.rotateZ),
                             new PieceInstanceInfo(
                                 palette.getColor(tilePiece.color),
                                 opacity,
-                                screenName,
+                                screenPositioner.screenLocation,
                                 screenX,
                                 screenY,
                                 plateLevel,
@@ -127,21 +116,48 @@ export async function getPieces(mapName, gapSize, showSprites, showElevation) {
         }
     }
 
-    // Add map pieces.
-
     const mapData = await mapDataProviders[mapName]();
-    const nearestMultipleOf2 = (value) => value % 2 === 0 ? value : value + 1;
-    const gridColumnCount = nearestMultipleOf2(Math.max(...mapData.map(row => row.length)));
-    const gridRowCount = nearestMultipleOf2(mapData.length);
-    for (const [gridY, mapColumnData] of mapData.entries()) {
-        if (mapColumnData) {
-            for (const [gridX, screenData] of mapColumnData.entries()) {
-                if (screenData) {
-                    addScreen(gridColumnCount, gridRowCount, gridX, gridY, ...screenData);
-                }
-            }
-        }
-    }
 
-    return pieces;
+    // Build the world sizes from the map data.
+
+    const worldSize = (() => {
+        const gridColumnCount = Math.max(...mapData.mapRowData.map(row => row.length));
+        const gridRowCount = mapData.mapRowData.length;
+        const screenColumnCount = 16;
+        const screenRowCount = 11;
+        return new WorldSize(gridColumnCount, gridRowCount, screenColumnCount, screenRowCount, gapSize);
+    })();
+
+    // Build the pieces from the map data.
+
+    const pieces = Object.freeze(
+        mapData.mapRowData.reduce((piecesAccumulator, mapColumnData, gridY) => {
+            mapColumnData?.forEach((screenData, gridX) => {
+                if (screenData) {
+                    addScreen(piecesAccumulator, new ScreenPositioner(worldSize, new ScreenLocation(gridX, gridY)), ...screenData);
+                }
+            });
+            return piecesAccumulator;
+        }, {})
+    );
+    Object.values(pieces).forEach(opacity => {
+        Object.values(opacity).forEach(piecesByOpacity => Object.freeze(piecesByOpacity));
+        Object.freeze(opacity);
+    });
+
+    // Collect points of interest from the map data.
+
+    const pointsOfInterest = Object.freeze(
+        Object.fromEntries(
+            Object.entries(mapData.pointsOfInterest).map(
+                ([poiName, screenVector]) => [poiName, screenVector.toWorldVector(worldSize)]
+            )
+        )
+    );
+
+    return Object.freeze({
+        pieces,
+        pointsOfInterest,
+        home: mapData.home.toWorldVector(worldSize),
+    });
 }

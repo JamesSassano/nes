@@ -2,6 +2,7 @@
 
 import {NESColor} from "./Colors.js";
 import {Palette, Piece, TilePiece, Tile, Texts, makeTextFloor} from "./HyrulePieces.js";
+import {ScreenVector} from "./ScreenUtils.js";
 
 const roomTemplates = {
     0x00: [ // empty
@@ -722,7 +723,7 @@ export const baseOptions = {
 };
 
 
-export function getMapRowData() {
+function getMapRowData() {
     const drop1x1 = baseOptions.drop1x1;
     const wall1x2 = baseOptions.wall1x2;
     const base1x2 = baseOptions.base1x2;
@@ -2497,4 +2498,30 @@ export function getMapRowData() {
             [[], []],
         ],
     ];
+}
+
+export function getMapData() {
+    return {
+        mapRowData: getMapRowData(),
+        pointsOfInterest: {
+            "Aquamentus":   new ScreenVector("F4",  [9.5,  3,   5], [  -5,  14,  7]),
+            "Dodongo":      new ScreenVector("O1",  [  5,  3,   5], [   4,  10,  6]),
+            "Manhandla":    new ScreenVector("N5",  [7.5,  7, 5.5], [   0,  20,  7]),
+            "Gleeok":       new ScreenVector("D2",  [7.5,  7, 3.5], [-7.7,  11, 10]),
+            "Digdogger":    new ScreenVector("E3",  [  8,  6,   5], [   0,  20,  9]),
+            "Gohma":        new ScreenVector("M2",  [  9,  3, 3.5], [   4,  10,  6]),
+            "Ganon":        new ScreenVector("C13", [5.5,  5,   4], [-5.0,  11,  9]),
+            "Zelda":        new ScreenVector("C12", [7.5,  4, 5.5], [   0,  20,  7]),
+            "Level 1":      new ScreenVector("E6",  [-.5,  0,   5], [   0, 175, 35], [-1,  0]),
+            "Level 2":      new ScreenVector("O5",  [-.5,  0,   8], [   0, 210, 46], [-1,  0]),
+            "Level 3":      new ScreenVector("L6",  [7.5,  0,   5], [   0, 175, 35], [ 0,  0]),
+            "Level 4":      new ScreenVector("C5",  [-.5,  0,   8], [   0, 210, 46], [-1,  0]),
+            "Level 5":      new ScreenVector("G5",  [-.5,  0,   8], [   0, 210, 46], [-1,  0]),
+            "Level 6":      new ScreenVector("L5",  [-.5,  0,   8], [   0, 210, 46], [-1,  0]),
+            "Level 7":      new ScreenVector("L13", [-.5,  0,   8], [   0, 210, 46], [-1,  0]),
+            "Level 8":      new ScreenVector("N13", [7.5,  0,   8], [   0, 210, 46], [ 0,  0]),
+            "Level 9":      new ScreenVector("E13", [-.5,  0,   8], [   0, 210, 46], [-1,  0]),
+        },
+        home:               new ScreenVector("I10", [-.5,  0, -.5], [   0, 490, 70], [-1, -1]),
+    };
 }

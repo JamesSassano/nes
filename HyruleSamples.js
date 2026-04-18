@@ -3,6 +3,7 @@
 import {Palette, Piece, TilePiece, Tile} from "./HyrulePieces.js";
 import * as HyruleDungeons from "./HyruleDungeons.js";
 import * as HyruleCaves from "./HyruleCaves.js";
+import {ScreenVector} from "./ScreenUtils.js";
 
 function createBase() {
     const base = [];
@@ -44,7 +45,7 @@ function addWater(base, yMin, yMax, xMin, xMax) {
     }
 }
 
-export function getMapRowData() {
+export function getMapData() {
 
     // Add sample pieces for each palette.
 
@@ -309,7 +310,7 @@ export function getMapRowData() {
     const cave2 = HyruleCaves.makeCave("J8");
     const cave3 = HyruleCaves.makeCave("E4");
 
-    return [
+    const mapRowData = [
         [
             samples1, boss1, boss2, boss3, boss4, passageRoom,
         ],
@@ -323,9 +324,15 @@ export function getMapRowData() {
             null, characters, item1, item2, item3,
         ],
     ];
+
+    return {
+        mapRowData,
+        pointsOfInterest: {},
+        home: new ScreenVector("D3", [-.5,  0, -.5], [0, 144, 36], [-1, -1]),
+    };
 }
 
-export function getMiniMapRowData() {
+export function getMiniMapData() {
 
     // Create a mini scene.
 
@@ -386,14 +393,20 @@ export function getMiniMapRowData() {
         ],
     ];
 
-    return [
+    const mapRowData = [
         [
             [[Palette.mountain],  mini],
         ],
     ];
+
+    return {
+        mapRowData,
+        pointsOfInterest: {},
+        home: new ScreenVector("A1", [7.5, 0, 5], [0, 64, 13]),
+    };
 }
 
-export function getRotationMapRowData() {
+export function getRotationMapData() {
     function logoUnderHole(rotateY) {
         const stack = [
             new TilePiece(Piece.plate, 'primary', {rotateY: rotateY}),
@@ -423,7 +436,7 @@ export function getRotationMapRowData() {
         ];
     }
 
-    return [[[
+    const mapRowData = [[[
         [Palette.mountain],
         [
             // Symetric pieces that can be rotated to orient the logo on the stud.
@@ -452,4 +465,10 @@ export function getRotationMapRowData() {
             logoUnderHole(45),
         ]
     ]]];
+
+    return {
+        mapRowData,
+        pointsOfInterest: {},
+        home: new ScreenVector("A1", [3, 0, 2], [0, 40, 5]),
+    };
 }
