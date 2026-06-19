@@ -340,9 +340,9 @@ const roomTemplates = {
         ".R..R..L..L.",
         "............",
         ".R..R..L..L.",
-        ".....ss.....",
-        ".R.sRssLs.L.",
-        "...ssssss...",
+        ".....ds.....",
+        ".R.dRssLs.L.",
+        "...ssdssd...",
     ],
 
     0x22: [ // one center block
@@ -376,13 +376,13 @@ const roomTemplates = {
     ],
 
     0x25: [ // sand
-        "ssssssssssss",
-        "ssssssssssss",
-        "ssssssssssss",
-        "ssssssssssss",
-        "ssssssssssss",
-        "ssssssssssss",
-        "ssssssssssss",
+        "sssdssdsssds",
+        "sdssdsssdssd",
+        "ssdsssdssdss",
+        "dsssdssdsssd",
+        "ssdssdsssdss",
+        "dssdsssdssds",
+        "sdsssdssdsss",
     ],
 
     0x26: [ // solid black/abyss
@@ -440,6 +440,7 @@ const roomTemplates = {
 const floorTileMap = {
     ".": Tile.dungeon_floor,
     "s": Tile.dungeon_sand,
+    "d": Tile.dungeon_sand2,
     "e": Tile.dungeon_entrance,
     "w": Tile.dungeon_water,
     "B": Tile.dungeon_block,
@@ -482,8 +483,8 @@ const doorMap = {
 };
 
 const polarWallMap = {
-    "outer": {capW: Tile.wall_outer_cap_w, capE: Tile.wall_outer_cap_e, span: Tile.wall_outer_ns},
-    "inner": {capW: Tile.wall_inner_cap_w, capE: Tile.wall_inner_cap_e, span: Tile.wall_inner_ns},
+    "outer": {capW: Tile.wall_outer_cap_w, capE: Tile.wall_outer_cap_e, span: {n: Tile.wall_outer_n,  s: Tile.wall_outer_s}},
+    "inner": {capW: Tile.wall_inner_cap_w, capE: Tile.wall_inner_cap_e, span: {n: Tile.wall_inner_ns, s: Tile.wall_inner_ns}},
 };
 
 const addPolarWallMap = {
@@ -608,8 +609,8 @@ export function makeRoom(position, levelNumber, roomTemplateIndex, doorN, doorE,
     });
 
     function makeWallEdge(rowIndex) {
-        roomData[rowIndex].unshift([elevation, Tile.wall_outer_ew], [elevation, Tile.wall_inner_ew]);
-        roomData[rowIndex].push(   [elevation, Tile.wall_inner_ew], [elevation, Tile.wall_outer_ew]);
+        roomData[rowIndex].unshift([elevation, Tile.wall_outer_w],  [elevation, Tile.wall_inner_ew]);
+        roomData[rowIndex].push(   [elevation, Tile.wall_inner_ew], [elevation, Tile.wall_outer_e]);
     }
 
     function makeWallEquatorial(doorW, doorE) {
@@ -619,7 +620,7 @@ export function makeRoom(position, levelNumber, roomTemplateIndex, doorN, doorE,
 
     function makeWallPolar(pole, side) {
         const wall = [];
-        const wallSpan = polarWallMap[side].span;
+        const wallSpan = polarWallMap[side].span[pole];
 
         wall.push([elevation, polarWallMap[side].capW]);
         for (let i = 0; i < 13; i++) {
@@ -660,7 +661,12 @@ export function makeRoom(position, levelNumber, roomTemplateIndex, doorN, doorE,
                 const color = roomData[rowIndex][columnIndex][1].at(-1).color;
                 for (let row = rowIndex; row < rowIndex + baseOptions["rows"]; row++) {
                     for (let column = columnIndex; column < columnIndex + baseOptions["columns"]; column++) {
-                        roomData[row][column][1] = roomData[row][column][1].slice(0, -1);
+                        const colorEach = roomData[row][column][1].at(-1).color;
+                        roomData[row][column][1] = roomData[row][column][1].slice(0, -(baseOptions.removeCount || 1));
+
+                        if (baseOptions.newTilePieceEach) {
+                            roomData[row][column][1].push(baseOptions.newTilePieceEach(colorEach));
+                        }
                     }
                 }
                 if (baseOptions.newTilePiece) {
@@ -684,9 +690,10 @@ export function makeRoom(position, levelNumber, roomTemplateIndex, doorN, doorE,
 }
 
 export const baseOptions = {
-    drop1x1: {
+    drop1x2: {
         rows: 1,
-        columns: 1,
+        columns: 2,
+        removeCount: 2,
         newTilePiece: null,
         spriteTransformOptions: null
     },
@@ -717,14 +724,13 @@ export const baseOptions = {
     base2x2_studs: {
         rows: 2,
         columns: 2,
-        newTilePiece: color => new TilePiece(Piece.plate2x2, color, {translateX: .5, translateZ: .5}),
+        newTilePieceEach: color => new TilePiece(Piece.plate, color, {}),
         spriteTransformOptions: {translateX: .5, translateZ: .5},
     },
 };
 
-
 function getMapRowData() {
-    const drop1x1 = baseOptions.drop1x1;
+    const drop1x2 = baseOptions.drop1x2;
     const wall1x2 = baseOptions.wall1x2;
     const base1x2 = baseOptions.base1x2;
     const base2x1 = baseOptions.base2x1;
@@ -793,7 +799,7 @@ function getMapRowData() {
             /* room: 01,14 */ makeRoom("01,14", 2, 0x29, "solid",  "open",   "solid",  "solid",  "dim" , [
                 [5,  7, Tile.item_triforce, base1x2],
             ]),
-            /* room: 01,15 */ makeRoom("01,15", 2, 0x25, "solid",  "solid",  "open",   "shut",   null  , [
+            /* room: 01,15 */ makeRoom("01,15", 2, 0x25, "solid",  "solid",  "open",   "shut",   "dim" , [
                 [5,  5, Tile.dodongo_e],
                 [5,  8, Tile.item_heart_container],
             ]),
@@ -1160,7 +1166,7 @@ function getMapRowData() {
             ]),
             /* room: 05,05 */ makeRoom("05,05", 1, 0x02, "solid",  "open",   "bomb",   "locked", null  , [
                 [2,  9, Tile.goriya_red],
-                [3,  8, Tile.item_boomerang, drop1x1],
+                [3,  7, Tile.item_boomerang_green_dungeon, drop1x2],
                 [3, 11, Tile.goriya_red],
                 [6,  9, Tile.goriya_red],
             ]),
@@ -1238,7 +1244,7 @@ function getMapRowData() {
             ]),
             /* room: 05,16 */ makeRoom("05,16", 2, 0x24, "bomb",   "solid",  "bomb",   "open",   "dim" , [
                 [3, 11, Tile.goriya_blue, base1x2],
-                [5,  8, Tile.item_magical_boomerang, drop1x1],
+                [5,  8, Tile.item_magical_boomerang_dungeon, drop1x2],
                 [5, 13, Tile.goriya_blue],
                 [7, 12, Tile.goriya_blue],
             ]),
@@ -1682,7 +1688,7 @@ function getMapRowData() {
                 [6,  6, Tile.bubble_blue, base1x2],
                 [7,  2, Tile.wizzrobe_red_e],
             ]),
-            /* room: 10,02 */ makeRoom("10,02", 9, 0x25, "open",   "solid",  "shut",   "solid",  null  , [
+            /* room: 10,02 */ makeRoom("10,02", 9, 0x25, "open",   "solid",  "shut",   "solid",  "dim"  , [
                 [2,  3, Tile.lanmola_body_blue],
                 [3,  3, Tile.lanmola_body_blue],
                 [3,  4, Tile.lanmola_body_blue],
@@ -1815,7 +1821,7 @@ function getMapRowData() {
                 [4,   6, Tile.wizzrobe_blue_e],
                 [6,   2, Tile.wizzrobe_blue_e],
             ]),
-            /* room: 11,02 */ makeRoom("11,02", 9, 0x25, "open",   "bomb",   "shut",   "solid",  null  , [
+            /* room: 11,02 */ makeRoom("11,02", 9, 0x25, "open",   "bomb",   "shut",   "solid",  "dim" , [
                 [4, 11, Tile.patra_blue],
                 [1, 10, Tile.patra_red, wall1x2],
                 [1, 12, Tile.patra_red, wall1x2],
@@ -1932,7 +1938,7 @@ function getMapRowData() {
                 [8,  2, Tile.blade_trap_sw],
                 [8, 13, Tile.blade_trap_se],
             ]),
-            /* room: 12,02 */ makeRoom("12,02", 9, 0x25, "open",   "solid",  "shut",   "bomb",   null  , [
+            /* room: 12,02 */ makeRoom("12,02", 9, 0x25, "open",   "solid",  "shut",   "bomb",   "dim" , [
                 [2, 10, Tile.like_like],
                 [3,  2, Tile.like_like],
                 [3, 11, Tile.wizzrobe_blue_w],
@@ -2009,7 +2015,7 @@ function getMapRowData() {
             /* room: 12,10 */ makeRoom("12,10", 7, 0x24, "solid",  "bomb",   "open",   "open",   null  , [
                 [4,  6, Tile.digdogger],
             ]),
-            /* room: 12,11 */ makeRoom("12,11", 7, 0x25, "solid",  "solid",  "solid",  "bomb",   null  , [
+            /* room: 12,11 */ makeRoom("12,11", 7, 0x25, "solid",  "solid",  "solid",  "bomb",   "dim" , [
                 [2,  6, Tile.moldorm],
                 [3,  5, Tile.moldorm],
                 [4,  5, Tile.moldorm],
@@ -2089,7 +2095,7 @@ function getMapRowData() {
                 [6, 10, Tile.wizzrobe_red_w],
                 [7, 12, Tile.like_like],
             ]),
-            /* room: 13,07 */ makeRoom("13,07", 9, 0x25, "solid",  "solid",  "open",   "open",   null  , [
+            /* room: 13,07 */ makeRoom("13,07", 9, 0x25, "solid",  "solid",  "open",   "open",   "dim" , [
                 [2,  9, Tile.wizzrobe_blue_w],
                 [4,  6, Tile.wizzrobe_blue_e],
                 [4,  8, Tile.wizzrobe_blue_w],
@@ -2140,7 +2146,7 @@ function getMapRowData() {
                 [8,  7, Tile.pols_voice_orange_blue],
                 [8, 12, Tile.pols_voice_orange_blue, base1x2],
             ]),
-            /* room: 13,14 */ makeRoom("13,14", 8, 0x25, "shut",   "locked", "open",   "solid",  null  , [
+            /* room: 13,14 */ makeRoom("13,14", 8, 0x25, "shut",   "locked", "open",   "solid",  "dim" , [
                 [4,  8, Tile.gohma_blue],
             ]),
             /* room: 13,15 */ makeRoom("13,15", 8, 0x00, "locked", "solid",  "open",   "locked", null  , [
@@ -2391,7 +2397,7 @@ function getMapRowData() {
                 [6, 12, Tile.stalfos],
                 [7,  5, Tile.stalfos],
             ]),
-            /* room: 15,15 */ makeRoom("15,15", 8, 0x25, "bomb",   "solid",  "open",   "solid",  null  , [
+            /* room: 15,15 */ makeRoom("15,15", 8, 0x25, "bomb",   "solid",  "open",   "solid",  "dim" , [
                 [5,  8, Tile.item_rupee_blue],
                 [6, 11, Tile.manhandla],
             ]),

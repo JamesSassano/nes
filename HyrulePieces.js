@@ -550,6 +550,10 @@ export class Tile {
         new TilePiece(Piece.plate,                          NESColor.background,    {}),
         new TilePiece(Piece.tile_round_dot,                 NESColor.primary,       {}),
     ];
+    static dungeon_sand2 = [
+        new TilePiece(Piece.plate,                          NESColor.secondary,     {}),
+        new TilePiece(Piece.tile_round_dot,                 NESColor.primary,       {}),
+    ];
     static dungeon_entrance = [
         new TilePiece(Piece.brick_2_3rd_slope,              NESColor.black,         {rotateY: 270}),
     ];
@@ -1016,12 +1020,24 @@ export class Tile {
 
     // Items Inventory.
 
-    static item_boomerang = [
-        new TilePiece(Piece.plate_clip_top,                 NESColor.orange,        {rotateY: 90}),
-    ];
-    static item_magical_boomerang = [
-        new TilePiece(Piece.plate_clip_top,                 NESColor.steel_blue,    {rotateY: 90}),
-    ];
+    static makeBoomerang(colorGround, color1, color2, color3) {
+        return [
+            new TilePiece(Piece.plate_bracket_inverted,     color3,                 {rotateY: 270}),
+            new TilePiece(Piece.tile,                       colorGround,            {}),
+            new TilePiece(Piece.plate_clip_vertical_side,   color1,                 {rotateZ: 90, rotateX: 270, translateX: 1.1, translateY: -1.75}),
+            new TilePiece(Piece.tile,                       color2,                 {rotateZ: 90, rotateX: 270, translateX: 1.5, translateY: -2.75}),
+        ];
+    }
+
+    static item_boomerang_green_overworld   = Tile.makeBoomerang(NESColor.background, NESColor.orange,     NESColor.brown, NESColor.chartreuse);
+    static item_boomerang_blue_overworld    = Tile.makeBoomerang(NESColor.background, NESColor.orange,     NESColor.brown, NESColor.periwinkle);
+    static item_boomerang_red_overworld     = Tile.makeBoomerang(NESColor.background, NESColor.orange,     NESColor.brown, NESColor.red);
+    static item_magical_boomerang_overworld = Tile.makeBoomerang(NESColor.background, NESColor.steel_blue, NESColor.white, NESColor.navy);
+
+    static item_boomerang_green_dungeon     = Tile.makeBoomerang(NESColor.primary,    NESColor.orange,     NESColor.brown, NESColor.chartreuse);
+    static item_boomerang_blue_dungeon      = Tile.makeBoomerang(NESColor.primary,    NESColor.orange,     NESColor.brown, NESColor.periwinkle);
+    static item_boomerang_red_dungeon       = Tile.makeBoomerang(NESColor.primary,    NESColor.orange,     NESColor.brown, NESColor.red);
+    static item_magical_boomerang_dungeon   = Tile.makeBoomerang(NESColor.primary,    NESColor.steel_blue, NESColor.white, NESColor.navy);
 
     static item_bomb = [
         new TilePiece(Piece.plate_round_dot,                NESColor.navy,          {}),
@@ -1223,9 +1239,9 @@ export class Tile {
 
     // Dungeon walls outer.
 
-    static makeWallOuter(isBase) {
+    static makeWallOuter(isBase, rotateY) {
         const tile = [];
-        const options = isBase ? {} : {translateX: .5, translateY: 2};
+        const options = isBase ? {rotateY: rotateY} : {translateX: .5, translateY: 2, rotateY: rotateY};
         if (isBase) {
             tile.push(new TilePiece(Piece.brick,            NESColor.primary,       options));
         } else {
@@ -1263,7 +1279,7 @@ export class Tile {
         const tile = [];
         tile.push(new TilePiece(Piece.brick_2_3rd,          NESColor.primary,       {}));
         tile.push(new TilePiece(Piece.brick_side_stud,      NESColor.primary,       {rotateY: side * -90}));
-        tile.push(new TilePiece(Piece.plate,                NESColor.primary,       {}));
+        tile.push(new TilePiece(Piece.plate,                NESColor.primary,       {rotateY: side * 90}));
         tile.push(new TilePiece(Piece.tile,                 NESColor.primary,       {translateX: side * 0.9, translateY: -3.25, rotateZ: side * 90}));
         tile.push(new TilePiece(Piece.plate_center_stud2,   NESColor.primary,       {translateX: side *   2, translateY: -7}));
         tile.push(new TilePiece(Piece.plate_center_stud2,   NESColor.primary,       {translateX: side *   5, translateY: -8}));
@@ -1271,8 +1287,10 @@ export class Tile {
         return tile;
     }
 
-    static wall_outer_ns    = Tile.makeWallOuter(false);
-    static wall_outer_ew    = Tile.makeWallOuter(true);
+    static wall_outer_n     = Tile.makeWallOuter(false, 180);
+    static wall_outer_s     = Tile.makeWallOuter(false,   0);
+    static wall_outer_e     = Tile.makeWallOuter(true,  270);
+    static wall_outer_w     = Tile.makeWallOuter(true,   90);
 
     static wall_outer_cap_w = Tile.makeWallOuterCap( 1);
     static wall_outer_cap_e = Tile.makeWallOuterCap(-1);
@@ -1382,10 +1400,12 @@ export class Tile {
         // Replace top smooth with stud if adding a sprite.
         if (spritePieces) {
             const topPiece = basePieces.slice(-1)[0];
-            const studReplacement = topPiece.piece.studReplacement;
-            if (null != studReplacement) {
-                basePieces = basePieces.slice(0, -1).concat(
-                    new TilePiece(studReplacement, topPiece.color, topPiece.options));
+            if (topPiece) {
+                const studReplacement = topPiece.piece.studReplacement;
+                if (null != studReplacement) {
+                    basePieces = basePieces.slice(0, -1).concat(
+                        new TilePiece(studReplacement, topPiece.color, topPiece.options));
+                }
             }
             basePieces = basePieces.concat(spritePieces);
         }

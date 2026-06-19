@@ -12,8 +12,10 @@
         }
         table {
             border-spacing: 4px;
-            width: 100%;
             table-layout: fixed;
+        }
+        .fullWidth {
+            width: 100%;
         }
         th {
             border: 1px solid #333;
@@ -27,6 +29,7 @@
             font-weight: bold;
             border-radius: 4px;
             padding: 1px;
+            width: 80px;
         }
         .color-code { font-family: monospace; }
 
@@ -121,9 +124,33 @@
             table.appendChild(headerRow);
         };
 
-        const table = document.createElement('table');
+        const addCodeTable = (table, colors, codeTable) => {
+            for (const colorCodeRow of codeTable) {
+                const colorRow = document.createElement('tr');
+                for (const colorCode of colorCodeRow) {
+                    const colorCell = document.createElement('td');
+                    if (null !== colorCode) {
+                        const color = colors[colorCode];
+                        const hex = setElementColors(colorCell, color);
+                        const oklch = getOklch(color.colorInt);
+                        const hue = oklch.h.toFixed(0);
+                        const lightness = oklch.L.toFixed(2);
+                        const c = oklch.C.toFixed(2);
+                        colorCell.innerHTML = `
+                            <span class="color-code">[${colorCode}&nbsp;${hex}]</span>
+                            <br>${getName(color)}
+                            <br><span style="font-size: 8px; opacity: 0.8;">${hue}, ${lightness}, ${c}</span>`;
+                    }
+                    colorRow.appendChild(colorCell);
+                }
+                table.appendChild(colorRow);
+            }
+        };
 
-        addHeader(table, "NES Colors with LDraw swatch");
+        const table = document.createElement('table');
+        table.classList.add("fullWidth");
+
+        addHeader(table, "NES Colors with LDraw and Studio Swatches");
 
         for (let i = 0; i < 4; ++i) {
             const nesRow = document.createElement('tr');
@@ -217,6 +244,30 @@
             [null,    9,  null,    31,    29,   353,    462,   68,   450,   226,100009,    17,  118,   151,   null,  null],
             [null, null,  null,  null,    77,   100,    125,   78,  null,   368,   326,   510,  323,    15,   null,  null]
         ];
+        const studioCodeProximityTable = [
+            [322,   321, 212,  73,      1,   23,   89,   31,  218,     69,   29, ],
+            [232,     9, 313, 379,    272,  110,  112,  431,   30,   null, null, ],
+            [11,      3,  71,   7,      0,   20, null,  219,   22,     26,    5, ],
+            [118,   323,  72, 151,    308, null, null,   85,  373,   null, null, ],
+            [17,    378,   8, 503,    423,    6,   70,  335, null,    351,  295, ],
+            [10,      2, 288,  15,    371,  370,   86,  422,  320,     77,   13, ],
+            [74,    115, 330,  28,     19,   84,   92, null,  216,    100,  430, ],
+            [100009, 27, 120,  78,   null, null,  484,  128,  450,      4, null, ],
+            [510,   326,  18,  68,    125,  424,  509,  366,  508, 100007,  353, ],
+            [368,  null, 226,  14, 100003,  191,  462,  507,   25, 100167,   12, ],
+        ];
+        const ldrawCodeProximityTable = [
+            [ 322,   321, 212,  73,   1,   23,   89,  220,   31,   69,    29, ],
+            [ 232,     9, 313, 379, 272,  110,  112,  431,   30,  218,  null, ],
+            [  11,     3,  71,   7,   0,   20,  213,  219,   22,   26,     5, ],
+            [ 118,   323,  72, 151, 308, null, null,   85,  373, null, 10022, ],
+            [  17,   378,   8, 503, 423,    6,   70,  335, null,  351,   295, ],
+            [  10,     2, 288,  15, 371,  370,   86,  422,  320,   77,    13, ],
+            [  74,   115, 330,  28,  19,   84,   92, null,  216,  100,   430, ],
+            [null,    27, 120,  78, 125, null,  484,  128,  450,    4, 10017, ],
+            [ 510,   326,  18,  68, 225 , 424,  509,   25,  402,  508,   353, ],
+            [ 368, 10015, 226,  14, 180,  191,  121,  462,  366,  123,    12, ],
+        ];
 
         const getOklch = (rgbInt) => {
             const linearize = c => c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
@@ -239,29 +290,25 @@
             ["Studio", StudioColors, studioCodeTable],
         ]) {
             addHeader(table, `${name} Colors`);
-
-            for (const colorCodeRow of codeTable) {
-                const colorRow = document.createElement('tr');
-                for (const colorCode of colorCodeRow) {
-                    const colorCell = document.createElement('td');
-                    if (null !== colorCode) {
-                        const color = colors[colorCode];
-                        const hex = setElementColors(colorCell, color);
-                        const oklch = getOklch(color.colorInt);
-                        const hue = oklch.h.toFixed(0);
-                        const lightness = oklch.L.toFixed(2);
-                        colorCell.innerHTML = `
-                            <span class="color-code">[${colorCode}&nbsp;${hex}]</span>
-                            <br>${getName(color)}
-                            <br><span style="font-size: 8px; opacity: 0.8;">H: ${hue}, L: ${lightness}</span>`;
-                    }
-                    colorRow.appendChild(colorCell);
-                }
-                table.appendChild(colorRow);
-            }
+            addCodeTable(table, colors, codeTable);
         }
-
         document.body.appendChild(table);
+
+        const tableProximityColors = document.createElement('table');
+        for (const [name, colors, codeTable] of [
+            ["LDraw", LDrawColors, ldrawCodeProximityTable],
+            ["Studio", StudioColors, studioCodeProximityTable],
+        ]) {
+            const sectionRow = document.createElement('tr');
+            const sectionCell = document.createElement('th');
+            sectionCell.colSpan = codeTable.length + 1;
+            sectionCell.innerHTML = `${name} Proximity Colors`;
+            sectionRow.appendChild(sectionCell);
+            tableProximityColors.appendChild(sectionRow);
+
+            addCodeTable(tableProximityColors, colors, codeTable);
+        }
+        document.body.appendChild(tableProximityColors);
 
     </script>
 </body>

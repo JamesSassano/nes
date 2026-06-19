@@ -162,8 +162,8 @@ export function getMapData() {
     const item2 = createItems(
         Tile.item_shield,
         Tile.item_magical_shield,
-        Tile.item_boomerang,
-        Tile.item_magical_boomerang,
+        Tile.item_boomerang_green_overworld,
+        Tile.item_magical_boomerang_overworld,
         Tile.item_bomb,
         Tile.item_bow_green,
         Tile.item_arrow_green,
@@ -173,7 +173,13 @@ export function getMapData() {
         Tile.item_ring_blue,
         Tile.item_ring_red,
     );
-    [2, 5].forEach(x => item2[1][5][x][1] = item2[1][5][x][1].slice(0, -1));
+    [2, 5].forEach(x => {
+        // Replace the bottom 2/3rd brick with a plate or tile.
+        const color = item2[1][5][x][1][0].color;
+        item2[1][5][x - 1] = [0, [new TilePiece(Piece.plate, color, {})], item2[1][5][x][2]];
+        item2[1][5][x    ] = [0, [new TilePiece(Piece.tile,  color, {})]];
+
+    });
 
     const item3 = createItems(
         Tile.item_power_bracelet,
@@ -278,7 +284,7 @@ export function getMapData() {
         [4,  10, Tile.gleeok3, HyruleDungeons.baseOptions.base2x2_studs],
     ]);
 
-    const boss3 = HyruleDungeons.makeRoom(null, 3, 0x25, "solid",  "solid",  "locked", "solid",  null, [
+    const boss3 = HyruleDungeons.makeRoom(null, 3, 0x25, "solid",  "solid",  "locked", "solid", "dim", [
         [3,  4, Tile.gohma_red],
         [6,  5, Tile.gohma_blue],
 

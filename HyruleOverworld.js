@@ -11280,7 +11280,7 @@ const mapRowData = [
                     /* screen: H4, row:  6, col:  8 */ [ 0, Tile.ground],
                     /* screen: H4, row:  6, col:  9 */ [ 0, Tile.ground],
                     /* screen: H4, row:  6, col: 10 */ [ 0, Tile.ground],
-                    /* screen: H4, row:  6, col: 11 */ [ 0, Tile.ground],
+                    /* screen: H4, row:  6, col: 11 */ [ 0, Tile.ground, Tile.octorok_red_e],
                     /* screen: H4, row:  6, col: 12 */ [ 0, Tile.ground],
                     /* screen: H4, row:  6, col: 13 */ [ 0, Tile.ground],
                     /* screen: H4, row:  6, col: 14 */ [ 0, Tile.ground],
@@ -14070,7 +14070,7 @@ const mapRowData = [
                     /* screen: F5, row:  3, col:  8 */ [ 3, Tile.ground],
                     /* screen: F5, row:  3, col:  9 */ [ 3, Tile.ground],
                     /* screen: F5, row:  3, col: 10 */ [ 3, Tile.ground],
-                    /* screen: F5, row:  3, col: 11 */ [ 3, Tile.ground],
+                    /* screen: F5, row:  3, col: 11 */ [ 3, Tile.ground, Tile.peahat_slim],
                     /* screen: F5, row:  3, col: 12 */ [ 3, Tile.ground],
                     /* screen: F5, row:  3, col: 13 */ [ 3, Tile.ground],
                     /* screen: F5, row:  3, col: 14 */ [ 3, Tile.ground],
@@ -26010,6 +26010,8 @@ export const mapData = {
     mapRowData,
     pointsOfInterest: {
         "Level 1":      new ScreenVector("H4", [7.5,  3,   5], [     0,  30,     10]),
+        "Level 1 Entrance":
+                        new ScreenVector("H4", [7,    4,   3], [     0,  2,       5]),
         "Level 2":      new ScreenVector("M4", [7.5, 11,  10], [     0,  33,     11]),
         "Level 3":      new ScreenVector("E8", [7.5,  3,   5], [     0,  30,     10]),
         "Level 4":      new ScreenVector("F5", [7.5,  6,   5], [     0,  30,     10]),
@@ -26020,6 +26022,7 @@ export const mapData = {
         "Fairy":        new ScreenVector("D5", [7.5,  4,   5], [     0,  50,      1]),
         "Graveyard":    new ScreenVector("B4", [-.5, 12,   8], [     0,  70,     25], [-1,  0]),
         "Overlook":     new ScreenVector("H6", [  9,  4,   2], [-70.75,  27, -49.75]),
+        "Adventure":    new ScreenVector("G6", [ 10,  4,   4], [   -10,  65,     42]),
     },
     home:               new ScreenVector("I5", [-.5,  0, -.5], [     0, 400,    100], [-1, -1]),
 };
