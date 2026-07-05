@@ -287,7 +287,7 @@ body {
             }}, "exportButton").name(guiExportDefaultName);
         };
 
-        addExport("OBJ", "application/gzip", "tar.gz", async (fileBaseName, onProgress) => {
+        addExport("OBJ", "application/gzip", "obj.tar.gz", async (fileBaseName, onProgress) => {
             return await pieceInstances.getObjData(fileBaseName, options.upAxis === "Y", onProgress);
         });
 

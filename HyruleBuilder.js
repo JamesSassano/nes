@@ -8,6 +8,8 @@ const mapDataProviders = {
     caves:      async () => (await import('./HyruleCaves.js')).getMapData(),
     dungeons:   async () => (await import('./HyruleDungeons.js')).getMapData(),
     samples:    async () => (await import('./HyruleSamples.js')).getMapData(),
+    dungeonPaletteTypes:
+                async () => (await import('./HyruleSamples.js')).getDungeonPaletteTypesData(),
     mini:       async () => (await import('./HyruleSamples.js')).getMiniMapData(),
     rotations:  async () => (await import('./HyruleSamples.js')).getRotationMapData(),
 }
@@ -84,9 +86,12 @@ export async function getMapData(mapName, gapSize, showSprites, showElevation) {
                     const palette = screenX > 1 && screenX < (screenPositioner.worldSize.screenColumnCount - 2)
                                  && screenY > 1 && screenY < (screenPositioner.worldSize.screenRowCount - 2)
                         ? palettes[1] : palettes[0];
-                    const elevation = showElevation ? screenTileData[0] : 0;
-                    const piecesByLevel = new Tile(screenTileData[1], showSprites ? screenTileData[2] : null)
-                        .getPieceLevelEntries(elevation);
+                    const [elevation, basePieces, spritePieces, baseModifier] = screenTileData;
+                    const piecesByLevel = new Tile(
+                        basePieces,
+                        showSprites ? spritePieces : null,
+                        baseModifier,
+                    ).getPieceLevelEntries(showElevation ? elevation : 0);
                     for (const [plateLevel, tilePiece] of piecesByLevel) {
                         const partNumber = tilePiece.piece.partNumber;
                         const opacity = tilePiece.options.opacity;

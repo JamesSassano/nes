@@ -89,6 +89,7 @@ export class Palette {
     static graveyard = new Palette(NESColor.white, NESColor.blue, NESColor.deep_gray);
     static text      = new Palette(NESColor.black, NESColor.deep_gray, NESColor.white);
     static cave      = new Palette(NESColor.dark_red, NESColor.black, NESColor.black);
+    static sand      = new Palette(NESColor.orange, NESColor.red, NESColor.bubblegum);
 
     constructor(primary, secondary, background) {
         this.primary = primary;
@@ -171,12 +172,20 @@ export class Tile {
         ];
     }
 
-    static makeLeever(color, slim, level) {
+    static makeLeever(color1, color2, slim, level) {
         return [
-            new TilePiece(Piece.plate,                      color,                  {rotateY: slim ? 0 : 45}),
-            new TilePiece(Piece.plate_round_tabs,           NESColor.white,         {rotateY: 45}),
-            new TilePiece(Piece.tile_round_dot,             color,                  {}),
-        ].slice(level);
+            new TilePiece(Piece.plate,                      color2,                 {}),
+        ].concat(
+            level === 2
+                ? [
+                    new TilePiece(Piece.tile_round_dot,    NESColor.background,    {}),
+                ]
+                : [
+                    new TilePiece(Piece.plate,              color1,                 {rotateY: slim ? 0 : 45}),
+                    new TilePiece(Piece.plate_round_tabs,   NESColor.white,         {rotateY: slim ? 45 : 0}),
+                    new TilePiece(Piece.tile_round_dot,     color1,                 {}),
+                ].slice(level)
+        );
     }
 
     static makeLynel(color1, color2) {
@@ -219,14 +228,14 @@ export class Tile {
     static moblin_red = Tile.makeMoblin(NESColor.white, NESColor.red, NESColor.orange);
     static moblin_red_center = Tile.transformCenterX(Tile.moblin_red);
     static moblin_blue = Tile.makeMoblin(NESColor.red, NESColor.black, NESColor.teal);
-    static leever_red = Tile.makeLeever(NESColor.red, false, 0);
-    static leever_red_slim = Tile.makeLeever(NESColor.red, true, 0);
-    static leever_red_sunk1 = Tile.makeLeever(NESColor.red, true, 1);
-    static leever_red_sunk2 = Tile.makeLeever(NESColor.red, true, 2);
-    static leever_blue = Tile.makeLeever(NESColor.navy, false, 0);
-    static leever_blue_slim = Tile.makeLeever(NESColor.navy, true, 0);
-    static leever_blue_sunk1 = Tile.makeLeever(NESColor.navy, true, 1);
-    static leever_blue_sunk2 = Tile.makeLeever(NESColor.navy, true, 2);
+    static leever_red        = Tile.makeLeever(NESColor.red,  NESColor.orange,     false, 0);
+    static leever_red_slim   = Tile.makeLeever(NESColor.red,  NESColor.orange,     true,  0);
+    static leever_red_sunk1  = Tile.makeLeever(NESColor.red,  NESColor.orange,     true,  1);
+    static leever_red_sunk2  = Tile.makeLeever(NESColor.red,  NESColor.orange,     true,  2);
+    static leever_blue       = Tile.makeLeever(NESColor.navy, NESColor.steel_blue, false, 0);
+    static leever_blue_slim  = Tile.makeLeever(NESColor.navy, NESColor.steel_blue, true,  0);
+    static leever_blue_sunk1 = Tile.makeLeever(NESColor.navy, NESColor.steel_blue, true,  1);
+    static leever_blue_sunk2 = Tile.makeLeever(NESColor.navy, NESColor.orange,     true,  2);
     static lynel_red = Tile.makeLynel(NESColor.red, NESColor.orange);
     static lynel_blue = Tile.makeLynel(NESColor.navy, NESColor.steel_blue);
     static tektite_red = Tile.makeTektite(NESColor.red);
@@ -289,16 +298,26 @@ export class Tile {
     ];
     static merchant_center = Tile.transformCenterX(Tile.merchant);
 
-    static zora = [
+    static zola = [
+        new TilePiece(Piece.plate,                          NESColor.teal,          {}),
+        new TilePiece(Piece.plate_round_dot,                NESColor.secondary,     {}),
+    ];
+    static zora_north = [
         new TilePiece(Piece.plate,                          NESColor.teal,          {}),
         new TilePiece(Piece.plate_round_dot,                NESColor.red,           {}),
     ];
+    static zora_south = [
+        new TilePiece(Piece.plate,                          NESColor.teal,          {}),
+        new TilePiece(Piece.plate_round_dot_with_hole,      NESColor.red,           {}),
+    ];
+
     static rock = [
         new TilePiece(Piece.plate_round_dot,                NESColor.red,           {}),
         new TilePiece(Piece.plate_round_dot,                NESColor.orange,        {}),
     ];
     static ghini = [
-        new TilePiece(Piece.plate_round_dot,                NESColor.navy,          {}),
+        new TilePiece(Piece.plate,                          NESColor.navy,          {}),
+        new TilePiece(Piece.plate_round_dot,                NESColor.white,         {}),
         new TilePiece(Piece.plate_round_dot,                NESColor.white,         {}),
     ];
     static armos_red_awake = [
@@ -527,7 +546,10 @@ export class Tile {
         new TilePiece(Piece.ground_piece_under,             NESColor.background,    {}),
         new TilePiece(Piece.water_piece_top,                NESColor.secondary,     {opacity: Tile.water_opacity}),
     ];
-    static waterfall2 = Tile.waterfall1;
+    static waterfall2 = [
+        new TilePiece(Piece.ground_piece_under,             NESColor.background,    {}),
+        new TilePiece(Piece.plate_round_tabs,               NESColor.secondary,     {opacity: Tile.water_opacity, rotateY: 45}),
+    ];
 
     // Dungeon floor tiles.
 
@@ -546,12 +568,12 @@ export class Tile {
         new TilePiece(Piece.brick_2_3rd_slope_triangle,     NESColor.primary,       {}),
     ];
 
-    static dungeon_sand = [
-        new TilePiece(Piece.plate,                          NESColor.background,    {}),
+    static dungeon_sand1 = [
+        new TilePiece(Piece.plate,                          NESColor.secondary,     {}),
         new TilePiece(Piece.tile_round_dot,                 NESColor.primary,       {}),
     ];
     static dungeon_sand2 = [
-        new TilePiece(Piece.plate,                          NESColor.secondary,     {}),
+        new TilePiece(Piece.plate,                          NESColor.background,    {}),
         new TilePiece(Piece.tile_round_dot,                 NESColor.primary,       {}),
     ];
     static dungeon_entrance = [
@@ -561,7 +583,7 @@ export class Tile {
         new TilePiece(Piece.tile,                           NESColor.secondary,     {}),
     ];
     static dungeon_block = [
-        new TilePiece(Piece.brick,                          NESColor.background,    {}),
+        new TilePiece(Piece.brick,                          NESColor.secondary,    {}),
         new TilePiece(Piece.brick_2_3rd_slope_pyramid,      NESColor.primary,       {}),
     ];
     static dungeon_statue_looking_right = [
@@ -975,15 +997,10 @@ export class Tile {
 
     static item_heart_container = [
         new TilePiece(Piece.plate,                          NESColor.white,         {}),
+        new TilePiece(Piece.plate_round_tabs,               NESColor.orange,        {rotateY: 45}),
         new TilePiece(Piece.tile_heart,                     NESColor.red,           {rotateY: 45}),
     ];
     static item_heart_container_center = Tile.transformCenterX(Tile.item_heart_container);
-
-    static item_floating_heart_container = [
-        new TilePiece(Piece.plate_round_dot,                NESColor.white,         {opacity: Tile.clear_opacity}),
-        new TilePiece(Piece.plate,                          NESColor.white,         {}),
-        new TilePiece(Piece.tile_heart,                     NESColor.red,           {rotateY: 45}),
-    ];
 
     static item_floating_heart = [
         new TilePiece(Piece.plate_round_dot,                NESColor.white,         {opacity: Tile.clear_opacity}),
@@ -1396,9 +1413,13 @@ export class Tile {
     static wall_inner_door_shut_e   = Tile.makeWallInnerDoorShut(true, 'e');
     static wall_inner_door_shut_w   = Tile.makeWallInnerDoorShut(true, 'w');
 
-    constructor(basePieces, spritePieces) {
+    constructor(basePieces, spritePieces, baseModifier) {
         // Replace top smooth with stud if adding a sprite.
         if (spritePieces) {
+            if (baseModifier) {
+                basePieces = baseModifier(basePieces);
+            }
+
             const topPiece = basePieces.slice(-1)[0];
             if (topPiece) {
                 const studReplacement = topPiece.piece.studReplacement;

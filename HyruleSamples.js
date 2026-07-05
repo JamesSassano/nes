@@ -1,6 +1,7 @@
 "use strict";
 
 import {Palette, Piece, TilePiece, Tile} from "./HyrulePieces.js";
+import * as HyruleOverworld from "./HyruleOverworld.js";
 import * as HyruleDungeons from "./HyruleDungeons.js";
 import * as HyruleCaves from "./HyruleCaves.js";
 import {ScreenVector} from "./ScreenUtils.js";
@@ -67,7 +68,7 @@ export function getMapData() {
         ],
         length: 15
     }, (value) => (value ?? []).map(tile => tile ? [0, tile] : tile));
-    samplesDataGrid[ 7][ 5][2] = Tile.item_heart_container;
+    samplesDataGrid[ 7][ 5].push(Tile.item_heart_container);
 
     const samples1 = [[Palette.forest],    samplesDataGrid];
     const samples2 = [[Palette.mountain],  samplesDataGrid];
@@ -79,46 +80,48 @@ export function getMapData() {
     addSand(enemiesBase, 0, 6, 9, 11);
     addWater(enemiesBase, 7, 10, 6, 9);
 
-    enemiesBase[ 1][ 9][2] = Tile.leever_blue_slim;
-    enemiesBase[ 1][11][2] = Tile.leever_blue;
-    enemiesBase[ 2][ 1][2] = Tile.octorok_blue_e;
-    enemiesBase[ 2][ 4][2] = Tile.tektite_blue;
-    enemiesBase[ 2][ 7][2] = Tile.moblin_blue;
-    enemiesBase[ 2][10][2] = Tile.leever_blue_sunk1;
-    enemiesBase[ 2][13][2] = Tile.lynel_blue;
-    enemiesBase[ 3][ 9][2] = Tile.leever_blue_sunk2;
-    enemiesBase[ 4][11][2] = Tile.leever_red;
-    enemiesBase[ 5][ 1][2] = Tile.octorok_red_e;
-    enemiesBase[ 5][ 4][2] = Tile.tektite_red;
-    enemiesBase[ 5][ 7][2] = Tile.moblin_red;
-    enemiesBase[ 5][10][2] = Tile.leever_red_sunk1;
-    enemiesBase[ 5][13][2] = Tile.lynel_red;
-    enemiesBase[ 6][ 9][2] = Tile.leever_red_sunk2;
-    enemiesBase[ 6][11][2] = Tile.leever_red_slim;
-    enemiesBase[ 8][ 1][2] = Tile.armos_red_awake;
-    enemiesBase[ 8][ 4][2] = Tile.ghini;
-    enemiesBase[ 8][ 7][2] = Tile.zora;
-    enemiesBase[ 8][10][2] = Tile.peahat;
-    enemiesBase[ 8][13][2] = Tile.rock;
-    enemiesBase[ 9][ 9][2] = Tile.peahat_water;
-    enemiesBase[ 9][11][2] = Tile.peahat_slim;
+    enemiesBase[ 1][ 9].push(Tile.leever_blue_slim, HyruleOverworld.removeTopPiece);
+    enemiesBase[ 1][11].push(Tile.leever_blue, HyruleOverworld.removeTopPiece);
+    enemiesBase[ 2][ 1].push(Tile.octorok_blue_e);
+    enemiesBase[ 2][ 4].push(Tile.tektite_blue);
+    enemiesBase[ 2][ 7].push(Tile.moblin_blue);
+    enemiesBase[ 2][10].push(Tile.leever_blue_sunk1, HyruleOverworld.removeTopPiece);
+    enemiesBase[ 2][13].push(Tile.lynel_blue);
+    enemiesBase[ 3][ 9].push(Tile.leever_blue_sunk2, HyruleOverworld.removeTopPiece);
+    enemiesBase[ 4][11].push(Tile.leever_red, HyruleOverworld.removeTopPiece);
+    enemiesBase[ 5][ 1].push(Tile.octorok_red_e);
+    enemiesBase[ 5][ 4].push(Tile.tektite_red);
+    enemiesBase[ 5][ 7].push(Tile.moblin_red);
+    enemiesBase[ 5][10].push(Tile.leever_red_sunk1, HyruleOverworld.removeTopPiece);
+    enemiesBase[ 5][13].push(Tile.lynel_red);
+    enemiesBase[ 6][ 9].push(Tile.leever_red_sunk2, HyruleOverworld.removeTopPiece);
+    enemiesBase[ 6][11].push(Tile.leever_red_slim, HyruleOverworld.removeTopPiece);
+    enemiesBase[ 8][ 1].push(Tile.armos_red_awake);
+    enemiesBase[ 8][ 4].push(Tile.ghini, HyruleOverworld.removeTopPiece);
+    enemiesBase[ 9][ 6].push(Tile.zola, HyruleOverworld.removeTopPiece);
+    enemiesBase[ 7][ 8].push(Tile.zora_north);
+    enemiesBase[ 8][ 7].push(Tile.zora_south);
+    enemiesBase[ 8][10].push(Tile.peahat);
+    enemiesBase[ 8][13].push(Tile.rock);
+    enemiesBase[ 9][ 9].push(Tile.peahat_water);
+    enemiesBase[ 9][11].push(Tile.peahat_slim);
     const enemies = [[Palette.mountain], enemiesBase];
 
     const charactersBase = createBase();
     addWater(charactersBase, 6, 9, 8, 11);
 
-    charactersBase[ 2][ 2][2] = Tile.link_red;
-    charactersBase[ 5][ 2][2] = Tile.link_blue;
-    charactersBase[ 8][ 2][2] = Tile.link_green;
+    charactersBase[ 2][ 2].push(Tile.link_red);
+    charactersBase[ 5][ 2].push(Tile.link_blue);
+    charactersBase[ 8][ 2].push(Tile.link_green);
 
-    charactersBase[ 2][ 5][2] = Tile.zelda_red;
-    charactersBase[ 5][ 5][2] = Tile.zelda_blue;
-    charactersBase[ 8][ 5][2] = Tile.zelda_green;
+    charactersBase[ 2][ 5].push(Tile.zelda_red);
+    charactersBase[ 5][ 5].push(Tile.zelda_blue);
+    charactersBase[ 8][ 5].push(Tile.zelda_green);
 
-    charactersBase[ 3][10][2] = Tile.old_man;
-    charactersBase[ 3][13][2] = Tile.old_woman;
-    charactersBase[ 7][ 9][2] = Tile.fairy_center;
-    charactersBase[ 7][13][2] = Tile.merchant;
+    charactersBase[ 3][10].push(Tile.old_man);
+    charactersBase[ 3][13].push(Tile.old_woman);
+    charactersBase[ 7][ 9].push(Tile.fairy_center);
+    charactersBase[ 7][13].push(Tile.merchant);
     const characters = [[Palette.forest], charactersBase];
 
     function createItems(
@@ -126,20 +129,20 @@ export function getMapData() {
         item7, item8, item9, item10, item11, item12) {
         const itemBase = createBase();
 
-        itemBase[2][ 2][2] = item1;
-        itemBase[2][ 5][2] = item2;
-        itemBase[2][10][2] = item7;
-        itemBase[2][13][2] = item8;
+        itemBase[2][ 2].push(item1);
+        itemBase[2][ 5].push(item2);
+        itemBase[2][10].push(item7);
+        itemBase[2][13].push(item8);
 
-        itemBase[5][ 2][2] = item3;
-        itemBase[5][ 5][2] = item4;
-        itemBase[5][10][2] = item9;
-        itemBase[5][13][2] = item10;
+        itemBase[5][ 2].push(item3);
+        itemBase[5][ 5].push(item4);
+        itemBase[5][10].push(item9);
+        itemBase[5][13].push(item10);
 
-        itemBase[8][ 2][2] = item5;
-        itemBase[8][ 5][2] = item6;
-        itemBase[8][10][2] = item11;
-        itemBase[8][13][2] = item12;
+        itemBase[8][ 2].push(item5);
+        itemBase[8][ 5].push(item6);
+        itemBase[8][10].push(item11);
+        itemBase[8][13].push(item12);
 
         return [[Palette.forest], itemBase];
     }
@@ -196,7 +199,7 @@ export function getMapData() {
         Tile.item_triforce_sand,
     );
 
-    const room1 = HyruleDungeons.makeRoom(null, 9, 0x1A, "shut",   "solid",  "solid",  "solid",  null, [
+    const room1 = HyruleDungeons.makeRoom(null, 9, 0x1A, "shut",   "solid",  "solid",  "solid",  "default", [
         [2,  2, Tile.blade_trap_nw],
         [2, 13, Tile.blade_trap_ne],
         [8,  2, Tile.blade_trap_sw],
@@ -218,7 +221,7 @@ export function getMapData() {
         [7, 10, Tile.moldorm],
     ]);
 
-    const room2 = HyruleDungeons.makeRoom(null, 6, 0x13, "bomb",   "solid",  "solid",  "solid",  null, [
+    const room2 = HyruleDungeons.makeRoom(null, 6, 0x13, "bomb",   "solid",  "solid",  "solid",  "highlight", [
         [3,  3, Tile.vire],
         [5,  3, Tile.keese_blue],
         [7,  3, Tile.keese_red],
@@ -234,7 +237,7 @@ export function getMapData() {
         [7, 12, Tile.gel_navy],
     ]);
 
-    const room3 = HyruleDungeons.makeRoom(null, 7, 0x1F, "locked", "solid",  "solid",  "solid",  "dark", [
+    const room3 = HyruleDungeons.makeRoom(null, 7, 0x1F, "locked", "solid",  "solid",  "solid",  "darkBlock", [
         [3,  6, Tile.bubble_red],
         [3,  7, Tile.bubble_brown],
         [3,  8, Tile.bubble_blue],
@@ -253,7 +256,7 @@ export function getMapData() {
         [7, 14, Tile.wallmaster_e],
     ]);
 
-    const room4 = HyruleDungeons.makeRoom(null, 2, 0x1E, "open",   "solid",  "solid",  "solid",  null, [
+    const room4 = HyruleDungeons.makeRoom(null, 2, 0x1E, "open",   "solid",  "solid",  "solid",  "default", [
         [3,  3, Tile.gibdo_key],
         [5,  3, Tile.gibdo_bomb],
         [7,  3, Tile.gibdo],
@@ -274,17 +277,17 @@ export function getMapData() {
         [7,  7, Tile.like_like, HyruleDungeons.baseOptions.base2x2_center],
     ]);
 
-    const boss1 = HyruleDungeons.makeRoom(null, 9, 0x28, "solid",  "solid",  "shut",   "solid",  null, [
+    const boss1 = HyruleDungeons.makeRoom(null, 9, 0x28, "solid",  "solid",  "shut",   "solid",  "highlight", [
         [3,   5, Tile.ganon, HyruleDungeons.baseOptions.base2x2_studs],
     ]);
 
-    const boss2 = HyruleDungeons.makeRoom(null, 6, 0x05, "solid",  "solid",  "bomb",   "solid",  null, [
+    const boss2 = HyruleDungeons.makeRoom(null, 6, 0x05, "solid",  "solid",  "bomb",   "solid",  "default", [
         [2,   7, Tile.gleeok4, HyruleDungeons.baseOptions.base2x2_studs],
         [4,   4, Tile.gleeok2, HyruleDungeons.baseOptions.base2x2_studs],
         [4,  10, Tile.gleeok3, HyruleDungeons.baseOptions.base2x2_studs],
     ]);
 
-    const boss3 = HyruleDungeons.makeRoom(null, 3, 0x25, "solid",  "solid",  "locked", "solid", "dim", [
+    const boss3 = HyruleDungeons.makeRoom(null, 3, 0x25, "solid",  "solid",  "locked", "solid", "default", [
         [3,  4, Tile.gohma_red],
         [6,  5, Tile.gohma_blue],
 
@@ -292,7 +295,7 @@ export function getMapData() {
         [6, 11, Tile.dodongo_w],
     ]);
 
-    const boss4 = HyruleDungeons.makeRoom(null, 1, 0x04, "solid",  "solid",  "open",   "solid",  null, [
+    const boss4 = HyruleDungeons.makeRoom(null, 1, 0x04, "solid",  "solid",  "open",   "solid",  "default", [
         [1,  2, Tile.patra_red, HyruleDungeons.baseOptions.wall1x2],
         [1,  4, Tile.patra_red, HyruleDungeons.baseOptions.wall1x2],
         [2,  1, Tile.patra_red],
@@ -335,6 +338,22 @@ export function getMapData() {
         mapRowData,
         pointsOfInterest: {},
         home: new ScreenVector("D3", [-.5,  0, -.5], [0, 144, 36], [-1, -1]),
+    };
+}
+
+export function getDungeonPaletteTypesData() {
+    function getRow(paletteType) {
+        return [0x21, 0x17, 0x1A, 0x25, 0x28, 0x27, 0x26].map(templateIndex => 
+            HyruleDungeons.makeRoom(
+                templateIndex == 0x26 ? "15,07" : null,
+                1, templateIndex, "shut",   "solid",  "solid",  "solid",  paletteType, []),
+        );
+    }
+
+    return {
+        mapRowData: ["default", "highlight", "sand", "text", "darkBlock", "darkWater", "darkOuter"].map(getRow),
+        pointsOfInterest: {},
+        home: new ScreenVector("D5", [7.5,  0, -.5], [0, 180, 50], [0, -1]),
     };
 }
 
