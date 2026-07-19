@@ -594,7 +594,7 @@ export function makePassageRoom(keeses, item) {
         rows[keesePosition[0]][keesePosition[1]][2] = Tile.keese_blue;
     });
     rows[3][8][2] = item;
-    return [[new Palette(NESColor.light_gray, NESColor.dark_gray, NESColor.black)], rows];
+    return [[Palette.passage], rows];
 }
 
 export function makeRoom(position, levelNumber, roomTemplateIndex, doorN, doorE, doorS, doorW, paletteType, sprites) {
@@ -2032,6 +2032,7 @@ function getMapRowData() {
             ]),
             /* room: 12,13 */ makeRoom("12,13", 8, 0x05, "shut",   "solid",  "bomb",   "bomb",   "default", [
                 [2,   7, Tile.gleeok4, base2x2_studs],
+                [7,   2, Tile.item_heart_container, base2x2_center],
             ]),
             /* room: 12,14 */ makeRoom("12,14", 8, 0x26, "solid",  "solid",  "open",   "solid",  "text", [
             ]),

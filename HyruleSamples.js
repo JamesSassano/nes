@@ -63,12 +63,11 @@ export function getMapData() {
             null, Tile.water_nw, Tile.ground_water_nw, Tile.ground_water_ne, Tile.waterfall1, Tile.bridge, Tile.water_ne,
         ],
         8: [
-            null, Tile.water_sw, Tile.ground_water_sw, Tile.ground_water_se, Tile.water_c, Tile.bridge, Tile.water_se,
+            null, Tile.water_sw, Tile.ground_water_sw, Tile.ground_water_se, Tile.waterfall2, Tile.water_c, Tile.water_se,
             null, Tile.bush, Tile.ground, Tile.ground_sand, Tile.rock_boulder, Tile.steps, Tile.tomb, Tile.armos_statue,
         ],
         length: 15
     }, (value) => (value ?? []).map(tile => tile ? [0, tile] : tile));
-    samplesDataGrid[ 7][ 5].push(Tile.item_heart_container);
 
     const samples1 = [[Palette.forest],    samplesDataGrid];
     const samples2 = [[Palette.mountain],  samplesDataGrid];

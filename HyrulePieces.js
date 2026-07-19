@@ -90,6 +90,7 @@ export class Palette {
     static text      = new Palette(NESColor.black, NESColor.deep_gray, NESColor.white);
     static cave      = new Palette(NESColor.dark_red, NESColor.black, NESColor.black);
     static sand      = new Palette(NESColor.orange, NESColor.red, NESColor.bubblegum);
+    static passage   = new Palette(NESColor.light_gray, NESColor.deep_gray, NESColor.white);
 
     constructor(primary, secondary, background) {
         this.primary = primary;
@@ -430,11 +431,11 @@ export class Tile {
     ];
 
     static passage_ground = [
-        new TilePiece(Piece.ground_piece_top,               NESColor.background,    {}),
+        new TilePiece(Piece.ground_piece_top,               NESColor.black,         {}),
     ];
 
     static passage_steps = [
-        new TilePiece(Piece.plate,                          NESColor.primary,       {}),
+        new TilePiece(Piece.plate,                          NESColor.background,    {}),
         new TilePiece(Piece.tile_round_dot,                 NESColor.secondary,     {}),
     ];
 
